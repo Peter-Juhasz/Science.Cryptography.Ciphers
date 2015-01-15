@@ -40,6 +40,7 @@
     <Compile Include="AffineCipher.cs" />
     <Compile Include="AutokeyCipher.cs" />
     <Compile Include="BaconCipher.cs" />
+    <Compile Include="BifidCipher.cs" />
     <Compile Include="Charsets.cs" />
     <Compile Include="AtbashCipher.cs" />
     <Compile Include="Extensions.cs" />
