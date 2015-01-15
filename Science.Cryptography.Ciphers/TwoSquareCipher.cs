@@ -26,8 +26,8 @@ namespace Science.Cryptography.Ciphers
 			{
 				if (Char.IsLetter(text[i]) && Char.IsLetter(text[i + 1]))
 				{
-					Tuple<int, int> firstPosition = PolybiusSquare.FindOffsets(key[0], Char.ToUpperInvariant(text[i])),
-						secondPosition = PolybiusSquare.FindOffsets(key[1], Char.ToUpperInvariant(text[i + 1]));
+					Tuple<int, int> firstPosition = PolybiusSquare.FindOffsets(key[0], Char.ToUpper(text[i])),
+						secondPosition = PolybiusSquare.FindOffsets(key[1], Char.ToUpper(text[i + 1]));
 
 					if (firstPosition == null || secondPosition == null)
 					{

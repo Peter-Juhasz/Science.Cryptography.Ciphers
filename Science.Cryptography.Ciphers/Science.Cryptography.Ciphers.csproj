@@ -46,7 +46,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="FourSquareCipher.cs" />
     <Compile Include="ICipher.cs" />
-    <Compile Include="ICustomCharset.cs" />
+    <Compile Include="ISupportsCustomCharset.cs" />
     <Compile Include="IKeyedCipher.cs" />
     <Compile Include="MonoalphabeticSubstitutionCipher.cs" />
     <Compile Include="MorseCode.cs" />

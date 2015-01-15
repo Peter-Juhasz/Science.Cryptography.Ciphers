@@ -8,7 +8,7 @@ namespace Science.Cryptography.Ciphers
 	/// </summary>
 	public static class StraddlingCheckerboard
 	{
-		private const int width = 10, height = 3;
+		private const int Width = 10, Height = 3;
 
 		/// <summary>
 		/// Creates a straddling checkerboard from a char array.
@@ -17,10 +17,10 @@ namespace Science.Cryptography.Ciphers
 		/// <returns></returns>
 		public static char[,] CreateFromCharArray(char[] source)
 		{
-			char[,] result = new char[width, height];
+			char[,] result = new char[Width, Height];
 
 			for (int i = 0; i < source.Length; i++)
-				result[i % width, i / height] = source[i];
+				result[i % Width, i / Height] = source[i];
 
 			return result;
 		}
@@ -32,10 +32,10 @@ namespace Science.Cryptography.Ciphers
 		/// <returns></returns>
 		public static char[,] CreateFromString(string source)
 		{
-			char[,] result = new char[width, height];
+			char[,] result = new char[Width, Height];
 
 			for (int i = 0; i < source.Length; i++)
-				result[i % width, i / height] = source[i];
+				result[i % Width, i / Height] = source[i];
 
 			return result;
 		}

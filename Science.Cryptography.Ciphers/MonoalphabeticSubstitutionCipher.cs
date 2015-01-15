@@ -15,7 +15,7 @@ namespace Science.Cryptography.Ciphers
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                if (key.ContainsKey(Char.ToUpperInvariant(plaintext[i])))
+                if (key.ContainsKey(Char.ToUpper(plaintext[i])))
                     ciphertext[i] = key[plaintext[i]].ToSameCaseAs(plaintext[i]);
                 else
                     ciphertext[i] = plaintext[i];
@@ -30,8 +30,8 @@ namespace Science.Cryptography.Ciphers
 
             for (int i = 0; i < ciphertext.Length; i++)
             {
-                if (key.Values.Contains(Char.ToUpperInvariant(ciphertext[i])))
-                    plaintext[i] = key[key.First(kv => kv.Value == Char.ToUpperInvariant(ciphertext[i])).Key].ToSameCaseAs(ciphertext[i]);
+                if (key.Values.Contains(Char.ToUpper(ciphertext[i])))
+                    plaintext[i] = key[key.First(kv => kv.Value == Char.ToUpper(ciphertext[i])).Key].ToSameCaseAs(ciphertext[i]);
                 else
                     plaintext[i] = ciphertext[i];
             }

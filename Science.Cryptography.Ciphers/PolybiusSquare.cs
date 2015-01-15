@@ -45,7 +45,7 @@ namespace Science.Cryptography.Ciphers
         public static char[,] CreateFromKeyword(string keyword, string alphabet)
         {
             return CreateFromCharArray(
-                keyword.ToCharArray().Select(Char.ToUpperInvariant)
+                keyword.ToCharArray().Select(Char.ToUpper)
                 .Concat(alphabet.ToCharArray())
                 .Distinct()
                 .ToArray()

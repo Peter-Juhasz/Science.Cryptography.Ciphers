@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Science.Cryptography.Ciphers
 {
+    /// <summary>
+    /// Represents the Tap Code cipher.
+    /// </summary>
     public class TapCode : ICipher
 	{
         protected readonly char[,] CipherData = new char[,] {
