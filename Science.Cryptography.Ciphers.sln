@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31010.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Science.Cryptography.Ciphers", "Science.Cryptography.Ciphers\Science.Cryptography.Ciphers.csproj", "{997DA2EC-3D66-410D-AFCF-663DB6CAE160}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Science.Cryptography.Ciphers.Streaming", "Science.Cryptography.Ciphers.Streaming\Science.Cryptography.Ciphers.Streaming.csproj", "{98F84847-F84A-4636-97D4-13A186573291}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{997DA2EC-3D66-410D-AFCF-663DB6CAE160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{997DA2EC-3D66-410D-AFCF-663DB6CAE160}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{997DA2EC-3D66-410D-AFCF-663DB6CAE160}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{997DA2EC-3D66-410D-AFCF-663DB6CAE160}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98F84847-F84A-4636-97D4-13A186573291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98F84847-F84A-4636-97D4-13A186573291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98F84847-F84A-4636-97D4-13A186573291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98F84847-F84A-4636-97D4-13A186573291}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
