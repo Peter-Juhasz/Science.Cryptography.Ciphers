@@ -39,11 +39,11 @@ namespace Science.Cryptography.Ciphers
                 { 'W', ".--" },
                 { 'X', "-..-" },
                 { 'Y', "-.--" },
-                { 'Z', "--." }
+                { 'Z', "--." },
             };
         }
 
-        private readonly IDictionary<char, string> Dictionary;
+        private readonly IReadOnlyDictionary<char, string> Dictionary;
 
 
         public string Encrypt(string plaintext)
