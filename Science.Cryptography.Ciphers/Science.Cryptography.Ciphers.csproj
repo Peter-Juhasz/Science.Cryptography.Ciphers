@@ -44,6 +44,7 @@
     <Compile Include="ICipher.cs" />
     <Compile Include="ICustomCharset.cs" />
     <Compile Include="IKeyedCipher.cs" />
+    <Compile Include="PolybiusSquare.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rot47Cipher.cs" />
     <Compile Include="RunningKeyCipher.cs" />
