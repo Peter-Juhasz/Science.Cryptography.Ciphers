@@ -19,6 +19,50 @@ namespace Science.Cryptography.Ciphers
         }
     }
 
+    public static class StringExtensions
+    {
+        public static IEnumerable<string> Split(this string source, int chunkSize)
+        {
+            int offset = 0;
+
+            while (offset <= source.Length - chunkSize)
+            {
+                yield return source.Substring(offset, chunkSize);
+
+                offset += chunkSize;
+            }
+        }
+    }
+
+    public static class ArrayExtensions
+    {
+        public static T[,] RotateClockwise<T>(this T[,] source)
+        {
+            int width = source.GetLength(0), height = source.GetLength(1);
+
+            T[,] result = new T[height, width];
+
+            for (int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
+                    result[height - y - 1, x] = source[x, y];
+
+            return result;
+        }
+
+        public static T[,] RotateCounterClockwise<T>(this T[,] source)
+        {
+            int width = source.GetLength(0), height = source.GetLength(1);
+
+            T[,] result = new T[height, width];
+
+            for (int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
+                    result[y, width - x - 1] = source[x, y];
+
+            return result;
+        }
+    }
+
     public static class DictionaryExtensions
     {
         public static IReadOnlyDictionary<TValue, TKey> Swap<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> source)
