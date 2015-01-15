@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Science.Cryptography.Cipher
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Science.Cryptography.Ciphers.Streaming", "Science.Cryptography.Ciphers.Streaming\Science.Cryptography.Ciphers.Streaming.csproj", "{98F84847-F84A-4636-97D4-13A186573291}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Science.Cryptography.Ciphers.Tests", "Science.Cryptography.Ciphers.Tests\Science.Cryptography.Ciphers.Tests.csproj", "{AB786420-1698-40CA-94EE-FCAD61CC9C01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{98F84847-F84A-4636-97D4-13A186573291}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98F84847-F84A-4636-97D4-13A186573291}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98F84847-F84A-4636-97D4-13A186573291}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB786420-1698-40CA-94EE-FCAD61CC9C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB786420-1698-40CA-94EE-FCAD61CC9C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB786420-1698-40CA-94EE-FCAD61CC9C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB786420-1698-40CA-94EE-FCAD61CC9C01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
