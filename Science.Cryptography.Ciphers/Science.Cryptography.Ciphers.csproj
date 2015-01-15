@@ -44,6 +44,7 @@
     <Compile Include="Charsets.cs" />
     <Compile Include="AtbashCipher.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="FourSquareCipher.cs" />
     <Compile Include="ICipher.cs" />
     <Compile Include="ICustomCharset.cs" />
     <Compile Include="IKeyedCipher.cs" />
