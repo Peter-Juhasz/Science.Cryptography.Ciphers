@@ -43,17 +43,12 @@ namespace Science.Cryptography.Ciphers
                 int idx = this.Charset.IndexOf(ciphertext[i].ToString(), StringComparison.OrdinalIgnoreCase);
 
                 if (idx != -1)
-                    plaintext[i] = this.Charset[Mod((this.Charset.Length - key.A) * (idx - key.B), this.Charset.Length)].ToSameCaseAs(ciphertext[i]);
+                    plaintext[i] = this.Charset[((this.Charset.Length - key.A) * (idx - key.B)).Mod(this.Charset.Length)].ToSameCaseAs(ciphertext[i]);
                 else
                     plaintext[i] = ciphertext[i];
             }
 
             return new String(plaintext);
-        }
-
-        internal int Mod(int a, int b)
-        {
-            return a >= 0 ? a % b : (b + a) % b;
         }
     }
 

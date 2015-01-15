@@ -32,7 +32,7 @@ namespace Science.Cryptography.Ciphers
 				int idx = this.Charset.IndexOf(text[i].ToString(), StringComparison.OrdinalIgnoreCase);
 
 				if (idx != -1)
-					result[i] = (this.Charset[Mod(idx + key, this.Charset.Length)]).ToSameCaseAs(text[i]);
+					result[i] = (this.Charset[(idx + key).Mod(this.Charset.Length)]).ToSameCaseAs(text[i]);
 				else
 					result[i] = text[i];
 			}
@@ -58,17 +58,6 @@ namespace Science.Cryptography.Ciphers
 		public string Decrypt(string ciphertext, int key)
 		{
 			return this.Crypt(ciphertext, -key);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
-		/// <returns></returns>
-		internal int Mod(int a, int b)
-		{
-			return a >= 0 ? a % b : (b + a) % b;
 		}
 	}
 

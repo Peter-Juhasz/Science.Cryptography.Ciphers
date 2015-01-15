@@ -49,17 +49,12 @@ namespace Science.Cryptography.Ciphers
                 int idx = this.Charset.IndexOf(ciphertext[i].ToString(), StringComparison.OrdinalIgnoreCase);
 
                 if (idx != -1)
-                    result[i] = (this.Charset[Mod(idx - this.Charset.IndexOf(key[charCounter++]), this.Charset.Length)]).ToSameCaseAs(ciphertext[i]);
+                    result[i] = (this.Charset[(idx - this.Charset.IndexOf(key[charCounter++])).Mod(this.Charset.Length)]).ToSameCaseAs(ciphertext[i]);
                 else
                     result[i] = ciphertext[i];
             }
 
             return new String(result);
-        }
-
-        internal static int Mod(int a, int b)
-        {
-            return a >= 0 ? a % b : (b + a) % b;
         }
     }
 }

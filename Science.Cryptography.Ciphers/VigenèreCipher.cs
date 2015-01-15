@@ -23,14 +23,12 @@ namespace Science.Cryptography.Ciphers
 			char[] result = new char[plaintext.Length];
 			int charCounter = 0;
 
-			key = key.ToUpperInvariant();
-
 			for (int i = 0; i < plaintext.Length; i++)
 			{
 				int idx = this.Charset.IndexOf(plaintext[i].ToString(), StringComparison.OrdinalIgnoreCase);
 
 				if (idx != -1)
-					result[i] = (this.Charset[Mod(idx + this.Charset.IndexOf(key[charCounter++ % key.Length]), this.Charset.Length)]).ToSameCaseAs(plaintext[i]);
+                    result[i] = (this.Charset[(idx + this.Charset.IndexOf(key[charCounter++ % key.Length].ToString(), StringComparison.CurrentCultureIgnoreCase)).Mod(this.Charset.Length)]).ToSameCaseAs(plaintext[i]);
 				else
 					result[i] = plaintext[i];
 			}
@@ -43,25 +41,17 @@ namespace Science.Cryptography.Ciphers
 			char[] result = new char[ciphertext.Length];
 			int charCounter = 0;
 
-			key = key.ToUpperInvariant();
-
-			for (int i = 0; i < ciphertext.Length; i++)
+            for (int i = 0; i < ciphertext.Length; i++)
 			{
 				int idx = this.Charset.IndexOf(ciphertext[i].ToString(), StringComparison.OrdinalIgnoreCase);
 
 				if (idx != -1)
-					result[i] = (this.Charset[Mod(idx - this.Charset.IndexOf(key[charCounter++ % key.Length]), this.Charset.Length)]).ToSameCaseAs(ciphertext[i]);
+					result[i] = (this.Charset[(idx - this.Charset.IndexOf(key[charCounter++ % key.Length].ToString(), StringComparison.CurrentCultureIgnoreCase)).Mod(this.Charset.Length)]).ToSameCaseAs(ciphertext[i]);
 				else
 					result[i] = ciphertext[i];
 			}
 
 			return new String(result);
-		}
-
-
-		internal int Mod(int a, int b)
-		{
-			return a >= 0 ? a % b : (b + a) % b;
 		}
 	}
 }

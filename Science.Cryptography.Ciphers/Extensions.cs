@@ -5,6 +5,14 @@ using System.Text;
 
 namespace Science.Cryptography.Ciphers
 {
+    public static class Int32Extensions
+    {
+        public static int Mod(this int a, int b)
+        {
+            return a >= 0 ? a % b : (b + a) % b;
+        }
+    }
+
     public static class CharExtensions
     {
         /// <summary>

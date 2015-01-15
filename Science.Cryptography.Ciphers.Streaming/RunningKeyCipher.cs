@@ -46,15 +46,10 @@ namespace Science.Cryptography.Ciphers.Streaming
                 int idx = this.Charset.IndexOf(c.ToString(), StringComparison.OrdinalIgnoreCase);
 
                 yield return idx != -1
-                    ? (this.Charset[Mod(idx - this.Charset.IndexOf(key[charCounter++]), this.Charset.Length)]).ToSameCaseAs(c)
+                    ? (this.Charset[(idx - this.Charset.IndexOf(key[charCounter++])).Mod(this.Charset.Length)]).ToSameCaseAs(c)
                     : c
                 ;
             }
-        }
-
-        internal static int Mod(int a, int b)
-        {
-            return a >= 0 ? a % b : (b + a) % b;
         }
     }
 }

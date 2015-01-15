@@ -31,7 +31,7 @@ namespace Science.Cryptography.Ciphers.Streaming
                 int idx = this.Charset.IndexOf(c.ToString(), StringComparison.OrdinalIgnoreCase);
 
                 yield return idx != -1
-                    ? (this.Charset[Mod(idx + key, this.Charset.Length)]).ToSameCaseAs(c)
+                    ? (this.Charset[(idx + key).Mod(this.Charset.Length)]).ToSameCaseAs(c)
                     : c
                 ;
             }
@@ -55,17 +55,6 @@ namespace Science.Cryptography.Ciphers.Streaming
         public IEnumerable<char> Decrypt(IEnumerable<char> ciphertext, int key)
         {
             return this.Crypt(ciphertext, -key);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        internal int Mod(int a, int b)
-        {
-            return a >= 0 ? a % b : (b + a) % b;
         }
     }
 }
