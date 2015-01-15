@@ -48,6 +48,7 @@
     <Compile Include="ICipher.cs" />
     <Compile Include="ICustomCharset.cs" />
     <Compile Include="IKeyedCipher.cs" />
+    <Compile Include="MonoalphabeticSubstitutionCipher.cs" />
     <Compile Include="MorseCode.cs" />
     <Compile Include="PolybiusSquare.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
