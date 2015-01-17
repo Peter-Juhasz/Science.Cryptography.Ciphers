@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AffineCipher.cs" />
+    <Compile Include="Analysis\FrequencyAnalysis.cs" />
     <Compile Include="AutokeyCipher.cs" />
     <Compile Include="BaconCipher.cs" />
     <Compile Include="BifidCipher.cs" />
