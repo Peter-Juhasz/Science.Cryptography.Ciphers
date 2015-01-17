@@ -110,4 +110,15 @@ namespace Science.Cryptography.Ciphers
             return source.TryGetValue(key, out T value) ? value : key;
         }
     }
+
+    public static class EnumerableExtensions
+    {
+        public static bool MostOfAll<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        {
+            int count = source.Count(),
+                satisfyingCount = source.Where(predicate).Count();
+
+            return 0.90 <= satisfyingCount / (double)count;
+        }
+    }
 }
