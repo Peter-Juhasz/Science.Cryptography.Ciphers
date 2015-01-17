@@ -17,6 +17,7 @@ namespace Science.Cryptography.Ciphers
         /// </summary>
         public string Charset { get; set; }
 
+
         public string Encrypt(string plaintext, AffineKey key)
         {
             char[] ciphertext = new char[plaintext.Length];
@@ -25,10 +26,10 @@ namespace Science.Cryptography.Ciphers
             {
                 int idx = this.Charset.IndexOfIgnoreCase(plaintext[i]);
 
-                if (idx != -1)
-                    ciphertext[i] = this.Charset[(key.A * idx + key.B) % this.Charset.Length].ToSameCaseAs(plaintext[i]);
-                else
-                    ciphertext[i] = plaintext[i];
+                ciphertext[i] = idx != -1
+                    ? this.Charset[(key.A * idx + key.B) % this.Charset.Length].ToSameCaseAs(plaintext[i])
+                    : plaintext[i]
+                ;
             }
 
             return new String(ciphertext);
@@ -42,10 +43,10 @@ namespace Science.Cryptography.Ciphers
             {
                 int idx = this.Charset.IndexOfIgnoreCase(ciphertext[i]);
 
-                if (idx != -1)
-                    plaintext[i] = this.Charset[((this.Charset.Length - key.A) * (idx - key.B)).Mod(this.Charset.Length)].ToSameCaseAs(ciphertext[i]);
-                else
-                    plaintext[i] = ciphertext[i];
+                plaintext[i] = idx != -1
+                    ? this.Charset[((this.Charset.Length - key.A) * (idx - key.B)).Mod(this.Charset.Length)].ToSameCaseAs(ciphertext[i])
+                    : ciphertext[i]
+                ;
             }
 
             return new String(plaintext);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Science.Cryptography.Ciphers
 {
@@ -15,10 +14,7 @@ namespace Science.Cryptography.Ciphers
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                if (key.ContainsKey(Char.ToUpper(plaintext[i])))
-                    ciphertext[i] = key[plaintext[i]].ToSameCaseAs(plaintext[i]);
-                else
-                    ciphertext[i] = plaintext[i];
+                ciphertext[i] = key.GetOrSame(plaintext[i]).ToSameCaseAs(plaintext[i]);
             }
 
             return new String(ciphertext);
@@ -28,12 +24,11 @@ namespace Science.Cryptography.Ciphers
         {
             char[] plaintext = new char[ciphertext.Length];
 
+            var decryptionKey = key.Swap();
+
             for (int i = 0; i < ciphertext.Length; i++)
             {
-                if (key.Values.Contains(Char.ToUpper(ciphertext[i])))
-                    plaintext[i] = key[key.First(kv => kv.Value == Char.ToUpper(ciphertext[i])).Key].ToSameCaseAs(ciphertext[i]);
-                else
-                    plaintext[i] = ciphertext[i];
+                plaintext[i] = decryptionKey.GetOrSame(ciphertext[i]).ToSameCaseAs(ciphertext[i]);
             }
 
             return new String(plaintext);

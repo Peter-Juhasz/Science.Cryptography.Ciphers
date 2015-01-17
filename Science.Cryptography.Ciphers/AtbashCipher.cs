@@ -19,19 +19,19 @@ namespace Science.Cryptography.Ciphers
 
         protected string Crypt(string text)
         {
-            char[] ciphertext = new char[text.Length];
+            char[] result = new char[text.Length];
 
             for (int i = 0; i < text.Length; i++)
             {
                 int idx = this.Charset.IndexOfIgnoreCase(text[i]);
 
-                if (idx != -1)
-                    ciphertext[i] = (this.Charset[this.Charset.Length - idx - 1]).ToSameCaseAs(text[i]);
-                else
-                    ciphertext[i] = text[i];
+                result[i] = idx != -1
+                    ? (this.Charset[this.Charset.Length - idx - 1]).ToSameCaseAs(text[i])
+                    : text[i]
+                ;
             }
 
-            return new String(ciphertext);
+            return new String(result);
         }
 
         /// <summary>

@@ -24,16 +24,16 @@ namespace Science.Cryptography.Ciphers
             char[] result = new char[plaintext.Length];
             int charCounter = 0;
 
-            autokey = autokey.ToUpperInvariant();
+            autokey = autokey.ToUpper();
 
             for (int i = 0; i < plaintext.Length; i++)
             {
                 int idx = this.Charset.IndexOfIgnoreCase(plaintext[i]);
 
-                if (idx != -1)
-                    result[i] = (this.Charset[(idx + this.Charset.IndexOf(autokey[charCounter++])) % this.Charset.Length]).ToSameCaseAs(plaintext[i]);
-                else
-                    result[i] = plaintext[i];
+                result[i] = idx != -1
+                     ? (this.Charset[(idx + this.Charset.IndexOf(autokey[charCounter++])) % this.Charset.Length]).ToSameCaseAs(plaintext[i])
+                    : plaintext[i]
+                ;
             }
 
             return new String(result);
@@ -59,7 +59,7 @@ namespace Science.Cryptography.Ciphers
                 if (idx != -1)
                 {
                     result[i] = (this.Charset[Mod(idx - this.Charset.IndexOf(key[plaintextOffset]), this.Charset.Length)]).ToSameCaseAs(ciphertext[i]);
-                    plaintextLettersOnly[plaintextOffset] = Char.ToUpperInvariant(result[i]);
+                    plaintextLettersOnly[plaintextOffset] = Char.ToUpper(result[i]);
                     plaintextOffset++;
 
                     if (plaintextOffset == key.Length)
@@ -77,7 +77,7 @@ namespace Science.Cryptography.Ciphers
                 if (idx != -1)
                 {
                     result[i] = (this.Charset[Mod(idx - this.Charset.IndexOf(plaintextLettersOnly[plaintextOffset - key.Length]), this.Charset.Length)]).ToSameCaseAs(ciphertext[i]);
-                    plaintextLettersOnly[plaintextOffset] = Char.ToUpperInvariant(result[i]);
+                    plaintextLettersOnly[plaintextOffset] = Char.ToUpper(result[i]);
                     plaintextOffset++;
 
                     if (keyOffset == key.Length)

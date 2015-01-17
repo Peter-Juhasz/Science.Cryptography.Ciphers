@@ -39,7 +39,7 @@ namespace Science.Cryptography.Ciphers
                 { 'W', ".--" },
                 { 'X', "-..-" },
                 { 'Y', "-.--" },
-                { 'Z', "--." },
+                { 'Z', "--.." },
             };
         }
 
@@ -61,6 +61,8 @@ namespace Science.Cryptography.Ciphers
             StringBuilder result = new StringBuilder();
             StringBuilder window = new StringBuilder();
 
+            var decryptionDictionary = Dictionary.Swap();
+
             bool nextIsSeparator = true;
 
             foreach (char ch in ciphertext)
@@ -74,7 +76,7 @@ namespace Science.Cryptography.Ciphers
                 {
                     if (this.Dictionary.Values.Contains(window.ToString()))
                     {
-                        result.Append(this.Dictionary.First(kvp => kvp.Value.CompareTo(window.ToString()) == 0).Key);
+                        result.Append(decryptionDictionary[window.ToString()]);
                         window.Remove(0, window.Length);
                     }
 
@@ -91,7 +93,7 @@ namespace Science.Cryptography.Ciphers
             }
 
             if (window.Length > 0)
-                result.Append(this.Dictionary.First(kvp => kvp.Value.CompareTo(window.ToString()) == 0).Key);
+                result.Append(decryptionDictionary[window.ToString()]);
 
             return result.ToString();
         }

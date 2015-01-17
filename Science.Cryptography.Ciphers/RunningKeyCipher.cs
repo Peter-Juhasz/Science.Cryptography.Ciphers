@@ -17,6 +17,7 @@ namespace Science.Cryptography.Ciphers
         /// </summary>
         public string Charset { get; set; }
 
+
         public string Encrypt(string plaintext, string key)
         {
             char[] result = new char[plaintext.Length];

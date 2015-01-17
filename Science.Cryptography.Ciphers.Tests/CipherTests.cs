@@ -14,8 +14,8 @@ namespace Science.Cryptography.Ciphers.Tests
             string plaintext = "The quick brown fox jumps over the lazy dog.";
             string ciphertext = "Wkh txlfn eurzq ira mxpsv ryhu wkh odcb grj.";
 
-            Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, CommonShiftCipherKeys.Caesar));
-            Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, CommonShiftCipherKeys.Caesar));
+            Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, WellKnownShiftCipherKeys.Caesar));
+            Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, WellKnownShiftCipherKeys.Caesar));
         }
 
         [TestMethod]
@@ -26,8 +26,8 @@ namespace Science.Cryptography.Ciphers.Tests
             string plaintext = "Why did the chicken cross the road?";
             string ciphertext = "Jul qvq gur puvpxra pebff gur ebnq?";
 
-            Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, CommonShiftCipherKeys.Rot13));
-            Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, CommonShiftCipherKeys.Rot13));
+            Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, WellKnownShiftCipherKeys.Rot13));
+            Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, WellKnownShiftCipherKeys.Rot13));
         }
 
         [TestMethod]
