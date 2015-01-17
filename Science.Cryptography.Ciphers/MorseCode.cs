@@ -5,10 +5,12 @@ using System.Text;
 
 namespace Science.Cryptography.Ciphers
 {
+    using Analysis;
+
     /// <summary>
     /// Represents the Morse Code cipher.
     /// </summary>
-    public class MorseCode : ICipher
+    public class MorseCode : ICipher, ISupportsRecognition
     {
         public MorseCode()
         {
@@ -49,7 +51,7 @@ namespace Science.Cryptography.Ciphers
         public string Encrypt(string plaintext)
         {
             return String.Join(" ",
-                plaintext.ToCharArray()
+                plaintext.AsEnumerable()
                 .Select(
                     ch => this.Dictionary.ContainsKey(Char.ToUpper(ch)) ? this.Dictionary[Char.ToUpper(ch)] : ch.ToString()
                 )
@@ -96,6 +98,15 @@ namespace Science.Cryptography.Ciphers
                 result.Append(decryptionDictionary[window.ToString()]);
 
             return result.ToString();
+        }
+
+
+        public bool Recognize(string ciphertext)
+        {
+            return ciphertext.AsEnumerable()
+                .Where(c => !Char.IsWhiteSpace(c))
+                .MostOfAll(c => c == '.' || c == '-')
+            ;
         }
     }
 }

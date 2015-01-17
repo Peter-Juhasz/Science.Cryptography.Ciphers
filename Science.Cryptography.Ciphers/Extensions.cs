@@ -43,6 +43,11 @@ namespace Science.Cryptography.Ciphers
 
     public static class StringExtensions
     {
+        public static IEnumerable<char> AsEnumerable(this string source)
+        {
+            return source.ToCharArray(); // TODO: Implement an enumerator
+        }
+
         public static int IndexOfIgnoreCase(this string source, char subject)
         {
             Char toCompare = subject.ToUpper();

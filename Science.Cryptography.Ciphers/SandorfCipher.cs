@@ -25,7 +25,7 @@ namespace Science.Cryptography.Ciphers
                 plaintext = plaintext.PadRight(plaintext.Length + (sizeSquared - plaintext.Length % sizeSquared), PaddingChar);
 
             // reverse
-            plaintext = new String(plaintext.ToCharArray().Reverse().ToArray());
+            plaintext = new String(plaintext.AsEnumerable().Reverse().ToArray());
 
             // build code groups
             char[][,] groups = new char[plaintext.Length / sizeSquared][,];

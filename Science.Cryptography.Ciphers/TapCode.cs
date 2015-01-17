@@ -4,10 +4,12 @@ using System.Text;
 
 namespace Science.Cryptography.Ciphers
 {
+    using Analysis;
+
     /// <summary>
     /// Represents the Tap Code cipher.
     /// </summary>
-    public class TapCode : ICipher
+    public class TapCode : ICipher, ISupportsRecognition
     {
         protected readonly char[,] CipherData = new char[,] {
             { 'A', 'B', 'C', 'D', 'E' },
@@ -20,7 +22,7 @@ namespace Science.Cryptography.Ciphers
 
         public string Encrypt(string plaintext)
         {
-            return String.Join(" ", plaintext.ToCharArray().Select(this.LetterToCode));
+            return String.Join(" ", plaintext.AsEnumerable().Select(this.LetterToCode));
         }
 
         public string Decrypt(string ciphertext)
@@ -35,7 +37,6 @@ namespace Science.Cryptography.Ciphers
                 // meta character
                 if (c == '.')
                 {
-                    // 
                     if (values == 0)
                         row++;
                     else if (values == 1)
@@ -66,9 +67,18 @@ namespace Science.Cryptography.Ciphers
         }
 
 
+        public bool Recognize(string ciphertext)
+        {
+            return ciphertext.AsEnumerable()
+                .Where(c => !Char.IsWhiteSpace(c))
+                .MostOfAll(c => c == '.')
+            ;
+        }
+
+
         private string LetterToCode(char ch)
         {
-            ch = Char.ToUpper(ch);
+            ch = ch.ToUpper();
 
             for (int i = 1; i <= 5; i++)
             for (int j = 1; j <= 5; j++)

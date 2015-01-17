@@ -19,7 +19,7 @@ namespace Science.Cryptography.Ciphers.Analysis
             if (text == null)
                 throw new ArgumentNullException("text");
 
-            return text.ToCharArray()
+            return text.AsEnumerable()
                 .GroupBy(c => c)
                 .ToDictionary(g => g.Key, g => g.Count())
             ;
