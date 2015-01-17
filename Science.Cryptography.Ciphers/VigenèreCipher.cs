@@ -28,7 +28,7 @@ namespace Science.Cryptography.Ciphers
                 int idx = this.Charset.IndexOfIgnoreCase(plaintext[i]);
 
                 result[i] = idx != -1
-                    ? (this.Charset[(idx + this.Charset.IndexOfIgnoreCase(key[charCounter++ % key.Length])).Mod(this.Charset.Length)]).ToSameCaseAs(plaintext[i])
+                    ? this.Charset[(idx + this.Charset.IndexOfIgnoreCase(key[charCounter++ % key.Length])).Mod(this.Charset.Length)].ToSameCaseAs(plaintext[i])
                     : plaintext[i]
                 ;
             }
@@ -46,7 +46,7 @@ namespace Science.Cryptography.Ciphers
                 int idx = this.Charset.IndexOfIgnoreCase(ciphertext[i]);
 
                 result[i] = idx != -1
-                    ? (this.Charset[(idx - this.Charset.IndexOfIgnoreCase(key[charCounter++ % key.Length])).Mod(this.Charset.Length)]).ToSameCaseAs(ciphertext[i])
+                    ? this.Charset[(idx - this.Charset.IndexOfIgnoreCase(key[charCounter++ % key.Length])).Mod(this.Charset.Length)].ToSameCaseAs(ciphertext[i])
                     : ciphertext[i]
                 ;
             }

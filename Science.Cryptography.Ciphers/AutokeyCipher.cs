@@ -31,7 +31,7 @@ namespace Science.Cryptography.Ciphers
                 int idx = this.Charset.IndexOfIgnoreCase(plaintext[i]);
 
                 result[i] = idx != -1
-                     ? (this.Charset[(idx + this.Charset.IndexOf(autokey[charCounter++])) % this.Charset.Length]).ToSameCaseAs(plaintext[i])
+                    ? this.Charset[(idx + this.Charset.IndexOf(autokey[charCounter++])) % this.Charset.Length].ToSameCaseAs(plaintext[i])
                     : plaintext[i]
                 ;
             }
@@ -58,7 +58,7 @@ namespace Science.Cryptography.Ciphers
 
                 if (idx != -1)
                 {
-                    result[i] = (this.Charset[Mod(idx - this.Charset.IndexOf(key[plaintextOffset]), this.Charset.Length)]).ToSameCaseAs(ciphertext[i]);
+                    result[i] = this.Charset[(idx - this.Charset.IndexOf(key[plaintextOffset])).Mod(this.Charset.Length)].ToSameCaseAs(ciphertext[i]);
                     plaintextLettersOnly[plaintextOffset] = Char.ToUpper(result[i]);
                     plaintextOffset++;
 
@@ -72,11 +72,11 @@ namespace Science.Cryptography.Ciphers
             // decipher the remaining message
             for (i++; i < ciphertext.Length; i++)
             {
-                int idx = this.Charset.IndexOf(ciphertext[i].ToString(), StringComparison.OrdinalIgnoreCase);
+                int idx = this.Charset.IndexOfIgnoreCase(ciphertext[i]);
 
                 if (idx != -1)
                 {
-                    result[i] = (this.Charset[Mod(idx - this.Charset.IndexOf(plaintextLettersOnly[plaintextOffset - key.Length]), this.Charset.Length)]).ToSameCaseAs(ciphertext[i]);
+                    result[i] = this.Charset[(idx - this.Charset.IndexOf(plaintextLettersOnly[plaintextOffset - key.Length])).Mod(this.Charset.Length)].ToSameCaseAs(ciphertext[i]);
                     plaintextLettersOnly[plaintextOffset] = Char.ToUpper(result[i]);
                     plaintextOffset++;
 

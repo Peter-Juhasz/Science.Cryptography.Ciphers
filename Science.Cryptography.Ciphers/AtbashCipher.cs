@@ -26,7 +26,7 @@ namespace Science.Cryptography.Ciphers
                 int idx = this.Charset.IndexOfIgnoreCase(text[i]);
 
                 result[i] = idx != -1
-                    ? (this.Charset[this.Charset.Length - idx - 1]).ToSameCaseAs(text[i])
+                    ? this.Charset[this.Charset.Length - idx - 1].ToSameCaseAs(text[i])
                     : text[i]
                 ;
             }
