@@ -89,10 +89,5 @@ namespace Science.Cryptography.Ciphers
 
             return new String(result);
         }
-
-        internal int Mod(int a, int b)
-        {
-            return a >= 0 ? a % b : (b + a) % b;
-        }
     }
 }

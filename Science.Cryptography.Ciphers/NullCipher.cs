@@ -15,10 +15,15 @@ namespace Science.Cryptography.Ciphers
 
         public string Encrypt(string plaintext, IReadOnlyList<int> key)
         {
+            throw new NotSupportedException();
+        }
+
+        public string Decrypt(string ciphertext, IReadOnlyList<int> key)
+        {
             StringBuilder result = new StringBuilder();
             int keyIndex = 0;
 
-            foreach (string word in this.GetWords(plaintext))
+            foreach (string word in this.GetWords(ciphertext))
             {
                 result.Append(word[key[keyIndex]]);
 
@@ -30,11 +35,6 @@ namespace Science.Cryptography.Ciphers
             }
 
             return result.ToString();
-        }
-
-        public string Decrypt(string ciphertext, IReadOnlyList<int> key)
-        {
-            throw new NotSupportedException();
         }
 
 

@@ -29,10 +29,10 @@ namespace Science.Cryptography.Ciphers
             {
                 int idx = this.Charset.IndexOfIgnoreCase(plaintext[i]);
 
-                if (idx != -1)
-                    result[i] = this.Charset[(idx + this.Charset.IndexOf(key[charCounter++])) % this.Charset.Length].ToSameCaseAs(plaintext[i]);
-                else
-                    result[i] = plaintext[i];
+                result[i] = idx != -1
+                    ? this.Charset[(idx + this.Charset.IndexOf(key[charCounter++])) % this.Charset.Length].ToSameCaseAs(plaintext[i])
+                    : plaintext[i]
+                ;
             }
 
             return new String(result);
@@ -49,10 +49,10 @@ namespace Science.Cryptography.Ciphers
             {
                 int idx = this.Charset.IndexOfIgnoreCase(ciphertext[i]);
 
-                if (idx != -1)
-                    result[i] = this.Charset[(idx - this.Charset.IndexOf(key[charCounter++])).Mod(this.Charset.Length)].ToSameCaseAs(ciphertext[i]);
-                else
-                    result[i] = ciphertext[i];
+                result[i] = idx != -1
+                    ? this.Charset[(idx - this.Charset.IndexOf(key[charCounter++])).Mod(this.Charset.Length)].ToSameCaseAs(ciphertext[i])
+                    : ciphertext[i]
+                ;
             }
 
             return new String(result);
