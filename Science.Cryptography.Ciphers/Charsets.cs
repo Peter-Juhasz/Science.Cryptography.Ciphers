@@ -21,9 +21,6 @@
         /// <summary>
         /// Digits from 0, 1 to 10.
         /// </summary>
-        public static string Digits
-        {
-            get { return "0123456789"; }
-        }
+        public static readonly string Digits = "0123456789";
     }
 }
