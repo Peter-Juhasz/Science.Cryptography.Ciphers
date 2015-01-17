@@ -41,29 +41,29 @@ namespace Science.Cryptography.Ciphers
         }
 
         /// <summary>
-        /// Creates a straddling checkerboard from a keyword, based on a custom alphabet.
+        /// Creates a straddling checkerboard from a keyword, based on a custom charset.
         /// </summary>
         /// <param name="keyword"></param>
-        /// <param name="alphabet"></param>
+        /// <param name="charset"></param>
         /// <returns></returns>
-        public static char[,] CreateFromKeyboard(string keyword, string alphabet)
+        public static char[,] CreateFromKeyword(string keyword, string charset)
         {
             return CreateFromCharArray(
                 keyword.ToCharArray().Select(Char.ToUpper)
-                    .Concat(alphabet.ToCharArray())
+                    .Concat(charset.ToCharArray())
                     .Distinct()
                     .ToArray()
             );
         }
 
         /// <summary>
-        /// Creates a straddling checkerboard from a keyword, based on the default alphabet.
+        /// Creates a straddling checkerboard from a keyword, based on the default charset.
         /// </summary>
         /// <param name="keyword"></param>
         /// <returns></returns>
-        public static char[,] CreateFromKeyboard(string keyword)
+        public static char[,] CreateFromKeyword(string keyword)
         {
-            throw new NotImplementedException();
+            return CreateFromKeyword(keyword, Charsets.English);
         }
 
         public static int FindOffsets(char[,] straddlingCheckerboard, char ch)

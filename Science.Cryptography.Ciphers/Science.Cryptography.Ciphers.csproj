@@ -57,6 +57,7 @@
     <Compile Include="SandorfCipher.cs" />
     <Compile Include="ShiftCipher.cs" />
     <Compile Include="StraddlingCheckerboard.cs" />
+    <Compile Include="TabulaRecta.cs" />
     <Compile Include="TapCode.cs" />
     <Compile Include="TwoSquareCipher.cs" />
     <Compile Include="VigenèreCipher.cs" />
