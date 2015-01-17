@@ -1,9 +1,19 @@
-# Science.Cryptography.Ciphers
+﻿# Science.Cryptography.Ciphers
 
 This project collects classic ciphers implemented in .NET/C#.
 
-Accepting contributions for the following ciphers:
+## Ciphers
+Affine, Atbash, Autokey, Bacon, Bifid, Four-square, Monoalphabetic Substitution, Morse Code, Null, ROT-47, Running Key, Sandorf's, Shift (Caesar, ROT-13), Tap Code, Two-square, Vigenère
 
+### Ciphers with streaming support
+Affine, Atbash, Monoalphabetic Substitution, ROT-47, Running Key, Shift (Caesar, ROT-13), Vigenère
+
+## Tools
+* Polybius Square 
+* Straddling Checkerboard
+* Tabula Recta
+
+## Accepting PRs
 * ADFGVX
 * Columnar Transposition 
 * Enigma
@@ -16,5 +26,5 @@ Accepting contributions for the following ciphers:
 * One Time Pad
 * Solitaire
 * Trifid
-
-* Any other missing :)
+* Any other missing cipher
+* Unit tests
