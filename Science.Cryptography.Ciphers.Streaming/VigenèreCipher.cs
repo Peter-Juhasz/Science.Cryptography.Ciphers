@@ -25,12 +25,12 @@ namespace Science.Cryptography.Ciphers.Streaming
 
             foreach (char c in plaintext)
             {
-                int idx = this.Charset.IndexOf(c.ToString(), StringComparison.OrdinalIgnoreCase);
+                int idx = this.Charset.IndexOfIgnoreCase(c);
 
                 yield return idx != -1
                     ? (
                         this.Charset[
-                            (idx + this.Charset.IndexOf(key[charCounter++ % key.Length].ToString(), StringComparison.CurrentCultureIgnoreCase)).Mod(this.Charset.Length)
+                            (idx + this.Charset.IndexOfIgnoreCase(key[charCounter++ % key.Length])).Mod(this.Charset.Length)
                         ]
                     ).ToSameCaseAs(c)
                     : c
@@ -45,12 +45,12 @@ namespace Science.Cryptography.Ciphers.Streaming
 
             foreach (char c in ciphertext)
             {
-                int idx = this.Charset.IndexOf(c.ToString(), StringComparison.OrdinalIgnoreCase);
+                int idx = this.Charset.IndexOfIgnoreCase(c);
 
                 yield return idx != -1
                     ? (
                         this.Charset[
-                            (idx - this.Charset.IndexOf(key[charCounter++ % key.Length].ToString(), StringComparison.CurrentCultureIgnoreCase)).Mod(this.Charset.Length)
+                            (idx - this.Charset.IndexOfIgnoreCase(key[charCounter++ % key.Length])).Mod(this.Charset.Length)
                         ]
                     ).ToSameCaseAs(c)
                     : c

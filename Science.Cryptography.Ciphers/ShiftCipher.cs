@@ -29,7 +29,7 @@ namespace Science.Cryptography.Ciphers
 
             for (int i = 0; i < text.Length; i++)
             {
-                int idx = this.Charset.IndexOf(text[i].ToString(), StringComparison.OrdinalIgnoreCase);
+                int idx = this.Charset.IndexOfIgnoreCase(text[i]);
 
                 if (idx != -1)
                     result[i] = (this.Charset[(idx + key).Mod(this.Charset.Length)]).ToSameCaseAs(text[i]);

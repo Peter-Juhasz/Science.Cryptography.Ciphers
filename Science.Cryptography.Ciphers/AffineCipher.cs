@@ -23,7 +23,7 @@ namespace Science.Cryptography.Ciphers
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                int idx = this.Charset.IndexOf(plaintext[i].ToString(), StringComparison.OrdinalIgnoreCase);
+                int idx = this.Charset.IndexOfIgnoreCase(plaintext[i]);
 
                 if (idx != -1)
                     ciphertext[i] = this.Charset[(key.A * idx + key.B) % this.Charset.Length].ToSameCaseAs(plaintext[i]);
@@ -40,7 +40,7 @@ namespace Science.Cryptography.Ciphers
 
             for (int i = 0; i < ciphertext.Length; i++)
             {
-                int idx = this.Charset.IndexOf(ciphertext[i].ToString(), StringComparison.OrdinalIgnoreCase);
+                int idx = this.Charset.IndexOfIgnoreCase(ciphertext[i]);
 
                 if (idx != -1)
                     plaintext[i] = this.Charset[((this.Charset.Length - key.A) * (idx - key.B)).Mod(this.Charset.Length)].ToSameCaseAs(ciphertext[i]);

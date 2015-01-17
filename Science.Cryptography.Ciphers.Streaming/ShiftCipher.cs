@@ -28,7 +28,7 @@ namespace Science.Cryptography.Ciphers.Streaming
         {
             foreach (char c in text)
             {
-                int idx = this.Charset.IndexOf(c.ToString(), StringComparison.OrdinalIgnoreCase);
+                int idx = this.Charset.IndexOfIgnoreCase(c);
 
                 yield return idx != -1
                     ? (this.Charset[(idx + key).Mod(this.Charset.Length)]).ToSameCaseAs(c)

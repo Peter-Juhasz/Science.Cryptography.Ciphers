@@ -23,7 +23,7 @@ namespace Science.Cryptography.Ciphers
 
             for (int i = 0; i < text.Length; i++)
             {
-                int idx = this.Charset.IndexOf(text[i].ToString(), StringComparison.OrdinalIgnoreCase);
+                int idx = this.Charset.IndexOfIgnoreCase(text[i]);
 
                 if (idx != -1)
                     ciphertext[i] = (this.Charset[this.Charset.Length - idx - 1]).ToSameCaseAs(text[i]);

@@ -29,6 +29,19 @@ namespace Science.Cryptography.Ciphers
 
     public static class StringExtensions
     {
+        public static int IndexOfIgnoreCase(this string source, char subject)
+        {
+            Char toCompare = Char.ToUpper(subject);
+
+            for (int i = 0; i < source.Length; i++)
+            {
+                if (Char.ToUpper(source[i]) == toCompare)
+                    return i;
+            }
+
+            return -1;
+        }
+
         public static IEnumerable<string> Split(this string source, int chunkSize)
         {
             int offset = 0;
@@ -51,8 +64,8 @@ namespace Science.Cryptography.Ciphers
             T[,] result = new T[height, width];
 
             for (int x = 0; x < width; x++)
-                for (int y = 0; y < height; y++)
-                    result[height - y - 1, x] = source[x, y];
+            for (int y = 0; y < height; y++)
+                result[height - y - 1, x] = source[x, y];
 
             return result;
         }
@@ -64,8 +77,8 @@ namespace Science.Cryptography.Ciphers
             T[,] result = new T[height, width];
 
             for (int x = 0; x < width; x++)
-                for (int y = 0; y < height; y++)
-                    result[y, width - x - 1] = source[x, y];
+            for (int y = 0; y < height; y++)
+                result[y, width - x - 1] = source[x, y];
 
             return result;
         }

@@ -28,7 +28,7 @@ namespace Science.Cryptography.Ciphers
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                int idx = this.Charset.IndexOf(plaintext[i].ToString(), StringComparison.OrdinalIgnoreCase);
+                int idx = this.Charset.IndexOfIgnoreCase(plaintext[i]);
 
                 if (idx != -1)
                     result[i] = (this.Charset[(idx + this.Charset.IndexOf(autokey[charCounter++])) % this.Charset.Length]).ToSameCaseAs(plaintext[i]);
@@ -54,7 +54,7 @@ namespace Science.Cryptography.Ciphers
             // construct the initial part of the plaintext
             for (i = 0; i < ciphertext.Length; i++)
             {
-                int idx = this.Charset.IndexOf(ciphertext[i].ToString(), StringComparison.OrdinalIgnoreCase);
+                int idx = this.Charset.IndexOfIgnoreCase(ciphertext[i]);
 
                 if (idx != -1)
                 {
