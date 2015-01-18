@@ -17,6 +17,7 @@ Affine, Shift
 ## Tools
 * Caesar Bruteforce
 * Frequency Analysis
+* N-Gram Analysis
 * Polybius Square
 * Straddling Checkerboard
 * Tabula Recta

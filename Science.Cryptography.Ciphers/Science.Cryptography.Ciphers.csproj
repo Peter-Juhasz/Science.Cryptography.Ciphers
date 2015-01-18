@@ -39,6 +39,7 @@
     <Compile Include="Analysis\FrequencyAnalysis.cs" />
     <Compile Include="Analysis\IKeySpaceSource.cs" />
     <Compile Include="Analysis\ISupportsRecognition.cs" />
+    <Compile Include="Analysis\NGramAnalysis.cs" />
     <Compile Include="AutokeyCipher.cs" />
     <Compile Include="BaconCipher.cs" />
     <Compile Include="BifidCipher.cs" />
