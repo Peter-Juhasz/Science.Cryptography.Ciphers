@@ -9,6 +9,7 @@ Affine, Atbash, Autokey, Bacon, Bifid, Four-square, Monoalphabetic Substitution,
 Affine, Atbash, Monoalphabetic Substitution, ROT-47, Running Key, Shift (Caesar, ROT-13), Vigenère
 
 ## Tools
+* Caesar Brutefoce
 * Frequency Analysis
 * Polybius Square
 * Straddling Checkerboard
