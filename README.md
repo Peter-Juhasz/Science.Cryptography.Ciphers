@@ -8,6 +8,12 @@ Affine, Atbash, Autokey, Bacon, Bifid, Four-square, Monoalphabetic Substitution,
 ### Streaming support
 Affine, Atbash, Monoalphabetic Substitution, ROT-47, Running Key, Shift (Caesar, ROT-13), Vigenère
 
+### Ciphertext recognition support
+Bacon, Morse Code, Tap Code
+
+### Key space enumeration
+Affine, Shift
+
 ## Tools
 * Caesar Bruteforce
 * Frequency Analysis
