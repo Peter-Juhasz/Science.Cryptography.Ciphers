@@ -37,10 +37,10 @@ namespace Science.Cryptography.Ciphers
             {
                 int idx = this.Charset.IndexOfIgnoreCase(text[i]);
 
-                if (idx != -1)
-                    result[i] = this.Charset[(idx + key).Mod(this.Charset.Length)].ToSameCaseAs(text[i]);
-                else
-                    result[i] = text[i];
+                result[i] = idx != -1
+                    ? this.Charset[(idx + key).Mod(this.Charset.Length)].ToSameCaseAs(text[i])
+                    : text[i]
+                ;
             }
 
             return new String(result);
