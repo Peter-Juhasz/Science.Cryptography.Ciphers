@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Composition;
+using System.Linq;
 
 namespace Science.Cryptography.Ciphers
 {
+    using Analysis;
+
     /// <summary>
     /// Represents the Affine cipher
     /// </summary>
     [Export("Affine", typeof(IKeyedCipher<>))]
-    public class AffineCipher : IKeyedCipher<AffineKey>, ISupportsCustomCharset
+    public class AffineCipher : IKeyedCipher<AffineKey>, ISupportsCustomCharset, IKeySpaceSource<AffineKey>
     {
         public AffineCipher()
         {
@@ -52,6 +56,39 @@ namespace Science.Cryptography.Ciphers
             }
 
             return new String(plaintext);
+        }
+
+
+        public IEnumerable<AffineKey> GetKeys()
+        {
+            int n = this.Charset.Length;
+
+            return
+                from a in CoprimesTo(n)
+                from b in Enumerable.Range(0, n)
+                select new AffineKey(a, b)
+            ;
+        }
+
+        private static int Gcd(int a, int b)
+        {
+            int rem;
+
+            while (b != 0)
+            {
+                rem = a % b;
+                a = b;
+                b = rem;
+            }
+
+            return a;
+        }
+
+        private static IEnumerable<int> CoprimesTo(int n)
+        {
+            return Enumerable.Range(0, n)
+                .Where(i => Gcd(i, n) == 1)
+            ;
         }
     }
 

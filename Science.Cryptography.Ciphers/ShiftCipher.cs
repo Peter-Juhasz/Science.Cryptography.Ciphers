@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Composition;
+using System.Linq;
 
 namespace Science.Cryptography.Ciphers
 {
+    using Analysis;
+
     /// <summary>
     /// Represents the Shift cipher.
     /// </summary>
     [Export("Shift", typeof(IKeyedCipher<>))]
-    public class ShiftCipher : IKeyedCipher<int>, ISupportsCustomCharset
+    public class ShiftCipher : IKeyedCipher<int>, ISupportsCustomCharset, IKeySpaceSource<int>
     {
         public ShiftCipher()
         {
@@ -60,6 +64,12 @@ namespace Science.Cryptography.Ciphers
         public string Decrypt(string ciphertext, int key)
         {
             return this.Crypt(ciphertext, -key);
+        }
+
+
+        public IEnumerable<int> GetKeys()
+        {
+            return Enumerable.Range(1, this.Charset.Length - 1);
         }
     }
 
