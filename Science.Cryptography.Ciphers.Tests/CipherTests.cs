@@ -55,6 +55,17 @@ namespace Science.Cryptography.Ciphers.Tests
         }
 
         [TestMethod]
+        public void Multiplicative_Encrypt()
+        {
+            var cipher = new MultiplicativeCipher();
+
+            const string plaintext = "GEHEIMNIS";
+            const string ciphertext = "SMVMYKNYC";
+
+            Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, 3));
+        }
+
+        [TestMethod]
         public void Atbash()
         {
             AtbashCipher cipher = new AtbashCipher();

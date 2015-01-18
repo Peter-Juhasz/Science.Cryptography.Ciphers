@@ -3,10 +3,10 @@
 This project collects classic ciphers implemented in .NET/C#.
 
 ## Ciphers
-Affine, Atbash, Autokey, Bacon, Bifid, Four-square, Monoalphabetic Substitution, Morse Code, Null, ROT-47, Running Key, Sandorf's, Shift (Caesar, ROT-13), Tap Code, Two-square, Vigenère
+Affine, Atbash, Autokey, Bacon, Bifid, Four-square, Monoalphabetic Substitution, Morse Code, Multiplicative, Null, ROT-47, Running Key, Sandorf's, Shift (Caesar, ROT-13), Tap Code, Two-square, Vigenère
 
 ### Streaming support
-Affine, Atbash, Monoalphabetic Substitution, ROT-47, Running Key, Shift (Caesar, ROT-13), Vigenère
+Affine, Atbash, Monoalphabetic Substitution, Multiplicative, ROT-47, Running Key, Shift (Caesar, ROT-13), Vigenère
 
 ### Ciphertext recognition support
 Bacon, Morse Code, Tap Code
