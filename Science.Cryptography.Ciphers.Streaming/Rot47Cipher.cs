@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Composition;
 
 namespace Science.Cryptography.Ciphers.Streaming
 {
     /// <summary>
     /// Represents the ROT-47 cipher.
     /// </summary>
+    [Export("ROT-47", typeof(ICipher))]
     public class Rot47Cipher : ICipher
     {
         protected IEnumerable<char> Crypt(IEnumerable<char> text)

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Composition;
 
 namespace Science.Cryptography.Ciphers
 {
     /// <summary>
     /// Represents the Autokey cipher.
     /// </summary>
+    [Export("Autokey", typeof(IKeyedCipher<>))]
     public class AutokeyCipher : IKeyedCipher<string>, ISupportsCustomCharset
     {
         public AutokeyCipher()

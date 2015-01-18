@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Composition;
 
 namespace Science.Cryptography.Ciphers
 {
     /// <summary>
     /// Represents the Two Square cipher.
     /// </summary>
+    [Export("Two-square", typeof(IKeyedCipher<>))]
     public class TwoSquareCipher : IKeyedCipher<char[][,]>
     {
         public string Encrypt(string plaintext, char[][,] key)

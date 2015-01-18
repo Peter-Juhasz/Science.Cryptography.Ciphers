@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Composition;
 using System.Linq;
 
 namespace Science.Cryptography.Ciphers
@@ -6,6 +7,7 @@ namespace Science.Cryptography.Ciphers
     /// <summary>
     /// Represents Count Mathias Sandorf's (hero of Jules Verne) cipher.
     /// </summary>
+    [Export("Sandorf", typeof(IKeyedCipher<>))]
     public class SandorfCipher : IKeyedCipher<bool[,]>
     {
         private const char PaddingChar = '#';

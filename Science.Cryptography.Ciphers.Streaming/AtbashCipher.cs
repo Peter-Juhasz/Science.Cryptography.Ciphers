@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Composition;
 
 namespace Science.Cryptography.Ciphers.Streaming
 {
     /// <summary>
     /// Represents the Atbash cipher.
     /// </summary>
+    [Export("Atbash", typeof(ICipher))]
     public class AtbashCipher : ICipher, ISupportsCustomCharset
     {
         public AtbashCipher()

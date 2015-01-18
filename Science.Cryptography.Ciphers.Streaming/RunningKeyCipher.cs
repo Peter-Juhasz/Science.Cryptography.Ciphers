@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Composition;
 
 namespace Science.Cryptography.Ciphers.Streaming
 {
     /// <summary>
     /// Represents the Running Key cipher.
     /// </summary>
+    [Export("Running Key", typeof(IKeyedCipher<>))]
     public class RunningKeyCipher : IKeyedCipher<string>, ISupportsCustomCharset
     {
         public RunningKeyCipher()

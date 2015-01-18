@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Composition;
 
 namespace Science.Cryptography.Ciphers
 {
     /// <summary>
     /// Represents the Four Square cipher.
     /// </summary>
+    [Export("Four-square", typeof(IKeyedCipher<>))]
     public class FourSquareCipher : IKeyedCipher<char[,][,]>
     {
         public string Encrypt(string plaintext, char[,][,] key)

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Composition;
 
 namespace Science.Cryptography.Ciphers.Streaming
 {
     /// <summary>
     /// Represents the Shift cipher.
     /// </summary>
+    [Export("Shift", typeof(IKeyedCipher<>))]
     public class ShiftCipher : IKeyedCipher<int>, ISupportsCustomCharset
     {
         public ShiftCipher()

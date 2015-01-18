@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Composition;
 using System.Linq;
 
 namespace Science.Cryptography.Ciphers.Streaming
@@ -6,6 +7,7 @@ namespace Science.Cryptography.Ciphers.Streaming
     /// <summary>
     /// Represents the Monoalphabetic Substitution cipher.
     /// </summary>
+    [Export("Monoalphabetic Substitution", typeof(IKeyedCipher<>))]
     public sealed class MonoalphabeticSubstitutionCipher : IKeyedCipher<IReadOnlyDictionary<char, char>>
     {
         public IEnumerable<char> Encrypt(IEnumerable<char> input, IReadOnlyDictionary<char, char> key)

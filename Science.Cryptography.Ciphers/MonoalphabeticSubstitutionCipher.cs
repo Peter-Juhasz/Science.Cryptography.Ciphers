@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Composition;
 
 namespace Science.Cryptography.Ciphers
 {
     /// <summary>
     /// Represents the Monoalphabetic Substitution cipher.
     /// </summary>
+    [Export("Monoalphabetic Substitution", typeof(IKeyedCipher<>))]
     public class MonoalphabeticSubstitutionCipher : IKeyedCipher<IReadOnlyDictionary<char, char>>
     {
         public string Encrypt(string plaintext, IReadOnlyDictionary<char, char> key)

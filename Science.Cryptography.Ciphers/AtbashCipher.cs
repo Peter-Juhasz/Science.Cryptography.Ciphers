@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Composition;
 
 namespace Science.Cryptography.Ciphers
 {
     /// <summary>
     /// Represents the Atbash cipher.
     /// </summary>
+    [Export("Atbash", typeof(ICipher))]
     public class AtbashCipher : ICipher, ISupportsCustomCharset
     {
         public AtbashCipher()

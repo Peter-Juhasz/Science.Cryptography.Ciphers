@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Composition;
 using System.Linq;
 using System.Text;
 
@@ -9,6 +10,7 @@ namespace Science.Cryptography.Ciphers
     /// <summary>
     /// Represents the Tap Code cipher.
     /// </summary>
+    [Export("Tap Code", typeof(ICipher))]
     public class TapCode : ICipher, ISupportsRecognition
     {
         protected readonly char[,] CipherData = new char[,] {

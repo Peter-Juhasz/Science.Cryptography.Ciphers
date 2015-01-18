@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Composition;
 using System.Linq;
 using System.Text;
 
@@ -10,6 +11,7 @@ namespace Science.Cryptography.Ciphers
     /// <summary>
     /// Represents Francis Bacon's cipher.
     /// </summary>
+    [Export("Bacon", typeof(ICipher))]
     public class BaconCipher : ICipher, ISupportsRecognition
     {
         public BaconCipher()

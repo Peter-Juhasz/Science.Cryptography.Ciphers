@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Composition;
 
 namespace Science.Cryptography.Ciphers
 {
     /// <summary>
     /// Represents the Running Key cipher.
     /// </summary>
+    [Export("Running Key", typeof(IKeyedCipher<>))]
     public class RunningKeyCipher : IKeyedCipher<string>, ISupportsCustomCharset
     {
         public RunningKeyCipher()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Composition;
 using System.Linq;
 using System.Text;
 
@@ -7,6 +8,7 @@ namespace Science.Cryptography.Ciphers
     /// <summary>
     /// Represents the Bifid cipher.
     /// </summary>
+    [Export("Bifid", typeof(IKeyedCipher<>))]
     public class BifidCipher : IKeyedCipher<char[,]>
     {
         public string Encrypt(string plaintext, char[,] key)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Composition;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -8,6 +9,7 @@ namespace Science.Cryptography.Ciphers
 {
     /// <summary>
     /// Represents the Null cipher.
+    [Export("Null", typeof(IKeyedCipher<>))]
     /// </summary>
     public class NullCipher : IKeyedCipher<IReadOnlyList<int>>
     {

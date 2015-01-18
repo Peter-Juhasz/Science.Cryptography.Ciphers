@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Composition;
 
 namespace Science.Cryptography.Ciphers.Streaming
 {
     /// <summary>
     /// Represents the Affine cipher.
     /// </summary>
+    [Export("Affine", typeof(IKeyedCipher<>))]
     public class AffineCipher : IKeyedCipher<AffineKey>, ISupportsCustomCharset
     {
         public AffineCipher()

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Composition;
 
 namespace Science.Cryptography.Ciphers
 {
     /// <summary>
     /// Represents Blaise de Vigenère's cipher.
     /// </summary>
+    [Export("Vigenère", typeof(IKeyedCipher<>))]
     public class VigenèreCipher : IKeyedCipher<string>, ISupportsCustomCharset
     {
         public VigenèreCipher()
