@@ -9,9 +9,9 @@ namespace Science.Cryptography.Ciphers
     [Export("Vigenère", typeof(IKeyedCipher<>))]
     public class VigenèreCipher : IKeyedCipher<string>, ISupportsCustomCharset
     {
-        public VigenèreCipher()
+        public VigenèreCipher(string charset = Charsets.English)
         {
-            this.Charset = Charsets.English;
+            this.Charset = charset;
         }
 
         /// <summary>

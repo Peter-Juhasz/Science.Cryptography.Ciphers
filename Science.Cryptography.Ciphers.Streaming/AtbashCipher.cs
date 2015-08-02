@@ -10,9 +10,9 @@ namespace Science.Cryptography.Ciphers.Streaming
     [Export("Atbash", typeof(ICipher))]
     public class AtbashCipher : ICipher, ISupportsCustomCharset
     {
-        public AtbashCipher()
+        public AtbashCipher(string charset = Charsets.English)
         {
-            this.Charset = Charsets.English;
+            this.Charset = charset;
         }
 
         /// <summary>

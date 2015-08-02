@@ -10,9 +10,9 @@ namespace Science.Cryptography.Ciphers.Streaming
     [Export("Running Key", typeof(IKeyedCipher<>))]
     public class RunningKeyCipher : IKeyedCipher<string>, ISupportsCustomCharset
     {
-        public RunningKeyCipher()
+        public RunningKeyCipher(string charset = Charsets.English)
         {
-            this.Charset = Charsets.English;
+            this.Charset = charset;
         }
 
         /// <summary>

@@ -13,9 +13,9 @@ namespace Science.Cryptography.Ciphers
     [Export("Shift", typeof(IKeyedCipher<>))]
     public class ShiftCipher : IKeyedCipher<int>, ISupportsCustomCharset, IKeySpaceSource<int>
     {
-        public ShiftCipher()
+        public ShiftCipher(string charset = Charsets.English)
         {
-            this.Charset = Charsets.English;
+            this.Charset = charset;
         }
 
         /// <summary>

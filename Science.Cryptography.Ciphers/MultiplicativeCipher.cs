@@ -9,9 +9,9 @@ namespace Science.Cryptography.Ciphers
     [Export("Multiplicative", typeof(IKeyedCipher<>))]
     public class MultiplicativeCipher : IKeyedCipher<int>, ISupportsCustomCharset
     {
-        public MultiplicativeCipher()
+        public MultiplicativeCipher(string charset = Charsets.English)
         {
-            this.Charset = Charsets.English;
+            this.Charset = charset;
         }
 
 

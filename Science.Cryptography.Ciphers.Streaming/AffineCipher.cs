@@ -9,9 +9,9 @@ namespace Science.Cryptography.Ciphers.Streaming
     [Export("Affine", typeof(IKeyedCipher<>))]
     public class AffineCipher : IKeyedCipher<AffineKey>, ISupportsCustomCharset
     {
-        public AffineCipher()
+        public AffineCipher(string charset = Charsets.English)
         {
-            this.Charset = Charsets.English;
+            this.Charset = charset;
         }
 
         /// <summary>

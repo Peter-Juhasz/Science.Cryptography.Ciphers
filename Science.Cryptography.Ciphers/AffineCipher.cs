@@ -13,9 +13,9 @@ namespace Science.Cryptography.Ciphers
     [Export("Affine", typeof(IKeyedCipher<>))]
     public class AffineCipher : IKeyedCipher<AffineKey>, ISupportsCustomCharset, IKeySpaceSource<AffineKey>
     {
-        public AffineCipher()
+        public AffineCipher(string charset = Charsets.English)
         {
-            this.Charset = Charsets.English;
+            this.Charset = charset;
         }
 
         /// <summary>

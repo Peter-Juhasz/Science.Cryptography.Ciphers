@@ -10,9 +10,9 @@ namespace Science.Cryptography.Ciphers.Streaming
     [Export("Shift", typeof(IKeyedCipher<>))]
     public class ShiftCipher : IKeyedCipher<int>, ISupportsCustomCharset
     {
-        public ShiftCipher()
+        public ShiftCipher(string charset = Charsets.English)
         {
-            this.Charset = Charsets.English;
+            this.Charset = charset;
         }
 
         /// <summary>

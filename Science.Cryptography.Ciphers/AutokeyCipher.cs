@@ -9,9 +9,9 @@ namespace Science.Cryptography.Ciphers
     [Export("Autokey", typeof(IKeyedCipher<>))]
     public class AutokeyCipher : IKeyedCipher<string>, ISupportsCustomCharset
     {
-        public AutokeyCipher()
+        public AutokeyCipher(string charset = Charsets.English)
         {
-            this.Charset = Charsets.English;
+            this.Charset = charset;
         }
 
         /// <summary>

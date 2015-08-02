@@ -8,19 +8,19 @@
         /// <summary>
         /// The regular english alphabet.
         /// </summary>
-        public static readonly string English = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public const string English = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        public static readonly string EnglishWithoutJ = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+        public const string EnglishWithoutJ = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
 
-        public static readonly string EnglishWithoutK = "ABCDEFGHIJLMNOPQRSTUVWXYZ";
+        public const string EnglishWithoutK = "ABCDEFGHIJLMNOPQRSTUVWXYZ";
 
-        public static readonly string EnglishWithoutL = "ABCDEFGHIJKMNOPQRSTUVWXYZ";
+        public const string EnglishWithoutL = "ABCDEFGHIJKMNOPQRSTUVWXYZ";
 
-        public static readonly string EnglishWithoutQ = "ABCDEFGHIJKLMNOPRSTUVWXYZ";
+        public const string EnglishWithoutQ = "ABCDEFGHIJKLMNOPRSTUVWXYZ";
 
         /// <summary>
         /// Digits from 0, 1 to 10.
         /// </summary>
-        public static readonly string Digits = "0123456789";
+        public const string Digits = "0123456789";
     }
 }
