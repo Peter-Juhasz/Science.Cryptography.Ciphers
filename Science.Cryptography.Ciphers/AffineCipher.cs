@@ -59,7 +59,7 @@ namespace Science.Cryptography.Ciphers
         }
 
 
-        public IEnumerable<AffineKey> GetKeys()
+        IEnumerable<AffineKey> IKeySpaceSource<AffineKey>.GetKeys()
         {
             int n = this.Charset.Length;
 

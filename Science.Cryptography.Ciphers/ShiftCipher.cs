@@ -84,7 +84,7 @@ namespace Science.Cryptography.Ciphers
         }
 
 
-        public IEnumerable<int> GetKeys()
+        IEnumerable<int> IKeySpaceSource<int>.GetKeys()
         {
             return Enumerable.Range(1, this.Charset.Length - 1);
         }
