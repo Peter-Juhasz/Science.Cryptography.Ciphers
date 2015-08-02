@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Composition;
+using System.Linq;
 
 namespace Science.Cryptography.Ciphers.Streaming
 {
@@ -26,17 +27,15 @@ namespace Science.Cryptography.Ciphers.Streaming
         protected IEnumerable<char> Crypt(IEnumerable<char> input)
         {
             if (input == null)
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
 
-            foreach (char c in input)
-            {
-                int idx = this.Charset.IndexOfIgnoreCase(c);
-
-                yield return idx != -1
+            return
+                from c in input
+                let idx = this.Charset.IndexOfIgnoreCase(c)
+                select idx != -1
                     ? this.Charset[this.Charset.Length - idx - 1].ToSameCaseAs(c)
                     : c
-                ;
-            }
+            ;
         }
 
         /// <summary>
