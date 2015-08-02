@@ -12,6 +12,9 @@ namespace Science.Cryptography.Ciphers.Streaming
     {
         public AtbashCipher(string charset = Charsets.English)
         {
+            if (charset == null)
+                throw new ArgumentNullException(nameof(charset));
+
             this.Charset = charset;
         }
 

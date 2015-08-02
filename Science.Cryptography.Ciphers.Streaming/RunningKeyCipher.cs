@@ -12,6 +12,9 @@ namespace Science.Cryptography.Ciphers.Streaming
     {
         public RunningKeyCipher(string charset = Charsets.English)
         {
+            if (charset == null)
+                throw new ArgumentNullException(nameof(charset));
+
             this.Charset = charset;
         }
 

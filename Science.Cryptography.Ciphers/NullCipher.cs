@@ -9,8 +9,8 @@ namespace Science.Cryptography.Ciphers
 {
     /// <summary>
     /// Represents the Null cipher.
-    [Export("Null", typeof(IKeyedCipher<>))]
     /// </summary>
+    [Export("Null", typeof(IKeyedCipher<>))]
     public class NullCipher : IKeyedCipher<IReadOnlyList<int>>
     {
         private readonly static Regex WordRegex = new Regex(@"\w+");

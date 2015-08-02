@@ -11,6 +11,9 @@ namespace Science.Cryptography.Ciphers
     {
         public VigenèreCipher(string charset = Charsets.English)
         {
+            if (charset == null)
+                throw new ArgumentNullException(nameof(charset));
+
             this.Charset = charset;
         }
 

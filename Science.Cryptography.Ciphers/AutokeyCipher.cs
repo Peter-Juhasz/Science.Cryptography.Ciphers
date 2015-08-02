@@ -11,6 +11,9 @@ namespace Science.Cryptography.Ciphers
     {
         public AutokeyCipher(string charset = Charsets.English)
         {
+            if (charset == null)
+                throw new ArgumentNullException(nameof(charset));
+
             this.Charset = charset;
         }
 

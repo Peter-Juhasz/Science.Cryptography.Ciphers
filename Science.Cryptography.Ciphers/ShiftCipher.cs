@@ -15,6 +15,9 @@ namespace Science.Cryptography.Ciphers
     {
         public ShiftCipher(string charset = Charsets.English)
         {
+            if (charset == null)
+                throw new ArgumentNullException(nameof(charset));
+
             this.Charset = charset;
         }
 

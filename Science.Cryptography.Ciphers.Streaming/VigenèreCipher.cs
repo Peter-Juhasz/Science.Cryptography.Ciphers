@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Composition;
 
 namespace Science.Cryptography.Ciphers.Streaming
@@ -11,6 +12,9 @@ namespace Science.Cryptography.Ciphers.Streaming
     {
         public VigenèreCipher(string charset = Charsets.English)
         {
+            if (charset == null)
+                throw new ArgumentNullException(nameof(charset));
+
             this.Charset = charset;
         }
 

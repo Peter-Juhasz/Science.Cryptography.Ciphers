@@ -10,9 +10,12 @@ namespace Science.Cryptography.Ciphers.Streaming
     [Export("Multiplicative", typeof(IKeyedCipher<>))]
     public class MultiplicativeCipher : IKeyedCipher<int>
     {
-        public MultiplicativeCipher()
+        public MultiplicativeCipher(string charset = Charsets.English)
         {
-            this.Charset = Charsets.English;
+            if (charset == null)
+                throw new ArgumentNullException(nameof(charset));
+
+            this.Charset = charset;
         }
 
 
