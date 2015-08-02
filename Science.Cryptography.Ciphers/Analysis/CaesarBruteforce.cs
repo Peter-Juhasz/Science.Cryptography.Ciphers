@@ -27,10 +27,10 @@ namespace Science.Cryptography.Ciphers.Analysis
         public static IReadOnlyDictionary<int, string> Analyze(string text, string charset)
         {
             if (text == null)
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
 
             if (charset == null)
-                throw new ArgumentNullException("charset");
+                throw new ArgumentNullException(nameof(charset));
 
 
             var cipher = new ShiftCipher() { Charset = charset };

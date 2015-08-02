@@ -17,7 +17,7 @@ namespace Science.Cryptography.Ciphers.Analysis
         public static IReadOnlyDictionary<char, int> Analyze(string text)
         {
             if (text == null)
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
 
             return text.AsEnumerable()
                 .GroupBy(c => c)

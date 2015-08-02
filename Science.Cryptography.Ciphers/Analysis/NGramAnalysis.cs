@@ -20,7 +20,7 @@ namespace Science.Cryptography.Ciphers.Analysis
         public static IEnumerable<string> ReadNGrams(this string text, int n)
         {
             if (n <= 0)
-                throw new ArgumentOutOfRangeException("n");
+                throw new ArgumentOutOfRangeException(nameof(n));
 
             StringBuilder window = new StringBuilder(n);
 
@@ -45,8 +45,7 @@ namespace Science.Cryptography.Ciphers.Analysis
         {
             return text.ReadNGrams(n)
                 .GroupBy(s => s)
-                .ToDictionary(g => g.Key, g => g.Count())
-            ;
+                .ToDictionary(g => g.Key, g => g.Count());
         }
     }
 }

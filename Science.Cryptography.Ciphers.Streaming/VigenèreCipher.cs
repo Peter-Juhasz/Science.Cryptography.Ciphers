@@ -39,7 +39,6 @@ namespace Science.Cryptography.Ciphers.Streaming
                     : c
                 ;
             }
-
         }
 
         public IEnumerable<char> Decrypt(IEnumerable<char> ciphertext, string key)

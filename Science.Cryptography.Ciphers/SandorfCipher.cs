@@ -18,7 +18,7 @@ namespace Science.Cryptography.Ciphers
             int size = key.GetLength(0);
 
             if (size != key.GetLength(1))
-                throw new ArgumentOutOfRangeException("key", "Only square-sized keys are supported.");
+                throw new ArgumentOutOfRangeException(nameof(key), "Only square-sized keys are supported.");
 
             int sizeSquared = size * size;
 
@@ -71,7 +71,7 @@ namespace Science.Cryptography.Ciphers
             int size = key.GetLength(0);
 
             if (size != key.GetLength(1))
-                throw new ArgumentOutOfRangeException("key", "Only square-sized keys are supported.");
+                throw new ArgumentOutOfRangeException(nameof(key), "Only square-sized keys are supported.");
 
             int sizeSquared = size * size;
 

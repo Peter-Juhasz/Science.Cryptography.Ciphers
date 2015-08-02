@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace Science.Cryptography.Ciphers
 {
@@ -120,12 +119,12 @@ namespace Science.Cryptography.Ciphers
 
     public static class EnumerableExtensions
     {
-        public static bool MostOfAll<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        public static bool MostOfAll<T>(this IEnumerable<T> source, Func<T, bool> predicate, double threshold = 0.9)
         {
             int count = source.Count(),
                 satisfyingCount = source.Where(predicate).Count();
 
-            return 0.90 <= satisfyingCount / (double)count;
+            return threshold <= satisfyingCount / (double)count;
         }
     }
 
@@ -136,7 +135,7 @@ namespace Science.Cryptography.Ciphers
         internal CharEnumerable(string str)
         {
             if (str == null)
-                throw new ArgumentNullException("str");
+                throw new ArgumentNullException(nameof(str));
 
             this.str = str;
         }
@@ -160,7 +159,7 @@ namespace Science.Cryptography.Ciphers
         internal CharEnumerator(string str)
         {
             if (str == null)
-                throw new ArgumentNullException("str");
+                throw new ArgumentNullException(nameof(str));
 
             this.str = str;
             this.index = -1;

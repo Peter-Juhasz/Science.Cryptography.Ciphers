@@ -65,7 +65,7 @@ namespace Science.Cryptography.Ciphers
             StringBuilder result = new StringBuilder();
             StringBuilder window = new StringBuilder();
 
-            var decryptionDictionary = Dictionary.Swap();
+            IReadOnlyDictionary<string, char> decryptionDictionary = Dictionary.Swap();
 
             bool nextIsSeparator = true;
 

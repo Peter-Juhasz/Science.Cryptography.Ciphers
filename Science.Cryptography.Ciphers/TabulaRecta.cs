@@ -10,7 +10,7 @@ namespace Science.Cryptography.Ciphers
         public TabulaRecta(string charset)
         {
             if (charset == null)
-                throw new ArgumentNullException("charset");
+                throw new ArgumentNullException(nameof(charset));
 
             this.Charset = charset;
         }
@@ -55,7 +55,7 @@ namespace Science.Cryptography.Ciphers
         public string GetRowOrColumn(int index)
         {
             if (index >= this.Charset.Length)
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             return this.Charset.Substring(index) + this.Charset.Substring(0, index);
         }
