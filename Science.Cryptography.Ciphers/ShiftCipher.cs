@@ -19,6 +19,23 @@ namespace Science.Cryptography.Ciphers
         }
 
         /// <summary>
+        /// Creates Julius Caesar's cipher.
+        /// </summary>
+        public static ICipher CreateCaesar()
+        {
+            return new ShiftCipher().Pin(WellKnownShiftCipherKeys.Caesar);
+        }
+
+        /// <summary>
+        /// Creates a ROT-13 cipher.
+        /// </summary>
+        public static ICipher CreateRot13()
+        {
+            return new ShiftCipher().Pin(WellKnownShiftCipherKeys.Rot13);
+        }
+
+
+        /// <summary>
         /// 
         /// </summary>
         public string Charset { get; set; }
