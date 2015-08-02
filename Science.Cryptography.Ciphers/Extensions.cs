@@ -113,7 +113,8 @@ namespace Science.Cryptography.Ciphers
 
         public static T GetOrSame<T>(this IReadOnlyDictionary<T, T> source, T key)
         {
-            return source.TryGetValue(key, out T value) ? value : key;
+            T value;
+            return source.TryGetValue(key, out value) ? value : key;
         }
     }
 
