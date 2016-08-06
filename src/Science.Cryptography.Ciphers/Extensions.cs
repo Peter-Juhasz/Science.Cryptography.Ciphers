@@ -32,7 +32,6 @@ namespace Science.Cryptography.Ciphers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="oldChar"></param>
         /// <param name="newChar"></param>
         /// <returns></returns>
         public static char ToSameCaseAs(this char newChar, char reference)

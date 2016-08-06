@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Science.Cryptography.Ciphers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\src\Science.Cryptography.Ciphers\bin\Debug\netstandard1.6\Science.Cryptography.Ciphers.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -52,12 +56,6 @@
   <ItemGroup>
     <Compile Include="CipherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Science.Cryptography.Ciphers\Science.Cryptography.Ciphers.csproj">
-      <Project>{997da2ec-3d66-410d-afcf-663db6cae160}</Project>
-      <Name>Science.Cryptography.Ciphers</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

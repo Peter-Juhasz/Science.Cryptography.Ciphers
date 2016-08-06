@@ -39,7 +39,7 @@ namespace Science.Cryptography.Ciphers.Analysis
         /// Measures <paramref name="n"/>-gram frequencies in a given text.
         /// </summary>
         /// <param name="text">Text to analyze.</param>
-        /// <param name="n">The length of n-gram sequencies.</param>
+        /// <param name="n">The length of n-gram sequences.</param>
         /// <returns>Frequencies of <paramref name="n"/>-grams in the text.</returns>
         public static IReadOnlyDictionary<string, int> Analyze(string text, int n)
         {

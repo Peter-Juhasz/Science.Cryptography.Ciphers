@@ -12,7 +12,7 @@ namespace Science.Cryptography.Ciphers
         public string Encrypt(string plaintext, char[,][,] key)
         {
             char[] result = new char[plaintext.Length];
-
+            
             for (int i = 0; i < plaintext.Length - 1; i++)
             {
                 if (Char.IsLetter(plaintext[i]) && Char.IsLetter(plaintext[i + 1]))
