@@ -12,14 +12,18 @@ namespace Science.Cryptography.Ciphers.Streaming
     {
         public IEnumerable<char> Encrypt(IEnumerable<char> input, IReadOnlyDictionary<char, char> key)
         {
-            return input.Select(s => key.GetOrSame(s));
+            return Crypt(input, key);
         }
 
         public IEnumerable<char> Decrypt(IEnumerable<char> input, IReadOnlyDictionary<char, char> key)
         {
-            var decryptionKey = key.Swap();
+            return Crypt(input, key.Swap());
+        }
 
-            return input.Select(s => decryptionKey.GetOrSame(s));
+
+        private static IEnumerable<char> Crypt(IEnumerable<char> input, IReadOnlyDictionary<char, char> key)
+        {
+            return input.Select(s => key.GetOrSame(s));
         }
     }
 }

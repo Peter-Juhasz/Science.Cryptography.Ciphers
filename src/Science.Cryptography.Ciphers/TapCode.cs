@@ -13,7 +13,8 @@ namespace Science.Cryptography.Ciphers
     [Export("Tap Code", typeof(ICipher))]
     public class TapCode : ICipher, ISupportsRecognition
     {
-        protected readonly char[,] CipherData = new char[,] {
+        protected readonly char[,] CipherData =
+        {
             { 'A', 'B', 'C', 'D', 'E' },
             { 'F', 'G', 'H', 'I', 'J' },
             { 'L', 'M', 'N', 'O', 'P' },
@@ -24,7 +25,7 @@ namespace Science.Cryptography.Ciphers
 
         public string Encrypt(string plaintext)
         {
-            return String.Join(" ", plaintext.AsEnumerable().Select(this.LetterToCode));
+            return String.Join(" ", plaintext.Select(this.LetterToCode));
         }
 
         public string Decrypt(string ciphertext)
@@ -71,7 +72,10 @@ namespace Science.Cryptography.Ciphers
 
         public bool Recognize(string ciphertext)
         {
-            return ciphertext.AsEnumerable()
+            if (ciphertext == null)
+                throw new ArgumentNullException(nameof(ciphertext));
+
+            return ciphertext
                 .Where(c => !Char.IsWhiteSpace(c))
                 .MostOfAll(c => c == '.')
             ;

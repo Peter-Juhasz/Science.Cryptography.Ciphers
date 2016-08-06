@@ -97,7 +97,7 @@ namespace Science.Cryptography.Ciphers
 
         public bool Recognize(string ciphertext)
         {
-            return ciphertext.AsEnumerable()
+            return ciphertext
                 .Where(Char.IsLetterOrDigit)
                 .MostOfAll(c => c == 'A' || c == 'B')
             ;

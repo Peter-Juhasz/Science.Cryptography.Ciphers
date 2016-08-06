@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -42,11 +41,6 @@ namespace Science.Cryptography.Ciphers
 
     public static class StringExtensions
     {
-        public static IEnumerable<char> AsEnumerable(this string source)
-        {
-            return new CharEnumerable(source);
-        }
-
         public static int IndexOfIgnoreCase(this string source, char subject)
         {
             Char toCompare = subject.ToUpper();
@@ -126,104 +120,4 @@ namespace Science.Cryptography.Ciphers
             return threshold <= satisfyingCount / (double)count;
         }
     }
-
-
-    #region String : IEnumerable<char>
-    internal sealed class CharEnumerable : IEnumerable<char>
-    {
-        internal CharEnumerable(string str)
-        {
-            if (str == null)
-                throw new ArgumentNullException(nameof(str));
-
-            this.str = str;
-        }
-
-        private string str;
-
-        public IEnumerator<char> GetEnumerator()
-        {
-            return new CharEnumerator(this.str);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return new CharEnumerator(this.str);
-        }
-    }
-
-    // http://referencesource.microsoft.com/#mscorlib/system/charenumerator.cs,0969ce79660adf73
-    internal sealed class CharEnumerator : IEnumerator, IEnumerator<char>, IDisposable
-    {
-        internal CharEnumerator(string str)
-        {
-            if (str == null)
-                throw new ArgumentNullException(nameof(str));
-
-            this.str = str;
-            this.index = -1;
-        }
-
-        private string str;
-        private int index;
-        private char currentElement;
-
-        public bool MoveNext()
-        {
-            if (index < (str.Length - 1))
-            {
-                index++;
-                currentElement = str[index];
-                return true;
-            }
-            else
-                index = str.Length;
-
-            return false;
-
-        }
-
-        public void Dispose()
-        {
-            if (str != null)
-                index = str.Length;
-
-            str = null;
-        }
-
-        /// <internalonly/>
-        object IEnumerator.Current
-        {
-            get
-            {
-                if (index == -1)
-                    throw new InvalidOperationException("Enumeration has not started. Call MoveNext.");
-
-                if (index >= str.Length)
-                    throw new InvalidOperationException("Enumeration already finished.");
-
-                return currentElement;
-            }
-        }
-
-        public char Current
-        {
-            get
-            {
-                if (index == -1)
-                    throw new InvalidOperationException("Enumeration has not started. Call MoveNext.");
-
-                if (index >= str.Length)
-                    throw new InvalidOperationException("Enumeration already finished.");
-                return currentElement;
-            }
-        }
-
-        public void Reset()
-        {
-            currentElement = (char)0;
-            index = -1;
-        }
-    }
-    #endregion
 }

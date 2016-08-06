@@ -10,7 +10,18 @@ namespace Science.Cryptography.Ciphers.Streaming
     [Export("ROT-47", typeof(ICipher))]
     public class Rot47Cipher : ICipher
     {
-        protected IEnumerable<char> Crypt(IEnumerable<char> text)
+        public IEnumerable<char> Encrypt(IEnumerable<char> plaintext)
+        {
+            return Crypt(plaintext);
+        }
+
+        public IEnumerable<char> Decrypt(IEnumerable<char> ciphertext)
+        {
+            return Crypt(ciphertext);
+        }
+
+
+        protected static IEnumerable<char> Crypt(IEnumerable<char> text)
         {
             foreach (char c in text)
             {
@@ -26,16 +37,6 @@ namespace Science.Cryptography.Ciphers.Streaming
 
                 yield return (char)ascii;
             }
-        }
-
-        public IEnumerable<char> Encrypt(IEnumerable<char> plaintext)
-        {
-            return this.Crypt(plaintext);
-        }
-
-        public IEnumerable<char> Decrypt(IEnumerable<char> ciphertext)
-        {
-            return this.Crypt(ciphertext);
         }
     }
 }

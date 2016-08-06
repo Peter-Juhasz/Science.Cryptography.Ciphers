@@ -12,6 +12,17 @@ namespace Science.Cryptography.Ciphers
     {
         public string Encrypt(string plaintext, IReadOnlyDictionary<char, char> key)
         {
+            return Crypt(plaintext, key);
+        }
+
+        public string Decrypt(string ciphertext, IReadOnlyDictionary<char, char> key)
+        {
+            return Crypt(ciphertext, key.Swap());
+        }
+
+
+        protected static string Crypt(string plaintext, IReadOnlyDictionary<char, char> key)
+        {
             char[] ciphertext = new char[plaintext.Length];
 
             for (int i = 0; i < plaintext.Length; i++)
@@ -20,20 +31,6 @@ namespace Science.Cryptography.Ciphers
             }
 
             return new String(ciphertext);
-        }
-
-        public string Decrypt(string ciphertext, IReadOnlyDictionary<char, char> key)
-        {
-            char[] plaintext = new char[ciphertext.Length];
-
-            var decryptionKey = key.Swap();
-
-            for (int i = 0; i < ciphertext.Length; i++)
-            {
-                plaintext[i] = decryptionKey.GetOrSame(ciphertext[i]).ToSameCaseAs(ciphertext[i]);
-            }
-
-            return new String(plaintext);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Science.Cryptography.Ciphers
         {
             if (keyedCipher == null)
                 throw new ArgumentNullException(nameof(keyedCipher));
-
+            
             return new PinnedKeyCipher<TKey>(keyedCipher, key);
         }
 

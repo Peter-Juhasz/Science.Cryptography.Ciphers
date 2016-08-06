@@ -24,6 +24,9 @@ namespace Science.Cryptography.Ciphers
 
         protected string Crypt(string text)
         {
+            if (text == null)
+                throw new ArgumentNullException(nameof(text));
+
             char[] result = new char[text.Length];
 
             for (int i = 0; i < text.Length; i++)

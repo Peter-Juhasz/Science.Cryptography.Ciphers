@@ -9,7 +9,18 @@ namespace Science.Cryptography.Ciphers
     [Export("ROT-47", typeof(ICipher))]
     public class Rot47Cipher : ICipher
     {
-        protected string Crypt(string text)
+        public string Encrypt(string plaintext)
+        {
+            return Crypt(plaintext);
+        }
+
+        public string Decrypt(string ciphertext)
+        {
+            return Crypt(ciphertext);
+        }
+
+
+        protected static string Crypt(string text)
         {
             char[] result = new char[text.Length];
 
@@ -32,16 +43,6 @@ namespace Science.Cryptography.Ciphers
             }
 
             return new String(result);
-        }
-
-        public string Encrypt(string plaintext)
-        {
-            return this.Crypt(plaintext);
-        }
-
-        public string Decrypt(string ciphertext)
-        {
-            return this.Crypt(ciphertext);
         }
     }
 }

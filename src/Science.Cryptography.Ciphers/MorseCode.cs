@@ -53,7 +53,7 @@ namespace Science.Cryptography.Ciphers
         public string Encrypt(string plaintext)
         {
             return String.Join(" ",
-                plaintext.AsEnumerable()
+                plaintext
                 .Select(
                     ch => this.Dictionary.ContainsKey(Char.ToUpper(ch)) ? this.Dictionary[Char.ToUpper(ch)] : ch.ToString()
                 )
@@ -105,7 +105,7 @@ namespace Science.Cryptography.Ciphers
 
         public bool Recognize(string ciphertext)
         {
-            return ciphertext.AsEnumerable()
+            return ciphertext
                 .Where(c => !Char.IsWhiteSpace(c))
                 .MostOfAll(c => c == '.' || c == '-')
             ;

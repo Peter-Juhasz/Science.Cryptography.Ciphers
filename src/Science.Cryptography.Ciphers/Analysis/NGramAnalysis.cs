@@ -19,6 +19,9 @@ namespace Science.Cryptography.Ciphers.Analysis
         /// <example>ABCD to 2-grams: AB, BC, CD</example>
         public static IEnumerable<string> ReadNGrams(this string text, int n)
         {
+            if (text == null)
+                throw new ArgumentNullException(nameof(text));
+
             if (n <= 0)
                 throw new ArgumentOutOfRangeException(nameof(n));
 

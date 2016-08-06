@@ -10,7 +10,7 @@ namespace Science.Cryptography.Ciphers
     [Export("Sandorf", typeof(IKeyedCipher<>))]
     public class SandorfCipher : IKeyedCipher<bool[,]>
     {
-        private const char PaddingChar = '#';
+        public char PaddingChar { get; set; } = '#';
 
 
         public string Encrypt(string plaintext, bool[,] key)
@@ -24,10 +24,10 @@ namespace Science.Cryptography.Ciphers
 
             // pad to a full square
             if (plaintext.Length % sizeSquared != 0)
-                plaintext = plaintext.PadRight(plaintext.Length + (sizeSquared - plaintext.Length % sizeSquared), PaddingChar);
+                plaintext = plaintext.PadRight(plaintext.Length + (sizeSquared - plaintext.Length % sizeSquared), this.PaddingChar);
 
             // reverse
-            plaintext = new String(plaintext.AsEnumerable().Reverse().ToArray());
+            plaintext = new String(plaintext.Reverse().ToArray());
 
             // build code groups
             char[][,] groups = new char[plaintext.Length / sizeSquared][,];
@@ -113,7 +113,7 @@ namespace Science.Cryptography.Ciphers
                 currentGroupIndex++;
             }
 
-            return new String(result).TrimEnd(PaddingChar);
+            return new String(result).TrimEnd(this.PaddingChar);
         }
     }
 }
