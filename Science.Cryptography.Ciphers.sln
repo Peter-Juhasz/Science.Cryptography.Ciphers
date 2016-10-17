@@ -14,7 +14,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Science.Cryptography.Cipher
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Science.Cryptography.Ciphers.Streaming", "src\Science.Cryptography.Ciphers.Streaming\Science.Cryptography.Ciphers.Streaming.xproj", "{DDA1E675-B0AA-4E8A-B8EF-3948D2EDEF63}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Science.Cryptography.Ciphers.Analysis", "Science.Cryptography.Ciphers.Analysis\Science.Cryptography.Ciphers.Analysis.xproj", "{5E23B061-CFB7-4761-9C37-99DF01435F25}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Science.Cryptography.Ciphers.Analysis", "src\Science.Cryptography.Ciphers.Analysis\Science.Cryptography.Ciphers.Analysis.xproj", "{5E23B061-CFB7-4761-9C37-99DF01435F25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
