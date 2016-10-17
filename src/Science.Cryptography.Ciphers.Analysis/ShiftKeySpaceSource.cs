@@ -5,7 +5,7 @@ using System.Linq;
 namespace Science.Cryptography.Ciphers.Analysis
 {
     [Export("Shift", typeof(IKeySpaceSource<int>))]
-    public class ShiftKeySpaceSource : IKeySpaceSource<int>
+    public sealed class ShiftKeySpaceSource : IKeySpaceSource<int>
     {
         public ShiftKeySpaceSource(string charset = Charsets.English)
         {

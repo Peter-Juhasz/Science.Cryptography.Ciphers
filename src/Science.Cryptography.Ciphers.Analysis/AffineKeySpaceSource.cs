@@ -5,7 +5,7 @@ using System.Linq;
 namespace Science.Cryptography.Ciphers.Analysis
 {
     [Export("Affine", typeof(IKeySpaceSource<AffineKey>))]
-    public class AffineKeySpaceSource : IKeySpaceSource<AffineKey>
+    public sealed class AffineKeySpaceSource : IKeySpaceSource<AffineKey>
     {
         public AffineKeySpaceSource(string charset = Charsets.English)
         {

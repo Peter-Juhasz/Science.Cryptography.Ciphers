@@ -54,7 +54,7 @@ namespace Science.Cryptography.Ciphers
             return -1;
         }
 
-        public static IEnumerable<string> Split(this string source, int chunkSize)
+        internal static IEnumerable<string> Split(this string source, int chunkSize)
         {
             int offset = 0;
 
@@ -67,7 +67,7 @@ namespace Science.Cryptography.Ciphers
         }
     }
 
-    public static class ArrayExtensions
+    internal static class ArrayExtensions
     {
         public static T[,] RotateClockwise<T>(this T[,] source)
         {
