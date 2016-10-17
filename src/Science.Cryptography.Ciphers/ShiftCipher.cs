@@ -24,17 +24,17 @@ namespace Science.Cryptography.Ciphers
         /// <summary>
         /// Creates Julius Caesar's cipher.
         /// </summary>
-        public static ICipher CreateCaesar()
+        public static ICipher CreateCaesar(string charset = Charsets.English)
         {
-            return new ShiftCipher().Pin(WellKnownShiftCipherKeys.Caesar);
+            return new ShiftCipher(charset).Pin(WellKnownShiftCipherKeys.Caesar);
         }
 
         /// <summary>
         /// Creates a ROT-13 cipher.
         /// </summary>
-        public static ICipher CreateRot13()
+        public static ICipher CreateRot13(string charset = Charsets.English)
         {
-            return new ShiftCipher().Pin(WellKnownShiftCipherKeys.Rot13);
+            return new ShiftCipher(charset).Pin(WellKnownShiftCipherKeys.Rot13);
         }
 
 

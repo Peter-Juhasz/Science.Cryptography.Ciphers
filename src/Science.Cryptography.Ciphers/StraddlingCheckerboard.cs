@@ -6,38 +6,46 @@ namespace Science.Cryptography.Ciphers
     /// <summary>
     /// Contains methods for creating a manipulating straddling checkerboards.
     /// </summary>
-    public static class StraddlingCheckerboard
+    public class StraddlingCheckerboard
     {
+        private StraddlingCheckerboard(char[,] buffer)
+        {
+            _buffer = buffer;
+        }
+
         private const int Width = 10, Height = 3;
 
+        private readonly char[,] _buffer;
+
         /// <summary>
-        /// Creates a straddling checkerboard from a char array.
+        /// Gets a <see cref="char"/> at a specified position.
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="row">The row of the checkerboard.</param>
+        /// <param name="column">The column of the checkerboard.</param>
         /// <returns></returns>
-        public static char[,] CreateFromCharArray(char[] source)
+        public char this[int row, int column]
         {
-            char[,] result = new char[Width, Height];
-
-            for (int i = 0; i < source.Length; i++)
-                result[i % Width, i / Height] = source[i];
-
-            return result;
+            get { return _buffer[column, row]; }
         }
 
         /// <summary>
-        /// Creates a straddling checkerboard from a string.
+        /// Creates a straddling checkerboard from a <see cref="char[]"/>.
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static char[,] CreateFromString(string source)
+        public static StraddlingCheckerboard CreateFromCharArray(char[] source)
         {
-            char[,] result = new char[Width, Height];
+            return new StraddlingCheckerboard(CreateBufferFromCharArray(source));
+        }
 
-            for (int i = 0; i < source.Length; i++)
-                result[i % Width, i / Height] = source[i];
-
-            return result;
+        /// <summary>
+        /// Creates a straddling checkerboard from a <see cref="string"/>.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static StraddlingCheckerboard CreateFromString(string source)
+        {
+            return new StraddlingCheckerboard(CreateBufferFromString(source));
         }
 
         /// <summary>
@@ -46,9 +54,47 @@ namespace Science.Cryptography.Ciphers
         /// <param name="keyword"></param>
         /// <param name="charset"></param>
         /// <returns></returns>
-        public static char[,] CreateFromKeyword(string keyword, string charset)
+        public static StraddlingCheckerboard CreateFromKeyword(string keyword, string charset = Charsets.English)
         {
-            return CreateFromCharArray(
+            return new StraddlingCheckerboard(CreateBufferFromKeyword(keyword, charset));
+        }
+        
+
+        internal static char[,] CreateBufferFromCharArray(char[] source)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            char[,] result = new char[Width, Height];
+            
+            for (int i = 0; i < source.Length; i++)
+                result[i % Width, i / Height] = source[i];
+
+            return result;
+        }
+
+        internal static char[,] CreateBufferFromString(string source)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            char[,] result = new char[Width, Height];
+
+            for (int i = 0; i < source.Length; i++)
+                result[i % Width, i / Height] = source[i];
+
+            return result;
+        }
+
+        internal static char[,] CreateBufferFromKeyword(string keyword, string charset = Charsets.English)
+        {
+            if (keyword == null)
+                throw new ArgumentNullException(nameof(keyword));
+
+            if (charset == null)
+                throw new ArgumentNullException(nameof(charset));
+
+            return CreateBufferFromCharArray(
                 keyword.Select(Char.ToUpper)
                     .Concat(charset)
                     .Distinct()
@@ -56,27 +102,14 @@ namespace Science.Cryptography.Ciphers
             );
         }
 
+
         /// <summary>
-        /// Creates a straddling checkerboard from a keyword, based on the default charset.
+        /// Returns a copy of the buffer behind the <see cref="StraddlingCheckerboard"/>.
         /// </summary>
-        /// <param name="keyword"></param>
         /// <returns></returns>
-        public static char[,] CreateFromKeyword(string keyword)
+        public char[,] ToCharArray()
         {
-            return CreateFromKeyword(keyword, Charsets.English);
-        }
-
-        public static int FindOffsets(char[,] straddlingCheckerboard, char ch)
-        {
-            int width = straddlingCheckerboard.GetLength(0),
-                height = straddlingCheckerboard.GetLength(1);
-
-            for (int x = 0; x < width; x++)
-            for (int y = 0; y < height; y++)
-                if (straddlingCheckerboard[x, y] == ch)
-                    return y * 10 + x;
-
-            return -1;
+            return (char[,])_buffer.Clone();
         }
     }
 }

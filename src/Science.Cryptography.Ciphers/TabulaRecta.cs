@@ -7,7 +7,7 @@ namespace Science.Cryptography.Ciphers
     /// </summary>
     public class TabulaRecta
     {
-        public TabulaRecta(string charset)
+        public TabulaRecta(string charset = Charsets.English)
         {
             if (charset == null)
                 throw new ArgumentNullException(nameof(charset));
@@ -16,7 +16,7 @@ namespace Science.Cryptography.Ciphers
         }
 
 
-        public static readonly TabulaRecta Regular = new TabulaRecta(Charsets.English);
+        public static readonly TabulaRecta Regular = new TabulaRecta();
 
 
         public string this[int index]

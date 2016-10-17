@@ -153,7 +153,7 @@ namespace Science.Cryptography.Ciphers.Tests
         {
             SandorfCipher cipher = new SandorfCipher();
 
-            bool[,] key = new bool[,] {
+            bool[,] key = {
                 { false, false, false, false, false, false, },
                 { true, false, false, true, false, false },
                 { false, false, true, false, false, false },
@@ -174,7 +174,7 @@ namespace Science.Cryptography.Ciphers.Tests
         {
             TwoSquareCipher cipher = new TwoSquareCipher();
 
-            char[][,] key = new char[2][,] {
+            char[][,] key = {
                 PolybiusSquare.CreateFromKeyword("EXAMPLE", Charsets.EnglishWithoutQ),
                 PolybiusSquare.CreateFromKeyword("KEYWORD", Charsets.EnglishWithoutQ)
             };
@@ -191,7 +191,7 @@ namespace Science.Cryptography.Ciphers.Tests
         {
             FourSquareCipher cipher = new FourSquareCipher();
 
-            char[,][,] key = new char[2, 2][,] {
+            char[,][,] key = {
                 { PolybiusSquare.CreateFromString(Charsets.EnglishWithoutQ), PolybiusSquare.CreateFromKeyword("KEYWORD", Charsets.EnglishWithoutQ) },
                 { PolybiusSquare.CreateFromKeyword("EXAMPLE", Charsets.EnglishWithoutQ), PolybiusSquare.CreateFromString(Charsets.EnglishWithoutQ) }
             };

@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Science.Cryptography.Ciphers", "src\Science.Cryptography.Ciphers\Science.Cryptography.Ciphers.xproj", "{92E290DE-12AA-456B-8970-FD6EBC9C4C94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Science.Cryptography.Ciphers.Tests", "test\Science.Cryptography.Ciphers.Tests\Science.Cryptography.Ciphers.Tests.csproj", "{AB786420-1698-40CA-94EE-FCAD61CC9C01}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Science.Cryptography.Ciphers.Tests", "test\Science.Cryptography.Ciphers.Tests\Science.Cryptography.Ciphers.Tests.xproj", "{AB786420-1698-40CA-94EE-FCAD61CC9C01}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Science.Cryptography.Ciphers.Streaming", "src\Science.Cryptography.Ciphers.Streaming\Science.Cryptography.Ciphers.Streaming.xproj", "{DDA1E675-B0AA-4E8A-B8EF-3948D2EDEF63}"
 EndProject
