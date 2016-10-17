@@ -5,13 +5,11 @@ using System.Text;
 
 namespace Science.Cryptography.Ciphers
 {
-    using Analysis;
-
     /// <summary>
     /// Represents the Tap Code cipher.
     /// </summary>
     [Export("Tap Code", typeof(ICipher))]
-    public class TapCode : ICipher, ISupportsRecognition
+    public class TapCode : ICipher
     {
         protected readonly char[,] CipherData =
         {
@@ -68,19 +66,7 @@ namespace Science.Cryptography.Ciphers
 
             return result.ToString();
         }
-
-
-        public bool Recognize(string ciphertext)
-        {
-            if (ciphertext == null)
-                throw new ArgumentNullException(nameof(ciphertext));
-
-            return ciphertext
-                .Where(c => !Char.IsWhiteSpace(c))
-                .MostOfAll(c => c == '.')
-            ;
-        }
-
+        
 
         private string LetterToCode(char ch)
         {

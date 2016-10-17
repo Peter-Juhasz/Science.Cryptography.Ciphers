@@ -6,13 +6,11 @@ using System.Text;
 
 namespace Science.Cryptography.Ciphers
 {
-    using Analysis;
-
     /// <summary>
     /// Represents Francis Bacon's cipher.
     /// </summary>
     [Export("Bacon", typeof(ICipher))]
-    public class BaconCipher : ICipher, ISupportsRecognition
+    public class BaconCipher : ICipher
     {
         public BaconCipher()
         {
@@ -92,15 +90,6 @@ namespace Science.Cryptography.Ciphers
                 result.Append(this.Dictionary.First(kvp => kvp.Value.Equals(window.ToString(), StringComparison.OrdinalIgnoreCase)).Key);
 
             return result.ToString();
-        }
-
-
-        public bool Recognize(string ciphertext)
-        {
-            return ciphertext
-                .Where(Char.IsLetterOrDigit)
-                .MostOfAll(c => c == 'A' || c == 'B')
-            ;
         }
     }
 }

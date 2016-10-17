@@ -6,13 +6,11 @@ using System.Text;
 
 namespace Science.Cryptography.Ciphers
 {
-    using Analysis;
-
     /// <summary>
     /// Represents the Morse Code cipher.
     [Export("Morse Code", typeof(ICipher))]
     /// </summary>
-    public class MorseCode : ICipher, ISupportsRecognition
+    public class MorseCode : ICipher
     {
         public MorseCode()
         {
@@ -100,15 +98,6 @@ namespace Science.Cryptography.Ciphers
                 result.Append(decryptionDictionary[window.ToString()]);
 
             return result.ToString();
-        }
-
-
-        public bool Recognize(string ciphertext)
-        {
-            return ciphertext
-                .Where(c => !Char.IsWhiteSpace(c))
-                .MostOfAll(c => c == '.' || c == '-')
-            ;
         }
     }
 }
