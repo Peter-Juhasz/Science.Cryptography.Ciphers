@@ -19,7 +19,7 @@ IEnumerable<char> ciphertextStream = cipher.Encrypt(plaintextStream);
 Affine, Atbash, Monoalphabetic Substitution, Multiplicative, ROT-47, Running Key, Shift (Caesar, ROT-13), Vigenère
 
 ### Key space enumeration
-Affine, Shift
+Affine, Shift, Wordlist
 
 ## Tools
 ```C#
