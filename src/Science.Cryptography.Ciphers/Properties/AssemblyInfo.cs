@@ -1,6 +1,7 @@
 ﻿using System.Resources;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -22,3 +23,6 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("92e290de-12aa-456b-8970-fd6ebc9c4c94")]
+
+[assembly: InternalsVisibleTo("System.Cryptography.Ciphers.Tests")]
+[assembly: InternalsVisibleTo("System.Cryptography.Ciphers.Analysis")]
