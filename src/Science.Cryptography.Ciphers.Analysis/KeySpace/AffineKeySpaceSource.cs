@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Composition;
 using System.Linq;
 
@@ -9,6 +10,9 @@ namespace Science.Cryptography.Ciphers.Analysis
     {
         public AffineKeySpaceSource(string charset = Charsets.English)
         {
+            if (charset == null)
+                throw new ArgumentNullException(nameof(charset));
+
             this.Charset = charset;
         }
 

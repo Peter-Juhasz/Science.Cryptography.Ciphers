@@ -9,6 +9,6 @@
         /// Gets or sets the charset used by the algorithm.
         /// </summary>
         /// <returns></returns>
-        string Charset { get; set; }
+        string Charset { get; }
     }
 }

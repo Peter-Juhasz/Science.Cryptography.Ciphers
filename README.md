@@ -23,6 +23,15 @@ Affine, Shift, Wordlist
 
 ## Tools
 ```C#
+TabulaRecta tc = new TabulaRecta(Alphabets.English);
+```
+
+* Polybius Square
+* Straddling Checkerboard
+* Tabula Recta
+
+## Analysis
+```C#
 IReadOnlyDictionary<int, string> result = CaesarBruteforce.Analyze(ciphertext);
 ```
 
@@ -30,13 +39,18 @@ IReadOnlyDictionary<int, string> result = CaesarBruteforce.Analyze(ciphertext);
 * Entropy
 * Frequency Analysis
 * N-Gram Analysis
-* Polybius Square
-* Straddling Checkerboard
-* Tabula Recta
 
 ## Reference data
-* Relative frequencies of letters (English)
-* Relative frequencies of first letters of words (English)
+* English
+  * Relative frequencies of letters
+  * Relative frequencies of first letters of words
+
+## Tutorials
+* Encrypt and decrypt text
+* Determine the cipher method for a given ciphertext
+* How to choose between speculative plaintext candidates
+* Decrypt ciphertext encrypted with an unkeyed cipher
+* Find the key for a given ciphertext
 
 ## Accepting PRs
 * ADFGVX

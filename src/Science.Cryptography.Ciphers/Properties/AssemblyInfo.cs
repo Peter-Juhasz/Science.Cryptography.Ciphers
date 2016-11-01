@@ -13,7 +13,6 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyProduct("Science.Cryptography.Ciphers")]
 [assembly: AssemblyCopyright("Copyright © Péter Juhász 2015")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("en-us")]
 [assembly: NeutralResourcesLanguage("en")]
 
 // Setting ComVisible to false makes the types in this assembly not visible

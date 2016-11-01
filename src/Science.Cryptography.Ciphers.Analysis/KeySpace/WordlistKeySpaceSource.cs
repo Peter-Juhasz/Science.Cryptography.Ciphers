@@ -14,7 +14,7 @@ namespace Science.Cryptography.Ciphers.Analysis
         public WordlistKeySpaceSource(string path)
         {
             if (path == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(path));
 
             _words = File.ReadAllLines(path);
         }
