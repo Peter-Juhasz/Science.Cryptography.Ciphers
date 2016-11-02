@@ -2,7 +2,7 @@
 
 namespace Science.Cryptography.Ciphers.Analysis
 {
-    public interface ILanguageReferenceData
+    public interface ILanguageStatisticalInfo
     {
         IReadOnlyDictionary<char, double> RelativeFrequenciesOfLetters { get; }
 

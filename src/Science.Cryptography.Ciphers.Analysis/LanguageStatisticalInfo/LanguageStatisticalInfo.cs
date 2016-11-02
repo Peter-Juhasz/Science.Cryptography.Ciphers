@@ -2,9 +2,9 @@
 
 namespace Science.Cryptography.Ciphers.Analysis
 {
-    internal sealed class LanguageReferenceData : ILanguageReferenceData
+    internal sealed class LanguageStatisticalInfo : ILanguageStatisticalInfo
     {
-        public LanguageReferenceData(
+        public LanguageStatisticalInfo(
             IReadOnlyDictionary<char, double> relativeFrequenciesOfLetters,
             IReadOnlyDictionary<char, double> relativeFrequenciesOfFirstLettersOfWords
         )

@@ -2,12 +2,9 @@
 
 namespace Science.Cryptography.Ciphers.Analysis
 {
-    /// <summary>
-    /// Contains reference data for languages.
-    /// </summary>
     public static partial class Languages
     {
-        public static readonly ILanguageReferenceData English = new LanguageReferenceData(
+        public static readonly ILanguageStatisticalInfo English = new LanguageStatisticalInfo(
             relativeFrequenciesOfLetters: new Dictionary<char, double>()
             {
                 { 'a', 0.08167 },

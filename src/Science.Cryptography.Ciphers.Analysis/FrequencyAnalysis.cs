@@ -24,5 +24,24 @@ namespace Science.Cryptography.Ciphers.Analysis
                 .ToDictionary(g => g.Key, g => g.Count())
             ;
         }
+
+        
+        public static double Compare(IReadOnlyDictionary<char, double> reference, IReadOnlyDictionary<char, double> right)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Converts absolute frequencies to relative frequencies.
+        /// </summary>
+        /// <param name="frequencies"></param>
+        /// <returns></returns>
+        public static IReadOnlyDictionary<char, double> AsRelativeFrequencies(this IReadOnlyDictionary<char, int> frequencies)
+        {
+            return frequencies.ToDictionary(
+                kv => kv.Key,
+                kv => (double)kv.Value / frequencies.Sum(f => f.Value)
+            );
+        }
     }
 }
