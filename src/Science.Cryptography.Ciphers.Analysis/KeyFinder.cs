@@ -6,7 +6,7 @@ namespace Science.Cryptography.Ciphers.Analysis
 {
     public static class KeyFinder
     {
-        public static KeyFinderResult Find<T>(
+        public static KeyFinderResult FindBest<T>(
             string ciphertext,
             IKeyedCipher<T> cipher,
             IKeySpaceSource<T> keySpace,

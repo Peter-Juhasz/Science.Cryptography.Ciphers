@@ -46,11 +46,11 @@ IReadOnlyDictionary<int, string> result = CaesarBruteforce.Analyze(ciphertext);
   * Relative frequencies of first letters of words
 
 ## Tutorials
-* [[Encrypt and decrypt text]]
-* [[Determine the cipher method for a given ciphertext]]
-* [[How to choose between speculative plaintext candidates]]
-* [[Decrypt ciphertext encrypted with an unkeyed cipher]]
-* [[Find the key for a given ciphertext]]
+* [Encrypt and decrypt text](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/wiki/Encrypt-and-decrypt-text)
+* [Determine the cipher method for a given ciphertext](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/wiki/Determine-the-cipher-method-for-a-given-ciphertext)
+* [How to choose between speculative plaintext candidates](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/wiki/How-to-choose-between-speculative-plaintext-candidates)
+* [Decrypt ciphertext encrypted with an unkeyed cipher](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/wiki/Decrypt-ciphertext-encrypted-with-an-unkeyed-cipher)
+* [Find the key for a given ciphertext](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/wiki/Find-the-key-for-a-given-ciphertext)
 
 ## Accepting PRs
 * ADFGVX
