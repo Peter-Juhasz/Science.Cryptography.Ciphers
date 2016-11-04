@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Science.Cryptography.Ciphers.Analysis
@@ -8,7 +9,7 @@ namespace Science.Cryptography.Ciphers.Analysis
     /// </summary>
     public sealed class CharsetSpeculativePlaintextRanker : ISpeculativePlaintextRanker
     {
-        public CharsetSpeculativePlaintextRanker(string charset = Charsets.English)
+        public CharsetSpeculativePlaintextRanker(IReadOnlyCollection<char> charset)
         {
             if (charset == null)
                 throw new ArgumentNullException(nameof(charset));
@@ -16,7 +17,7 @@ namespace Science.Cryptography.Ciphers.Analysis
             _charset = charset;
         }
 
-        private readonly string _charset;
+        private readonly IReadOnlyCollection<char> _charset;
 
 
         /// <summary>

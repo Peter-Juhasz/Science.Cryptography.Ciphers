@@ -9,15 +9,17 @@ namespace Science.Cryptography.Ciphers.Analysis
     /// </summary>
     public sealed class WordlistSpeculativePlaintextRanker : ISpeculativePlaintextRanker
     {
-        public WordlistSpeculativePlaintextRanker(IReadOnlyCollection<string> wordlist)
+        public WordlistSpeculativePlaintextRanker(IReadOnlyCollection<string> wordlist, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
             if (wordlist == null)
                 throw new ArgumentNullException(nameof(wordlist));
 
-            _orderedWordlist = wordlist.OrderByDescending(w => w).ToList();
+            _orderedWordlist = wordlist.OrderByDescending(w => w.Length).ToList();
+            _comparison = comparison;
         }
 
         private readonly IReadOnlyList<string> _orderedWordlist;
+        private readonly StringComparison _comparison;
 
 
         /// <summary>
@@ -27,7 +29,7 @@ namespace Science.Cryptography.Ciphers.Analysis
         /// <returns></returns>
         public double Classify(string speculativePlaintext)
         {
-            return ((double)speculativePlaintext.Length - _orderedWordlist.Aggregate(speculativePlaintext, (r, n) => r.Replace(n, String.Empty)).Length) / speculativePlaintext.Length;
+            return ((double)speculativePlaintext.Length - _orderedWordlist.Aggregate(speculativePlaintext, (r, n) => r.Replace(n, String.Empty, _comparison)).Length) / speculativePlaintext.Length;
         }
     }
 }

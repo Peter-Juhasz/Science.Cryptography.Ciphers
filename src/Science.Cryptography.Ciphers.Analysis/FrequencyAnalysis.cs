@@ -26,9 +26,18 @@ namespace Science.Cryptography.Ciphers.Analysis
         }
 
         
-        public static double Compare(IReadOnlyDictionary<char, double> reference, IReadOnlyDictionary<char, double> right)
+        /// <summary>
+        /// Compares two set of relative frequencies.
+        /// </summary>
+        /// <param name="reference"></param>
+        /// <param name="subject"></param>
+        /// <returns></returns>
+        public static double Compare(IReadOnlyDictionary<char, double> reference, IReadOnlyDictionary<char, double> subject)
         {
-            throw new NotImplementedException();
+            return 1 - (
+                from r in reference
+                select Math.Abs(r.Value - (subject.ContainsKey(r.Key) ? subject[r.Key] : 0))
+            ).Sum();
         }
 
         /// <summary>
