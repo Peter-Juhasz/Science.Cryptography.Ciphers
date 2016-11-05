@@ -11,13 +11,16 @@ namespace Science.Cryptography.Ciphers.Analysis
     [Export("Wordlist", typeof(IKeySpaceSource<string>))]
     public sealed class WordlistKeySpaceSource : IKeySpaceSource<string>
     {
-        public WordlistKeySpaceSource(string path)
+        public WordlistKeySpaceSource(IReadOnlyList<string> words)
         {
-            if (path == null)
-                throw new ArgumentNullException(nameof(path));
+            if (words == null)
+                throw new ArgumentNullException(nameof(words));
 
-            _words = File.ReadAllLines(path);
+            _words = words;
         }
+        public WordlistKeySpaceSource(string path)
+            : this(File.ReadAllLines(path))
+        { }
 
         private readonly IReadOnlyList<string> _words;
 

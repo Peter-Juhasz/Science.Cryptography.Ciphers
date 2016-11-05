@@ -5,7 +5,7 @@ namespace Science.Cryptography.Ciphers.Analysis
     public static partial class Languages
     {
         public static readonly ILanguageStatisticalInfo English = new LanguageStatisticalInfo(
-            relativeFrequenciesOfLetters: new Dictionary<char, double>()
+            relativeFrequenciesOfLetters: new RelativeCharacterFrequencies(new Dictionary<char, double>()
             {
                 { 'a', 0.08167 },
                 { 'b', 0.01492 },
@@ -33,8 +33,8 @@ namespace Science.Cryptography.Ciphers.Analysis
                 { 'x', 0.00150 },
                 { 'y', 0.01975 },
                 { 'z', 0.00074 },
-            },
-            relativeFrequenciesOfFirstLettersOfWords: new Dictionary<char, double>()
+            }),
+            relativeFrequenciesOfFirstLettersOfWords: new RelativeCharacterFrequencies(new Dictionary<char, double>()
             {
                 { 'a', 0.11602 },
                 { 'b', 0.04702 },
@@ -62,7 +62,7 @@ namespace Science.Cryptography.Ciphers.Analysis
                 { 'x', 0.00017 },
                 { 'y', 0.01620 },
                 { 'z', 0.00034 },
-            }
+            })
         );
     }
 }

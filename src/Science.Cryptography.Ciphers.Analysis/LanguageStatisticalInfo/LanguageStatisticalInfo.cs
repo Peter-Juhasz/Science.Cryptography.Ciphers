@@ -1,20 +1,18 @@
-﻿using System.Collections.Generic;
-
-namespace Science.Cryptography.Ciphers.Analysis
+﻿namespace Science.Cryptography.Ciphers.Analysis
 {
     internal sealed class LanguageStatisticalInfo : ILanguageStatisticalInfo
     {
         public LanguageStatisticalInfo(
-            IReadOnlyDictionary<char, double> relativeFrequenciesOfLetters,
-            IReadOnlyDictionary<char, double> relativeFrequenciesOfFirstLettersOfWords
+            RelativeCharacterFrequencies relativeFrequenciesOfLetters,
+            RelativeCharacterFrequencies relativeFrequenciesOfFirstLettersOfWords
         )
         {
             this.RelativeFrequenciesOfLetters = relativeFrequenciesOfLetters;
             this.RelativeFrequenciesOfFirstLettersOfWords = relativeFrequenciesOfFirstLettersOfWords;
         }
 
-        public IReadOnlyDictionary<char, double> RelativeFrequenciesOfLetters { get; private set; }
+        public RelativeCharacterFrequencies RelativeFrequenciesOfLetters { get; private set; }
 
-        public IReadOnlyDictionary<char, double> RelativeFrequenciesOfFirstLettersOfWords { get; private set; }
+        public RelativeCharacterFrequencies RelativeFrequenciesOfFirstLettersOfWords { get; private set; }
     }
 }

@@ -17,6 +17,7 @@ namespace Science.Cryptography.Ciphers.Analysis.Tests
                 new SubstringSpeculativePlaintextRanker("secret")
             );
 
+            Assert.AreEqual(6, result.Key);
             Assert.AreEqual(1.0, result.Rank);
             Assert.AreEqual("The secret is Caesar.", result.SpeculativePlaintext);
         }

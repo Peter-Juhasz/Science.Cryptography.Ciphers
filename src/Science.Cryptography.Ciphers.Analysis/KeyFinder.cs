@@ -6,12 +6,12 @@ namespace Science.Cryptography.Ciphers.Analysis
 {
     public static class KeyFinder
     {
-        public static KeyFinderResult FindBest<T>(
+        public static KeyFinderResult<TKey> FindBest<TKey>(
             string ciphertext,
-            IKeyedCipher<T> cipher,
-            IKeySpaceSource<T> keySpace,
+            IKeyedCipher<TKey> cipher,
+            IKeySpaceSource<TKey> keySpace,
             ISpeculativePlaintextRanker speculativePlaintextRanker,
-            Action<KeyFinderResult> onBetterResultFound = null,
+            Action<KeyFinderResult<TKey>> onBetterResultFound = null,
             CancellationToken cancellationToken = default(CancellationToken)
         )
         {
@@ -28,7 +28,7 @@ namespace Science.Cryptography.Ciphers.Analysis
                 throw new ArgumentNullException(nameof(speculativePlaintextRanker));
 
 
-            KeyFinderResult best = null;
+            KeyFinderResult<TKey> best = null;
             object syncRoot = new object();
 
             Parallel.ForEach(
@@ -45,7 +45,7 @@ namespace Science.Cryptography.Ciphers.Analysis
                         {
                             if (rank > (best?.Rank ?? 0))
                             {
-                                best = new KeyFinderResult(speculativePlaintext, rank);
+                                best = new KeyFinderResult<TKey>(key, speculativePlaintext, rank);
 
                                 onBetterResultFound?.Invoke(best);
                             }
@@ -57,12 +57,12 @@ namespace Science.Cryptography.Ciphers.Analysis
             return best;
         }
 
-        public static void FindAboveThreshold<T>(
+        public static void FindAboveThreshold<TKey>(
             string ciphertext,
-            IKeyedCipher<T> cipher,
-            IKeySpaceSource<T> keySpace,
+            IKeyedCipher<TKey> cipher,
+            IKeySpaceSource<TKey> keySpace,
             ISpeculativePlaintextRanker speculativePlaintextRanker,
-            Action<KeyFinderResult> onImmediateResultFound,
+            Action<KeyFinderResult<TKey>> onImmediateResultFound,
             double threshold = 0.9,
             CancellationToken cancellationToken = default(CancellationToken)
         )
@@ -95,7 +95,7 @@ namespace Science.Cryptography.Ciphers.Analysis
                     double rank = speculativePlaintextRanker.Classify(speculativePlaintext);
 
                     if (rank >= threshold)
-                        onImmediateResultFound(new KeyFinderResult(speculativePlaintext, rank));
+                        onImmediateResultFound(new KeyFinderResult<TKey>(key, speculativePlaintext, rank));
                 }
             );
         }

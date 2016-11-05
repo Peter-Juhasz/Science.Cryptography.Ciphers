@@ -15,6 +15,9 @@ namespace Science.Cryptography.Ciphers.Analysis
 
             _relativeFrequencies = relativeFrequencies;
         }
+        public RelativeLetterFrequenciesSpeculativePlaintextRanker(ILanguageStatisticalInfo language)
+            : this(language.RelativeFrequenciesOfLetters)
+        { }
 
         private readonly IReadOnlyDictionary<char, double> _relativeFrequencies;
 

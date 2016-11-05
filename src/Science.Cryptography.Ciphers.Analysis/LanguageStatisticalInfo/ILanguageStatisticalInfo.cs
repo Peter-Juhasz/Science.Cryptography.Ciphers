@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace Science.Cryptography.Ciphers.Analysis
+﻿namespace Science.Cryptography.Ciphers.Analysis
 {
     public interface ILanguageStatisticalInfo
     {
-        IReadOnlyDictionary<char, double> RelativeFrequenciesOfLetters { get; }
+        RelativeCharacterFrequencies RelativeFrequenciesOfLetters { get; }
 
-        IReadOnlyDictionary<char, double> RelativeFrequenciesOfFirstLettersOfWords { get; }
+        RelativeCharacterFrequencies RelativeFrequenciesOfFirstLettersOfWords { get; }
     }
 }

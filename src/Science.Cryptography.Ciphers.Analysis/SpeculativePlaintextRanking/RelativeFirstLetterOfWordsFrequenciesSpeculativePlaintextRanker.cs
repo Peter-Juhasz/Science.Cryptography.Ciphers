@@ -15,6 +15,10 @@ namespace Science.Cryptography.Ciphers.Analysis
 
             _relativeFrequencies = relativeFrequencies;
         }
+        public RelativeFirstLetterOfWordsFrequenciesSpeculativePlaintextRanker(ILanguageStatisticalInfo language)
+            : this(language.RelativeFrequenciesOfFirstLettersOfWords)
+        { }
+
 
         private readonly IReadOnlyDictionary<char, double> _relativeFrequencies;
 
@@ -30,7 +34,7 @@ namespace Science.Cryptography.Ciphers.Analysis
         }
 
 
-        internal static IReadOnlyDictionary<char, int> Analyze(string text)
+        internal static AbsoluteCharacterFrequencies Analyze(string text)
         {
             Dictionary<char, int> frequencies = new Dictionary<char, int>();
 
@@ -44,13 +48,13 @@ namespace Science.Cryptography.Ciphers.Analysis
                 if (Char.IsLetter(current) && !Char.IsLetter(text[i - 1]))
                 {
                     if (frequencies.ContainsKey(current))
-                        frequencies[current] = 1;
-                    else
                         frequencies[current]++;
+                    else
+                        frequencies[current] = 1;
                 }
             }
 
-            return frequencies;
+            return new AbsoluteCharacterFrequencies(frequencies);
         }
     }
 }
