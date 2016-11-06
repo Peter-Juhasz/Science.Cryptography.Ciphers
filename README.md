@@ -38,6 +38,7 @@ IReadOnlyDictionary<int, string> result = CaesarBruteforce.Analyze(ciphertext);
 * Caesar Bruteforce
 * Entropy
 * Frequency Analysis
+* Kasiski Examination
 * N-Gram Analysis
 
 ## Reference data
