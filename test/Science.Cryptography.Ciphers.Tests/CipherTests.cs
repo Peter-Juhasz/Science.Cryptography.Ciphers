@@ -201,5 +201,45 @@ namespace Science.Cryptography.Ciphers.Tests
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
         }
+
+        [TestMethod]
+        public void Trithemius()
+        {
+            ICipher cipher = new TrithemiusCipher();
+            
+            const string plaintext = "The quick brown fox jumps over the lazy dog.";
+            const string ciphertext = "Tig tynir jayhz scm zleim jrbp shf nddd jvo.";
+
+            Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
+            Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
+        }
+
+        [TestMethod]
+        public void Gronsfeld()
+        {
+            GronsfeldCipher cipher = new GronsfeldCipher();
+
+            int[] key = { 3, 2, 6 };
+
+            const string plaintext = "Geheimnis";
+            const string ciphertext = "Jgnhksqky";
+
+            Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
+            Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+        }
+
+        [TestMethod]
+        public void VariantBeaufort()
+        {
+            VariantBeaufortCipher cipher = new VariantBeaufortCipher();
+
+            const string key = "CODE";
+
+            const string plaintext = "The quick brown fox jumps over the lazy dog.";
+            const string ciphertext = "Rtb msuzg zdlsl rlt hgjlq asap fea jmwu bad.";
+
+            Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
+            Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+        }
     }
 }

@@ -10,11 +10,22 @@ namespace Science.Cryptography.Ciphers
     [Export("Sandorf", typeof(IKeyedCipher<>))]
     public class SandorfCipher : IKeyedCipher<bool[,]>
     {
-        public char PaddingChar { get; set; } = '#';
+        public SandorfCipher(char paddingChar = '#')
+        {
+            this.PaddingChar = paddingChar;
+        }
+
+        public char PaddingChar { get; set; }
 
 
         public string Encrypt(string plaintext, bool[,] key)
         {
+            if (plaintext == null)
+                throw new ArgumentNullException(nameof(plaintext));
+
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+
             int size = key.GetLength(0);
 
             if (size != key.GetLength(1))
@@ -68,6 +79,12 @@ namespace Science.Cryptography.Ciphers
 
         public string Decrypt(string ciphertext, bool[,] key)
         {
+            if (ciphertext == null)
+                throw new ArgumentNullException(nameof(ciphertext));
+
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+
             int size = key.GetLength(0);
 
             if (size != key.GetLength(1))
