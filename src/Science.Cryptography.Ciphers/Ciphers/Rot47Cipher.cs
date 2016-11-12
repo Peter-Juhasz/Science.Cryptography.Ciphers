@@ -7,20 +7,9 @@ namespace Science.Cryptography.Ciphers
     /// Represents the ROT-47 cipher.
     /// </summary>
     [Export("ROT-47", typeof(ICipher))]
-    public class Rot47Cipher : ICipher
+    public class Rot47Cipher : ReciprocalCipher
     {
-        public string Encrypt(string plaintext)
-        {
-            return Crypt(plaintext);
-        }
-
-        public string Decrypt(string ciphertext)
-        {
-            return Crypt(ciphertext);
-        }
-
-
-        protected static string Crypt(string text)
+        protected override string Crypt(string text)
         {
             char[] result = new char[text.Length];
 

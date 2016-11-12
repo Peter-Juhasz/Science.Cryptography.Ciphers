@@ -7,20 +7,9 @@ namespace Science.Cryptography.Ciphers
     /// Represents the Two Square cipher.
     /// </summary>
     [Export("Two-square", typeof(IKeyedCipher<>))]
-    public class TwoSquareCipher : IKeyedCipher<char[][,]>
+    public class TwoSquareCipher : ReciprocalKeyedCipher<char[][,]>
     {
-        public string Encrypt(string plaintext, char[][,] key)
-        {
-            return this.Crypt(plaintext, key);
-        }
-
-        public string Decrypt(string ciphertext, char[][,] key)
-        {
-            return this.Crypt(ciphertext, key);
-        }
-
-
-        protected string Crypt(string text, char[][,] key)
+        protected override string Crypt(string text, char[][,] key)
         {
             char[] result = new char[text.Length];
 

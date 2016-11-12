@@ -65,6 +65,16 @@ namespace Science.Cryptography.Ciphers
                 offset += chunkSize;
             }
         }
+
+        public static string EfficientSelect(this string text, Func<char, char> selector)
+        {
+            char[] ciphertext = new char[text.Length];
+
+            for (int i = 0; i < text.Length; i++)
+                ciphertext[i] = selector(text[i]);
+
+            return new String(ciphertext);
+        }
     }
 
     internal static class ArrayExtensions

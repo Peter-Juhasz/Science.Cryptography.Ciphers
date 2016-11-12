@@ -8,7 +8,7 @@ ICipher caesar = ShiftCipher.CreateCaesar(Alphabets.English);
 string ciphertext = caesar.Encrypt("Hello world!");
 ```
 
-Affine, Atbash, Autokey, Bacon, Bifid, Four-square, Gronsfeld, Monoalphabetic Substitution, Morse Code, Multiplicative, Null, ROT-47, Running Key, Sandorf's, Shift (Caesar, ROT-13), Tap Code, Trithemius, Two-square, Variant Beaufort, Vigenère, XOR
+Affine, Atbash, Autokey, Bacon, Bifid, Four-square, Gronsfeld, Kama-Sutra, Monoalphabetic Substitution, Morse Code, Multiplicative, Null, ROT-47, Running Key, Sandorf's, Shift (Caesar, ROT-13), Tap Code, Trithemius, Two-square, Variant Beaufort, Vatsyayana, Vigenère, XOR
 
 ### Streaming support
 ```C#

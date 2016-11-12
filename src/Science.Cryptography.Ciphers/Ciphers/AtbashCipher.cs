@@ -7,7 +7,7 @@ namespace Science.Cryptography.Ciphers
     /// Represents the Atbash cipher.
     /// </summary>
     [Export("Atbash", typeof(ICipher))]
-    public class AtbashCipher : ICipher, ISupportsCustomCharset
+    public class AtbashCipher : ReciprocalCipher, ISupportsCustomCharset
     {
         public AtbashCipher(string charset = Charsets.English)
         {
@@ -22,7 +22,7 @@ namespace Science.Cryptography.Ciphers
         /// </summary>
         public string Charset { get; set; }
 
-        protected string Crypt(string text)
+        protected override string Crypt(string text)
         {
             if (text == null)
                 throw new ArgumentNullException(nameof(text));
@@ -40,26 +40,6 @@ namespace Science.Cryptography.Ciphers
             }
 
             return new String(result);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="plaintext"></param>
-        /// <returns></returns>
-        public string Encrypt(string plaintext)
-        {
-            return this.Crypt(plaintext);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ciphertext"></param>
-        /// <returns></returns>
-        public string Decrypt(string ciphertext)
-        {
-            return this.Crypt(ciphertext);
         }
     }
 }
