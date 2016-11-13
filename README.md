@@ -1,6 +1,10 @@
 ﻿# Science.Cryptography.Ciphers
+Ancient and classic cipher methods and analysis tools implemented in **.NET Standard 1.6**.
 
-This project collects classic cipher implementations in **.NET Standard 1.6**.
+```PowerShell
+Install-Package Science.Cryptography.Ciphers -Pre
+Install-Package Science.Cryptography.Ciphers.Analysis -Pre
+```
 
 ## Ciphers
 ```C#
@@ -8,7 +12,7 @@ ICipher caesar = ShiftCipher.CreateCaesar(Alphabets.English);
 string ciphertext = caesar.Encrypt("Hello world!");
 ```
 
-Affine, Atbash, Autokey, Bacon, Bifid, Four-square, Gronsfeld, Gudhayojya, Kama-Sutra, Monoalphabetic Substitution, Morse Code, Multiplicative, Null, ROT-47, Running Key, Sandorf's, Shift (Caesar, ROT-13), Tap Code, Trithemius, Two-square, Variant Beaufort, Vatsyayana, Vigenère, XOR
+Affine, Atbash, Autokey, Bacon, Bifid, Caesar, Four-square, Gronsfeld, Gudhayojya, Kama-Sutra, Monoalphabetic Substitution, Morse Code, Multiplicative, Null, ROT-13, ROT-47, Running Key, Sandorf's, Shift, Tap Code, Trithemius, Two-square, Variant Beaufort, Vatsyayana, Vigenère, XOR
 
 ### Streaming support
 ```C#
@@ -17,9 +21,6 @@ IEnumerable<char> ciphertextStream = cipher.Encrypt(plaintextStream);
 ```
 
 Affine, Atbash, Monoalphabetic Substitution, Multiplicative, ROT-47, Running Key, Shift (Caesar, ROT-13), Vigenère
-
-### Key space enumeration
-Affine, Shift, Wordlist
 
 ## Tools
 ```C#
@@ -39,6 +40,8 @@ IReadOnlyDictionary<int, string> result = CaesarBruteforce.Analyze(ciphertext);
 * Entropy
 * Frequency Analysis
 * Kasiski Examination
+* [Key Finder](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/wiki/Find-the-key-for-a-given-ciphertext)
+* Key space enumeration (Affine, Shift, Wordlist)
 * N-Gram Analysis
 
 ## Reference data

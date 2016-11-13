@@ -1,5 +1,8 @@
 ﻿namespace Science.Cryptography.Ciphers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class ReciprocalCipher : ICipher
     {
         public string Encrypt(string plaintext)

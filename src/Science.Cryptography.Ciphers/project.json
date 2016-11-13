@@ -1,10 +1,20 @@
 ﻿{
+    "title": "Science.Cryptography.Ciphers",
     "version": "1.0.0-*",
+    "authors": [ "Péter Juhász" ],
+    "description": "Classic and ancient cipher methods implemented in .NET Standard.",
+    "copyright": "Péter Juhász",
+    "packOptions": {
+        "projectUrl": "https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers",
+        "owners": [ "Péter Juhász" ],
+        "tags": [ "cipher", "cryptography", "security", "rot-13" ]
+    },
 
     "dependencies": {
         "NETStandard.Library": "1.6.0",
         "Microsoft.Composition": "1.0.30",
-        "System.Interactive": "3.0.0"
+        "System.Interactive": "3.0.0",
+        "Science.Collections.MultiDimensional.Linq": "1.0.0-*"
     },
 
     "frameworks": {

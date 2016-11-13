@@ -7,7 +7,7 @@ namespace Science.Cryptography.Ciphers
     /// Represents the ROT-13 cipher.
     /// </summary>
     [Export("ROT-13", typeof(ICipher))]
-    public class Rot13Cipher : ICipher, ISupportsCustomCharset
+    public class Rot13Cipher : ReciprocalCipher, ISupportsCustomCharset
     {
         public Rot13Cipher(string charset = Charsets.English)
         {
@@ -20,14 +20,9 @@ namespace Science.Cryptography.Ciphers
         public string Charset { get; private set; }
 
 
-        public string Encrypt(string plaintext)
+        protected override string Crypt(string text)
         {
-            return _shift.Encrypt(plaintext, WellKnownShiftCipherKeys.Rot13);
-        }
-
-        public string Decrypt(string ciphertext)
-        {
-            return _shift.Decrypt(ciphertext, WellKnownShiftCipherKeys.Rot13);
+            return _shift.Encrypt(text, WellKnownShiftCipherKeys.Rot13);
         }
     }
 }

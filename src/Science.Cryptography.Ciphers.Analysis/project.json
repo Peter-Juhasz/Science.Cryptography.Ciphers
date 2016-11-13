@@ -1,6 +1,15 @@
 {
+    "title": "Science.Cryptography.Ciphers.Analysis",
     "version": "1.0.0-*",
-
+    "authors": [ "Péter Juhász" ],
+    "description": "Various analysis methods for classic and ancient ciphers.",
+    "copyright": "Péter Juhász",
+    "packOptions": {
+        "projectUrl": "https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers",
+        "owners": [ "Péter Juhász" ],
+        "tags": [ "cryptanalysis", "cipher", "cryptography", "security", "analysis" ]
+    },
+    
     "dependencies": {
         "NETStandard.Library": "1.6.0",
         "Microsoft.Composition": "1.0.30",

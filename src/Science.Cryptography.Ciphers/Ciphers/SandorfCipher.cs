@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Science.Collections.MultiDimensional.Linq;
+using System;
 using System.Composition;
 using System.Linq;
 

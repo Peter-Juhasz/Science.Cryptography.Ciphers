@@ -1,5 +1,9 @@
 ﻿namespace Science.Cryptography.Ciphers
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TKey"></typeparam>
     public abstract class ReciprocalKeyedCipher<TKey> : IKeyedCipher<TKey>
     {
         public string Encrypt(string plaintext, TKey key)
