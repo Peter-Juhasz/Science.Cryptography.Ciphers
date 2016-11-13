@@ -256,5 +256,19 @@ namespace Science.Cryptography.Ciphers.Tests
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
         }
+
+        [TestMethod]
+        public void Beaufort()
+        {
+            BeaufortCipher cipher = new BeaufortCipher();
+
+            const string key = "m";
+
+            const string plaintext = "d J";
+            const string ciphertext = "j D";
+
+            Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
+            Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+        }
     }
 }

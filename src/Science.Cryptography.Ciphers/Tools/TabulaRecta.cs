@@ -45,7 +45,7 @@ namespace Science.Cryptography.Ciphers
 
 
         public string Charset { get; private set; }
-
+        
 
         /// <summary>
         /// Gets a row or a column of the tabula recta.
@@ -62,6 +62,17 @@ namespace Science.Cryptography.Ciphers
         public string GetRowOrColumn(char @char)
         {
             return this.GetRowOrColumn(this.Charset.IndexOfIgnoreCase(@char));
+        }
+
+        /// <summary>
+        /// Finds the corresponding column or row label for a character in a given column or row.
+        /// </summary>
+        /// <param name="columnOrRow"></param>
+        /// <param name="char"></param>
+        /// <returns></returns>
+        public char FindColumnOrRowLabel(char columnOrRow, char @char)
+        {
+            return this.Charset.At(this.Charset.IndexOfIgnoreCase(@char) - this.Charset.IndexOfIgnoreCase(columnOrRow));
         }
     }
 }

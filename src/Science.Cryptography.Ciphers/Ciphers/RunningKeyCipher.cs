@@ -55,7 +55,7 @@ namespace Science.Cryptography.Ciphers
                 int idx = this.Charset.IndexOfIgnoreCase(ciphertext[i]);
 
                 result[i] = idx != -1
-                    ? this.Charset[(idx - this.Charset.IndexOf(key[charCounter++])).Mod(this.Charset.Length)].ToSameCaseAs(ciphertext[i])
+                    ? this.Charset.At(idx - this.Charset.IndexOf(key[charCounter++])).ToSameCaseAs(ciphertext[i])
                     : ciphertext[i]
                 ;
             }

@@ -19,6 +19,11 @@ namespace Science.Cryptography.Ciphers
             return -1;
         }
 
+        public static char At(this string source, int index)
+        {
+            return source[index.Mod(source.Length)];
+        }
+
         internal static IEnumerable<string> Split(this string source, int chunkSize)
         {
             int offset = 0;

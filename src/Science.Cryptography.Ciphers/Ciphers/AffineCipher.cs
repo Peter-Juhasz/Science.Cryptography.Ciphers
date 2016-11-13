@@ -49,7 +49,7 @@ namespace Science.Cryptography.Ciphers
                 int idx = this.Charset.IndexOfIgnoreCase(ciphertext[i]);
 
                 plaintext[i] = idx != -1
-                    ? this.Charset[((this.Charset.Length - key.A) * (idx - key.B)).Mod(this.Charset.Length)].ToSameCaseAs(ciphertext[i])
+                    ? this.Charset.At((this.Charset.Length - key.A) * (idx - key.B)).ToSameCaseAs(ciphertext[i])
                     : ciphertext[i]
                 ;
             }

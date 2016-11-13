@@ -33,9 +33,7 @@ namespace Science.Cryptography.Ciphers.Streaming
                 int idx = this.Charset.IndexOfIgnoreCase(c);
 
                 yield return idx != -1
-                    ? this.Charset[
-                        (idx + this.Charset.IndexOfIgnoreCase(key[charCounter++ % key.Length])).Mod(this.Charset.Length)
-                    ].ToSameCaseAs(c)
+                    ? this.Charset.At(idx + this.Charset.IndexOfIgnoreCase(key[charCounter++ % key.Length])).ToSameCaseAs(c)
                     : c
                 ;
             }
@@ -50,9 +48,7 @@ namespace Science.Cryptography.Ciphers.Streaming
                 int idx = this.Charset.IndexOfIgnoreCase(c);
 
                 yield return idx != -1
-                    ? this.Charset[
-                        (idx - this.Charset.IndexOfIgnoreCase(key[charCounter++ % key.Length])).Mod(this.Charset.Length)
-                    ].ToSameCaseAs(c)
+                    ? this.Charset.At(idx - this.Charset.IndexOfIgnoreCase(key[charCounter++ % key.Length])).ToSameCaseAs(c)
                     : c
                 ;
             }

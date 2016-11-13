@@ -32,7 +32,7 @@ namespace Science.Cryptography.Ciphers.Streaming
                 from c in plaintext
                 let idx = this.Charset.IndexOfIgnoreCase(c)
                 select idx != -1
-                    ? this.Charset[(idx * key).Mod(this.Charset.Length)].ToSameCaseAs(c)
+                    ? this.Charset.At(idx * key).ToSameCaseAs(c)
                     : c
             ;
         }

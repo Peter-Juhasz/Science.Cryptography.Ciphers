@@ -63,7 +63,7 @@ namespace Science.Cryptography.Ciphers
 
                 if (idx != -1)
                 {
-                    result[i] = this.Charset[(idx - this.Charset.IndexOf(key[plaintextOffset])).Mod(this.Charset.Length)].ToSameCaseAs(ciphertext[i]);
+                    result[i] = this.Charset.At(idx - this.Charset.IndexOf(key[plaintextOffset])).ToSameCaseAs(ciphertext[i]);
                     plaintextLettersOnly[plaintextOffset] = Char.ToUpper(result[i]);
                     plaintextOffset++;
 
@@ -81,7 +81,7 @@ namespace Science.Cryptography.Ciphers
 
                 if (idx != -1)
                 {
-                    result[i] = this.Charset[(idx - this.Charset.IndexOf(plaintextLettersOnly[plaintextOffset - key.Length])).Mod(this.Charset.Length)].ToSameCaseAs(ciphertext[i]);
+                    result[i] = this.Charset.At(idx - this.Charset.IndexOf(plaintextLettersOnly[plaintextOffset - key.Length])).ToSameCaseAs(ciphertext[i]);
                     plaintextLettersOnly[plaintextOffset] = Char.ToUpper(result[i]);
                     plaintextOffset++;
 

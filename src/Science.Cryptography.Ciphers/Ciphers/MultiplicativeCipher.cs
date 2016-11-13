@@ -33,7 +33,7 @@ namespace Science.Cryptography.Ciphers
                 int idx = this.Charset.IndexOfIgnoreCase(plaintext[i]);
 
                 result[i] = idx != -1
-                    ? this.Charset[(idx * key).Mod(this.Charset.Length)].ToSameCaseAs(plaintext[i])
+                    ? this.Charset.At(idx * key).ToSameCaseAs(plaintext[i])
                     : plaintext[i]
                 ;
             }

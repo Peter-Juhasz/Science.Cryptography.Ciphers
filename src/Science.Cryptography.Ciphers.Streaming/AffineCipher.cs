@@ -41,7 +41,7 @@ namespace Science.Cryptography.Ciphers.Streaming
                 from c in ciphertext
                 let idx = this.Charset.IndexOfIgnoreCase(c)
                 select idx != -1
-                    ? this.Charset[((this.Charset.Length - key.A) * (idx - key.B)).Mod(this.Charset.Length)].ToSameCaseAs(c)
+                    ? this.Charset.At((this.Charset.Length - key.A) * (idx - key.B)).ToSameCaseAs(c)
                     : c
             ;
         }
