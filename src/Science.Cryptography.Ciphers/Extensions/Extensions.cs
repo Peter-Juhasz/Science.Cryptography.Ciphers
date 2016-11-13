@@ -17,6 +17,12 @@ namespace Science.Cryptography.Ciphers
     public static class CharExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsUpper(this char @char)
+        {
+            return Char.IsUpper(@char);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static char ToUpper(this char @char)
         {
             return Char.ToUpper(@char);
@@ -64,6 +70,11 @@ namespace Science.Cryptography.Ciphers
 
                 offset += chunkSize;
             }
+        }
+
+        internal static string Capitalize(this string text)
+        {
+            return text.First().ToUpper() + text.Substring(1);
         }
 
         public static string EfficientSelect(this string text, Func<char, char> selector)

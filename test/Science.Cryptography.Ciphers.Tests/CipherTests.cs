@@ -10,8 +10,8 @@ namespace Science.Cryptography.Ciphers.Tests
         {
             ShiftCipher cipher = new ShiftCipher();
 
-            string plaintext = "The quick brown fox jumps over the lazy dog.";
-            string ciphertext = "Wkh txlfn eurzq ira mxpsv ryhu wkh odcb grj.";
+            const string plaintext = "The quick brown fox jumps over the lazy dog.";
+            const string ciphertext = "Wkh txlfn eurzq ira mxpsv ryhu wkh odcb grj.";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, WellKnownShiftCipherKeys.Caesar));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, WellKnownShiftCipherKeys.Caesar));
@@ -22,8 +22,8 @@ namespace Science.Cryptography.Ciphers.Tests
         {
             ShiftCipher cipher = new ShiftCipher();
 
-            string plaintext = "Why did the chicken cross the road?";
-            string ciphertext = "Jul qvq gur puvpxra pebff gur ebnq?";
+            const string plaintext = "Why did the chicken cross the road?";
+            const string ciphertext = "Jul qvq gur puvpxra pebff gur ebnq?";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, WellKnownShiftCipherKeys.Rot13));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, WellKnownShiftCipherKeys.Rot13));
@@ -34,8 +34,8 @@ namespace Science.Cryptography.Ciphers.Tests
         {
             TapCode cipher = new TapCode();
 
-            string plaintext = "WATER";
-            string ciphertext = "..... .. . . .... .... . ..... .... ..";
+            const string plaintext = "WATER";
+            const string ciphertext = "..... .. . . .... .... . ..... .... ..";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext), true);
@@ -46,8 +46,8 @@ namespace Science.Cryptography.Ciphers.Tests
         {
             MorseCode cipher = new MorseCode();
 
-            string plaintext = "MORSE CODE";
-            string ciphertext = "-- --- .-. ... .   -.-. --- -.. .";
+            const string plaintext = "MORSE CODE";
+            const string ciphertext = "-- --- .-. ... .   -.-. --- -.. .";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext), true);
@@ -69,8 +69,8 @@ namespace Science.Cryptography.Ciphers.Tests
         {
             AtbashCipher cipher = new AtbashCipher();
 
-            string plaintext = "Abcdefghijklmnopqrstuvwxyz";
-            string ciphertext = "Zyxwvutsrqponmlkjihgfedcba";
+            const string plaintext = "Abcdefghijklmnopqrstuvwxyz";
+            const string ciphertext = "Zyxwvutsrqponmlkjihgfedcba";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
@@ -89,8 +89,8 @@ namespace Science.Cryptography.Ciphers.Tests
                 { 'Z', 'S', 'E', 'M', 'R' }
             };
 
-            string plaintext = "FLEEATONCE";
-            string ciphertext = "UAEOLWRINS";
+            const string plaintext = "FLEEATONCE";
+            const string ciphertext = "UAEOLWRINS";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key), true);
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key), true);
@@ -101,9 +101,10 @@ namespace Science.Cryptography.Ciphers.Tests
         {
             VigenèreCipher cipher = new VigenèreCipher();
 
-            string plaintext = "Attack at dawn";
-            string key = "Lemon";
-            string ciphertext = "Lxfopv ef rnhr";
+            const string key = "Lemon";
+
+            const string plaintext = "Attack at dawn";
+            const string ciphertext = "Lxfopv ef rnhr";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
@@ -114,8 +115,8 @@ namespace Science.Cryptography.Ciphers.Tests
         {
             BaconCipher cipher = new BaconCipher();
 
-            string plaintext = "HELLO WORLD";
-            string ciphertext = "AABBBAABAAABABAABABAABBAB BABAAABBABBAAAAABABAAAABB";
+            const string plaintext = "HELLO WORLD";
+            const string ciphertext = "AABBBAABAAABABAABABAABBAB BABAAABBABBAAAAABABAAAABB";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext), true);
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext), true);
@@ -126,8 +127,8 @@ namespace Science.Cryptography.Ciphers.Tests
         {
             Rot47Cipher cipher = new Rot47Cipher();
 
-            string plaintext = "My string!";
-            string ciphertext = "|J DEC:?8P";
+            const string plaintext = "My string!";
+            const string ciphertext = "|J DEC:?8P";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
@@ -138,10 +139,10 @@ namespace Science.Cryptography.Ciphers.Tests
         {
             AutokeyCipher cipher = new AutokeyCipher();
 
-            string key = "QUEENLY";
+            const string key = "QUEENLY";
 
-            string plaintext = "Attack AT DAWN";
-            string ciphertext = "Qnxepv YT WTWP";
+            const string plaintext = "Attack AT DAWN";
+            const string ciphertext = "Qnxepv YT WTWP";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
@@ -161,8 +162,8 @@ namespace Science.Cryptography.Ciphers.Tests
                 { true, false, false, false, true, false }
             };
 
-            string plaintext = "Real Programmers use Fortran. Quiche Eaters use Pascal.";
-            string ciphertext = "u#l# #as#r##ec##st##aa##EP# ## #e#s.geuhoc raPir sutrlrQae oemFR .meanrs";
+            const string plaintext = "Real Programmers use Fortran. Quiche Eaters use Pascal.";
+            const string ciphertext = "u#l# #as#r##ec##st##aa##EP# ## #e#s.geuhoc raPir sutrlrQae oemFR .meanrs";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
@@ -178,8 +179,8 @@ namespace Science.Cryptography.Ciphers.Tests
                 PolybiusSquare.CreateFromKeyword("KEYWORD", Charsets.EnglishWithoutQ)
             };
 
-            string plaintext = "Help me Obiwan Kenobi";
-            string ciphertext = "Hedl xw Sdjyan Hotkdg";
+            const string plaintext = "Help me Obiwan Kenobi";
+            const string ciphertext = "Hedl xw Sdjyan Hotkdg";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
@@ -195,8 +196,8 @@ namespace Science.Cryptography.Ciphers.Tests
                 { PolybiusSquare.CreateFromKeyword("EXAMPLE", Charsets.EnglishWithoutQ), PolybiusSquare.CreateFromString(Charsets.EnglishWithoutQ) }
             };
 
-            string plaintext = "Help me Obiwan Kenobi";
-            string ciphertext = "Fygm ky Hobxmf Kkkimd";
+            const string plaintext = "Help me Obiwan Kenobi";
+            const string ciphertext = "Fygm ky Hobxmf Kkkimd";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
@@ -237,6 +238,20 @@ namespace Science.Cryptography.Ciphers.Tests
 
             const string plaintext = "The quick brown fox jumps over the lazy dog.";
             const string ciphertext = "Rtb msuzg zdlsl rlt hgjlq asap fea jmwu bad.";
+
+            Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
+            Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+        }
+
+        [TestMethod]
+        public void Gudhayojya()
+        {
+            GudhayojyaCipher cipher = new GudhayojyaCipher();
+
+            const string key = "dis";
+
+            const string plaintext = "will visit you tonight.";
+            const string ciphertext = "diswill disvisit disyou distonight.";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));

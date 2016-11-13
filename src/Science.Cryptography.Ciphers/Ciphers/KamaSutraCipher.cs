@@ -13,12 +13,12 @@ namespace Science.Cryptography.Ciphers
     {
         protected override string Crypt(string text, IReadOnlyDictionary<char, char> key)
         {
-            Dictionary<char, char> precachedKey = PreCacheReverseKey(key);
+            IReadOnlyDictionary<char, char> precachedKey = PreCacheReverseKey(key);
 
             return text.EfficientSelect(c => precachedKey.GetOrSame(c).ToSameCaseAs(c));
         }
 
-        private static Dictionary<char, char> PreCacheReverseKey(IReadOnlyDictionary<char, char> key)
+        private static IReadOnlyDictionary<char, char> PreCacheReverseKey(IReadOnlyDictionary<char, char> key)
         {
             Dictionary<char, char> merged = new Dictionary<char, char>();
             key.ForEach(kv => merged.Add(kv.Key, kv.Value));
