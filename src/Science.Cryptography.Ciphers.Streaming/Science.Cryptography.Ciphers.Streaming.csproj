@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Analysis methods for classic and ancient cipher methods implemented in .NET Standard.</Description>
+    <Copyright>Péter Juhász</Copyright>
+    <AssemblyTitle>Science.Cryptography.Ciphers</AssemblyTitle>
+    <Authors>Péter Juhász</Authors>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <AssemblyName>Science.Cryptography.Ciphers.Streaming</AssemblyName>
+    <PackageId>Science.Cryptography.Ciphers.Streaming</PackageId>
+    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50;portable-net45+win8</PackageTargetFallback>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Science.Cryptography.Ciphers\Science.Cryptography.Ciphers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Composition" Version="1.0.30" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Classic and ancient cipher methods implemented in .NET Standard.</Description>
+    <Copyright>Péter Juhász</Copyright>
+    <AssemblyTitle>Science.Cryptography.Ciphers</AssemblyTitle>
+    <Authors>Péter Juhász</Authors>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <AssemblyName>Science.Cryptography.Ciphers</AssemblyName>
+    <PackageId>Science.Cryptography.Ciphers</PackageId>
+    <PackageTags>cipher;cryptography;security;rot-13</PackageTags>
+    <PackageProjectUrl>https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers</PackageProjectUrl>
+    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50;portable-net45+win8</PackageTargetFallback>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Composition" Version="1.0.30" />
+    <PackageReference Include="System.Interactive" Version="3.0.0" />
+    <PackageReference Include="Science.Collections.MultiDimensional.Linq" Version="1.0.0-*" />
+  </ItemGroup>
+
+</Project>
