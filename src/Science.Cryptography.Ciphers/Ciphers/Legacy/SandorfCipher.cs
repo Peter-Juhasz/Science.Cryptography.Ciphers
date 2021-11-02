@@ -54,9 +54,9 @@ namespace Science.Cryptography.Ciphers
                 for (int r = 0; r < 4; r++)
                 {
                     for (int y = 0; y < size; y++)
-                    for (int x = 0; x < size; x++)
-                        if (key[x, y])
-                            group[x, y] = substring[offset++];
+                        for (int x = 0; x < size; x++)
+                            if (key[x, y])
+                                group[x, y] = substring[offset++];
 
                     key = key.RotateClockwise();
                 }
@@ -71,8 +71,8 @@ namespace Science.Cryptography.Ciphers
             foreach (char[,] group in groups)
             {
                 for (int y = 0; y < size; y++)
-                for (int x = 0; x < size; x++)
-                    result[i++] = group[x, y];
+                    for (int x = 0; x < size; x++)
+                        result[i++] = group[x, y];
             }
 
             return new String(result);
@@ -103,8 +103,8 @@ namespace Science.Cryptography.Ciphers
                 int offset = 0;
 
                 for (int y = 0; y < size; y++)
-                for (int x = 0; x < size; x++)
-                    group[x, y] = substring[offset++];
+                    for (int x = 0; x < size; x++)
+                        group[x, y] = substring[offset++];
 
                 groups[currentGroupIndex++] = group;
             }
@@ -121,9 +121,9 @@ namespace Science.Cryptography.Ciphers
                 for (int r = 0; r < 4; r++)
                 {
                     for (int y = size - 1; y >= 0; y--)
-                    for (int x = size - 1; x >= 0; x--)
-                        if (key[x, y])
-                            result[(groups.Length - currentGroupIndex - 1) * sizeSquared + i++] = group[x, y];
+                        for (int x = size - 1; x >= 0; x--)
+                            if (key[x, y])
+                                result[(groups.Length - currentGroupIndex - 1) * sizeSquared + i++] = group[x, y];
 
                     key = key.RotateCounterClockwise();
                 }

@@ -1,45 +1,41 @@
 ﻿using System;
 using System.Composition;
 
-namespace Science.Cryptography.Ciphers
+namespace Science.Cryptography.Ciphers;
+
+/// <summary>
+/// Represents the Atbash cipher.
+/// </summary>
+[Export("Atbash", typeof(ICipher))]
+public class AtbashCipher : ReciprocalCipher
 {
-    /// <summary>
-    /// Represents the Atbash cipher.
-    /// </summary>
-    [Export("Atbash", typeof(ICipher))]
-    public class AtbashCipher : ReciprocalCipher, ISupportsCustomCharset
+    public AtbashCipher(Alphabet charset)
     {
-        public AtbashCipher(string charset = Charsets.English)
-        {
-            if (charset == null)
-                throw new ArgumentNullException(nameof(charset));
+        Alphabet = charset;
+    }
+    public AtbashCipher()
+        : this(WellKnownAlphabets.English)
+    { }
 
-            this.Charset = charset;
+    public Alphabet Alphabet { get; }
+
+    protected override void Crypt(ReadOnlySpan<char> text, Span<char> result, out int written)
+    {
+        if (result.Length < text.Length)
+        {
+            throw new ArgumentException("Size of output buffer is insufficient.", nameof(result));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Charset { get; set; }
-
-        protected override string Crypt(string text)
+        for (int i = 0; i < text.Length; i++)
         {
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
-
-            char[] result = new char[text.Length];
-
-            for (int i = 0; i < text.Length; i++)
+            var ch = text[i];
+            result[i] = Alphabet.IndexOfIgnoreCase(ch) switch
             {
-                int idx = this.Charset.IndexOfIgnoreCase(text[i]);
-
-                result[i] = idx != -1
-                    ? this.Charset[this.Charset.Length - idx - 1].ToSameCaseAs(text[i])
-                    : text[i]
-                ;
-            }
-
-            return new String(result);
+                -1 => ch,
+                int idx => Alphabet[Alphabet.Length - idx - 1].ToSameCaseAs(ch)
+            };
         }
+
+        written = text.Length;
     }
 }

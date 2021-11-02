@@ -14,15 +14,12 @@ namespace Science.Cryptography.Ciphers.Analysis
         {
             if (keys == null)
                 throw new ArgumentNullException(nameof(keys));
-            
+
             _keys = keys;
         }
 
         private readonly IEnumerable<T> _keys;
 
-        public IEnumerable<T> GetKeys()
-        {
-            return _keys;
-        }
+        public IEnumerable<T> GetKeys() => _keys;
     }
 }

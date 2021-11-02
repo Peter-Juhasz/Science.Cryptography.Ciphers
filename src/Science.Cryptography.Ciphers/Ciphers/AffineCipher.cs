@@ -1,99 +1,67 @@
 ﻿using System;
 using System.Composition;
 
-namespace Science.Cryptography.Ciphers
+namespace Science.Cryptography.Ciphers;
+
+/// <summary>
+/// Represents a key for the <see cref="AffineCipher" />.
+/// </summary>
+public record struct AffineKey(int A, int B);
+
+/// <summary>
+/// Represents the Affine cipher
+/// </summary>
+[Export("Affine", typeof(IKeyedCipher<>))]
+public class AffineCipher : IKeyedCipher<AffineKey>
 {
-    /// <summary>
-    /// Represents the Affine cipher
-    /// </summary>
-    [Export("Affine", typeof(IKeyedCipher<>))]
-    public class AffineCipher : IKeyedCipher<AffineKey>, ISupportsCustomCharset
+    public AffineCipher(Alphabet charset)
     {
-        public AffineCipher(string charset = Charsets.English)
-        {
-            if (charset == null)
-                throw new ArgumentNullException(nameof(charset));
+        Alphabet = charset;
+    }
+    public AffineCipher()
+        : this(WellKnownAlphabets.English)
+    { }
 
-            this.Charset = charset;
+    public Alphabet Alphabet { get; }
+
+
+    public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, AffineKey key, out int written)
+    {
+        if (ciphertext.Length < plaintext.Length)
+        {
+            throw new ArgumentException("Size of output buffer is insufficient.", nameof(ciphertext));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Charset { get; set; }
-
-
-        public string Encrypt(string plaintext, AffineKey key)
+        for (int i = 0; i < plaintext.Length; i++)
         {
-            char[] ciphertext = new char[plaintext.Length];
-
-            for (int i = 0; i < plaintext.Length; i++)
+            var ch = plaintext[i];
+            ciphertext[i] = Alphabet.IndexOfIgnoreCase(ch) switch
             {
-                int idx = this.Charset.IndexOfIgnoreCase(plaintext[i]);
-
-                ciphertext[i] = idx != -1
-                    ? this.Charset[(key.A * idx + key.B) % this.Charset.Length].ToSameCaseAs(plaintext[i])
-                    : plaintext[i]
-                ;
-            }
-
-            return new String(ciphertext);
+                -1 => ch,
+                int idx => Alphabet.AtMod(key.A * idx + key.B).ToSameCaseAs(ch)
+            };
         }
 
-        public string Decrypt(string ciphertext, AffineKey key)
-        {
-            char[] plaintext = new char[ciphertext.Length];
-
-            for (int i = 0; i < ciphertext.Length; i++)
-            {
-                int idx = this.Charset.IndexOfIgnoreCase(ciphertext[i]);
-
-                plaintext[i] = idx != -1
-                    ? this.Charset.At((this.Charset.Length - key.A) * (idx - key.B)).ToSameCaseAs(ciphertext[i])
-                    : ciphertext[i]
-                ;
-            }
-
-            return new String(plaintext);
-        }
+        written = plaintext.Length;
     }
 
-    /// <summary>
-    /// Represents a key for the <see cref="AffineCipher" />.
-    /// </summary>
-    public struct AffineKey : IEquatable<AffineKey>
+    public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, AffineKey key, out int written)
     {
-        public AffineKey(int a, int b)
+        if (plaintext.Length < ciphertext.Length)
         {
-            _A = a;
-            _B = b;
+            throw new ArgumentException("Size of output buffer is insufficient.", nameof(plaintext));
         }
 
-
-        private int _A;
-        /// <summary>
-        /// Gets or sets the first part of the key.
-        /// </summary>
-        public int A
+        for (int i = 0; i < ciphertext.Length; i++)
         {
-            get { return _A; }
-            set { _A = value; }
+            var ch = ciphertext[i];
+            plaintext[i] = Alphabet.IndexOfIgnoreCase(ch) switch
+            {
+                -1 => ch,
+                int idx => Alphabet.AtMod((Alphabet.Length - key.A) * (idx - key.B)).ToSameCaseAs(ch)
+            };
         }
 
-        private int _B;
-        /// <summary>
-        /// Gets or sets the second part of the key.
-        /// </summary>
-        public int B
-        {
-            get { return _B; }
-            set { _B = value; }
-        }
-
-
-        public bool Equals(AffineKey other)
-        {
-            return this.A == other.A && this.B == other.B;
-        }
+        written = ciphertext.Length;
     }
 }

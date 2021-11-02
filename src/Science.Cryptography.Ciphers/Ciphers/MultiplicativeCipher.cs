@@ -1,49 +1,41 @@
 ﻿using System;
 using System.Composition;
 
-namespace Science.Cryptography.Ciphers
+namespace Science.Cryptography.Ciphers;
+
+/// <summary>
+/// Represents the Multiplicative cipher.
+/// </summary>
+[Export("Multiplicative", typeof(IKeyedCipher<>))]
+public class MultiplicativeCipher : IKeyedCipher<int>
 {
-    /// <summary>
-    /// Represents the Multiplicative cipher.
-    /// </summary>
-    [Export("Multiplicative", typeof(IKeyedCipher<>))]
-    public class MultiplicativeCipher : IKeyedCipher<int>, ISupportsCustomCharset
+    public MultiplicativeCipher(Alphabet alphabet)
     {
-        public MultiplicativeCipher(string charset = Charsets.English)
+        Alphabet = alphabet;
+    }
+    public MultiplicativeCipher()
+        : this(WellKnownAlphabets.English)
+    { }
+
+    public Alphabet Alphabet { get; }
+
+    public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, int key, out int written)
+    {
+        for (int i = 0; i < plaintext.Length; i++)
         {
-            if (charset == null)
-                throw new ArgumentNullException(nameof(charset));
-
-            this.Charset = charset;
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Charset { get; set; }
-
-
-        public string Encrypt(string plaintext, int key)
-        {
-            char[] result = new char[plaintext.Length];
-
-            for (int i = 0; i < plaintext.Length; i++)
+            var ch = plaintext[i];
+            ciphertext[i] = Alphabet.IndexOfIgnoreCase(ch) switch
             {
-                int idx = this.Charset.IndexOfIgnoreCase(plaintext[i]);
-
-                result[i] = idx != -1
-                    ? this.Charset.At(idx * key).ToSameCaseAs(plaintext[i])
-                    : plaintext[i]
-                ;
-            }
-
-            return new String(result);
+                -1 => ch,
+                int idx => Alphabet.AtMod(idx * key).ToSameCaseAs(ch)
+            };
         }
 
-        public string Decrypt(string ciphertext, int key)
-        {
-            throw new NotSupportedException();
-        }
+        written = plaintext.Length;
+    }
+
+    public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, int key, out int written)
+    {
+        throw new NotSupportedException();
     }
 }

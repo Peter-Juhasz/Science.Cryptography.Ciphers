@@ -11,15 +11,13 @@ namespace Science.Cryptography.Ciphers.Analysis
         /// <param name="input"></param>
         /// <param name="logarithmBase"></param>
         /// <returns></returns>
-        public static double Analyze(string input, double logarithmBase = 2)
+        public static double Analyze(ReadOnlySpan<char> input, double logarithmBase = 2)
         {
-            if (input == null)
-                throw new ArgumentNullException(nameof(input));
-
+            var length = input.Length;
             return -(
                 from kv in FrequencyAnalysis.Analyze(input)
                 let occurrence = kv.Value
-                let probability = (double)occurrence / input.Length
+                let probability = occurrence / length
                 select probability * Math.Log(probability, logarithmBase)
             ).Sum();
         }

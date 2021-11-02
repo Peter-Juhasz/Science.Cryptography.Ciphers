@@ -2,53 +2,52 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Science.Cryptography.Ciphers
+namespace Science.Cryptography.Ciphers;
+
+public static partial class StringExtensions
 {
-    public static partial class StringExtensions
+    public static int IndexOfIgnoreCase(this string source, char subject)
     {
-        public static int IndexOfIgnoreCase(this string source, char subject)
+        Char toCompare = subject.ToUpper();
+
+        for (int i = 0; i < source.Length; i++)
         {
-            Char toCompare = subject.ToUpper();
-
-            for (int i = 0; i < source.Length; i++)
-            {
-                if (source[i].ToUpper() == toCompare)
-                    return i;
-            }
-
-            return -1;
+            if (source[i].ToUpper() == toCompare)
+                return i;
         }
 
-        public static char At(this string source, int index)
+        return -1;
+    }
+
+    public static char At(this string source, int index)
+    {
+        return source[index.Mod(source.Length)];
+    }
+
+    internal static IEnumerable<string> Split(this string source, int chunkSize)
+    {
+        int offset = 0;
+
+        while (offset <= source.Length - chunkSize)
         {
-            return source[index.Mod(source.Length)];
+            yield return source.Substring(offset, chunkSize);
+
+            offset += chunkSize;
         }
+    }
 
-        internal static IEnumerable<string> Split(this string source, int chunkSize)
-        {
-            int offset = 0;
+    internal static string Capitalize(this string text)
+    {
+        return text.First().ToUpper() + text.Substring(1);
+    }
 
-            while (offset <= source.Length - chunkSize)
-            {
-                yield return source.Substring(offset, chunkSize);
+    public static string EfficientSelect(this string text, Func<char, char> selector)
+    {
+        char[] ciphertext = new char[text.Length];
 
-                offset += chunkSize;
-            }
-        }
+        for (int i = 0; i < text.Length; i++)
+            ciphertext[i] = selector(text[i]);
 
-        internal static string Capitalize(this string text)
-        {
-            return text.First().ToUpper() + text.Substring(1);
-        }
-
-        public static string EfficientSelect(this string text, Func<char, char> selector)
-        {
-            char[] ciphertext = new char[text.Length];
-
-            for (int i = 0; i < text.Length; i++)
-                ciphertext[i] = selector(text[i]);
-
-            return new String(ciphertext);
-        }
+        return new String(ciphertext);
     }
 }

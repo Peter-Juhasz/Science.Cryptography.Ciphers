@@ -1,34 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Science.Cryptography.Ciphers.Analysis
+namespace Science.Cryptography.Ciphers.Analysis;
+
+/// <summary>
+/// Analysis method for breaking Shift ciphers.
+/// </summary>
+public static class CaesarBruteforce
 {
-    /// <summary>
-    /// Analysis method for breaking Shift ciphers.
-    /// </summary>
-    public static class CaesarBruteforce
+    public static IReadOnlyDictionary<int, string> Analyze(string text, Alphabet alphabet)
     {
-        /// <summary>
-        /// Computes every possible transformations of the input text.
-        /// </summary>
-        /// <param name="text">The input text to transform.</param>
-        /// <param name="charset">Charset of the input text.</param>
-        /// <returns></returns>
-        public static IReadOnlyDictionary<int, string> Analyze(string text, string charset = Charsets.English)
-        {
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
+        var cipher = new ShiftCipher(alphabet);
 
-            if (charset == null)
-                throw new ArgumentNullException(nameof(charset));
-
-
-            var cipher = new ShiftCipher(charset);
-
-            return Enumerable.Range(0, charset.Length)
-                .ToDictionary(k => k, k => cipher.Encrypt(text, k))
-            ;
-        }
+        return Enumerable.Range(0, alphabet.Length)
+            .ToDictionary(k => k, k => cipher.Encrypt(text, k))
+        ;
     }
 }

@@ -1,36 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Composition;
 
-namespace Science.Cryptography.Ciphers
+namespace Science.Cryptography.Ciphers;
+
+/// <summary>
+/// Represents the Monoalphabetic Substitution cipher.
+/// </summary>
+[Export("Monoalphabetic Substitution", typeof(IKeyedCipher<>))]
+public class MonoalphabeticSubstitutionCipher : IKeyedCipher<CharacterSubstitutionMap>
 {
-    /// <summary>
-    /// Represents the Monoalphabetic Substitution cipher.
-    /// </summary>
-    [Export("Monoalphabetic Substitution", typeof(IKeyedCipher<>))]
-    public class MonoalphabeticSubstitutionCipher : IKeyedCipher<IReadOnlyDictionary<char, char>>
+    public void Encrypt(ReadOnlySpan<char> text, Span<char> result, CharacterSubstitutionMap key, out int written)
     {
-        public string Encrypt(string plaintext, IReadOnlyDictionary<char, char> key)
+        for (int i = 0; i < text.Length; i++)
         {
-            return Crypt(plaintext, key);
+            var ch = text[i];
+            result[i] = key.LookupOrSame(ch);
         }
 
-        public string Decrypt(string ciphertext, IReadOnlyDictionary<char, char> key)
+        written = text.Length;
+    }
+
+    public void Decrypt(ReadOnlySpan<char> text, Span<char> result, CharacterSubstitutionMap key, out int written)
+    {
+        for (int i = 0; i < text.Length; i++)
         {
-            return Crypt(ciphertext, key.Swap());
+            var ch = text[i];
+            result[i] = key.ReverseLookupOrSame(ch);
         }
 
-
-        protected static string Crypt(string plaintext, IReadOnlyDictionary<char, char> key)
-        {
-            char[] ciphertext = new char[plaintext.Length];
-
-            for (int i = 0; i < plaintext.Length; i++)
-            {
-                ciphertext[i] = key.GetOrSame(plaintext[i]).ToSameCaseAs(plaintext[i]);
-            }
-
-            return new String(ciphertext);
-        }
+        written = text.Length;
     }
 }

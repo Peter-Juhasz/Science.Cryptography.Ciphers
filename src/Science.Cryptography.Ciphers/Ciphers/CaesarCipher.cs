@@ -1,33 +1,28 @@
 ﻿using System;
 using System.Composition;
 
-namespace Science.Cryptography.Ciphers
+namespace Science.Cryptography.Ciphers;
+
+/// <summary>
+/// Represents Julis Caesar's cipher.
+/// </summary>
+[Export("Caesar", typeof(ICipher))]
+public class CaesarCipher : ICipher
 {
-    /// <summary>
-    /// Represents Julis Caesar's cipher.
-    /// </summary>
-    [Export("Caesar", typeof(ICipher))]
-    public class CaesarCipher : ICipher, ISupportsCustomCharset
+    public CaesarCipher(Alphabet alphabet)
     {
-        public CaesarCipher(string charset = Charsets.English)
-        {
-            this.Charset = charset;
-            _shift = new ShiftCipher(this.Charset);
-        }
-
-        private readonly ShiftCipher _shift;
-
-        public string Charset { get; private set; }
-
-
-        public string Encrypt(string plaintext)
-        {
-            return _shift.Encrypt(plaintext, WellKnownShiftCipherKeys.Caesar);
-        }
-
-        public string Decrypt(string ciphertext)
-        {
-            return _shift.Decrypt(ciphertext, WellKnownShiftCipherKeys.Caesar);
-        }
+        _shift = new(alphabet);
     }
+    public CaesarCipher()
+        : this(WellKnownAlphabets.English)
+    { }
+
+    private readonly ShiftCipher _shift;
+
+    public Alphabet Alphabet => _shift.Alphabet;
+
+
+    public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, out int written) => _shift.Encrypt(plaintext, ciphertext, WellKnownShiftCipherKeys.Caesar, out written);
+
+    public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, out int written) => _shift.Decrypt(ciphertext, plaintext, WellKnownShiftCipherKeys.Caesar, out written);
 }

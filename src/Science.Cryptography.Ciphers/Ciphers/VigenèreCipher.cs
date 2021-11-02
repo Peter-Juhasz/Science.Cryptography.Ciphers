@@ -1,77 +1,69 @@
 ﻿using System;
 using System.Composition;
 
-namespace Science.Cryptography.Ciphers
+namespace Science.Cryptography.Ciphers;
+
+/// <summary>
+/// Represents Blaise de Vigenère's cipher.
+/// </summary>
+[Export("Vigenère", typeof(IKeyedCipher<>))]
+public class VigenèreCipher : IKeyedCipher<string>
 {
-    /// <summary>
-    /// Represents Blaise de Vigenère's cipher.
-    /// </summary>
-    [Export("Vigenère", typeof(IKeyedCipher<>))]
-    public class VigenèreCipher : IKeyedCipher<string>, ISupportsCustomCharset
+    public VigenèreCipher(Alphabet alphabet)
     {
-        public VigenèreCipher(string charset = Charsets.English)
-        {
-            if (charset == null)
-                throw new ArgumentNullException(nameof(charset));
+        this.Alphabet = alphabet;
+        _tabulaRecta = new TabulaRecta(this.Alphabet);
+    }
+    public VigenèreCipher()
+        : this(WellKnownAlphabets.English)
+    { }
 
-            this.Charset = charset;
-            _tabulaRecta = new TabulaRecta(this.Charset);
+    private readonly TabulaRecta _tabulaRecta;
+
+    public Alphabet Alphabet { get; }
+
+
+    public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, string key, out int written)
+    {
+        if (ciphertext.Length < plaintext.Length)
+        {
+            throw new ArgumentException("Size of output buffer is insufficient.", nameof(ciphertext));
         }
 
-        private readonly TabulaRecta _tabulaRecta;
+        int charCounter = 0;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Charset { get; set; }
-
-
-        public string Encrypt(string plaintext, string key)
+        for (int i = 0; i < plaintext.Length; i++)
         {
-            if (plaintext == null)
-                throw new ArgumentNullException(nameof(plaintext));
-
-            if (key == null)
-                throw new ArgumentNullException(nameof(key));
-
-            char[] result = new char[plaintext.Length];
-            int charCounter = 0;
-
-            for (int i = 0; i < plaintext.Length; i++)
+            var ch = plaintext[i];
+            ciphertext[i] = Alphabet.IndexOfIgnoreCase(ch) switch
             {
-                int idx = this.Charset.IndexOfIgnoreCase(plaintext[i]);
-
-                result[i] = idx != -1
-                    ? _tabulaRecta[plaintext[i], key[charCounter++ % key.Length]].ToSameCaseAs(plaintext[i])
-                    : plaintext[i]
-                ;
-            }
-
-            return new String(result);
+                -1 => ch,
+                _ => _tabulaRecta[ch, key[charCounter++ % key.Length]].ToSameCaseAs(ch)
+            };
         }
 
-        public string Decrypt(string ciphertext, string key)
+        written = plaintext.Length;
+    }
+
+    public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, string key, out int written)
+    {
+        if (ciphertext.Length < plaintext.Length)
         {
-            if (ciphertext == null)
-                throw new ArgumentNullException(nameof(ciphertext));
-
-            if (key == null)
-                throw new ArgumentNullException(nameof(key));
-
-            char[] result = new char[ciphertext.Length];
-            int charCounter = 0;
-
-            for (int i = 0; i < ciphertext.Length; i++)
-            {
-                int idx = this.Charset.IndexOfIgnoreCase(ciphertext[i]);
-
-                result[i] = idx != -1
-                    ? this.Charset.At(idx - this.Charset.IndexOfIgnoreCase(key[charCounter++ % key.Length])).ToSameCaseAs(ciphertext[i])
-                    : ciphertext[i]
-                ;
-            }
-
-            return new String(result);
+            throw new ArgumentException("Size of output buffer is insufficient.", nameof(ciphertext));
         }
+
+        int charCounter = 0;
+
+        for (int i = 0; i < ciphertext.Length; i++)
+        {
+            var ch = ciphertext[i];
+            plaintext[i] = Alphabet.IndexOfIgnoreCase(ch) switch
+            {
+                -1 => ch,
+                int idx => Alphabet.AtMod(idx - Alphabet.IndexOfIgnoreCase(key[charCounter++ % key.Length])).ToSameCaseAs(ch)
+            };
+        }
+
+        written = ciphertext.Length;
     }
 }

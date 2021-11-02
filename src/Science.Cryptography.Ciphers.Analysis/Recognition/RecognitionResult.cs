@@ -18,7 +18,7 @@ namespace Science.Cryptography.Ciphers.Analysis
             this.CipherId = cipherId;
             this.Probability = probability;
         }
-        
+
         /// <summary>
         /// Gets the identified cipher.
         /// </summary>

@@ -1,22 +1,41 @@
-﻿namespace Science.Cryptography.Ciphers
-{
-    /// <summary>
-    /// Represents a cipher.
-    /// </summary>
-    public interface ICipher
-    {
-        /// <summary>
-        /// Encrypts <paramref name="plaintext"/>.
-        /// </summary>
-        /// <param name="plaintext">The plaintext to encrypt.</param>
-        /// <returns>The encrypted plaintext.</returns>
-        string Encrypt(string plaintext);
+﻿using System;
+using System.ComponentModel;
 
-        /// <summary>
-        /// Decrypts <paramref name="ciphertext"/>.
-        /// </summary>
-        /// <param name="ciphertext">The ciphertext to decrypt.</param>
-        /// <returns>The decrpyted ciphertext.</returns>
-        string Decrypt(string ciphertext);
+namespace Science.Cryptography.Ciphers;
+
+public interface ICipher
+{
+    void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, out int written);
+
+    void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, out int written);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    int MaxOutputCharactersPerInputCharacter => 1;
+}
+
+public static partial class CipherExtensions
+{
+    public static string Encrypt(this ICipher cipher, string plaintext)
+    {
+        if (cipher.MaxOutputCharactersPerInputCharacter > 1)
+        {
+            Span<char> buffer = stackalloc char[plaintext.Length * cipher.MaxOutputCharactersPerInputCharacter];
+            cipher.Encrypt(plaintext, buffer, out var written);
+            return new string(buffer[..written]);
+        }
+
+        return String.Create<object>(plaintext.Length, null, (span, state) => cipher.Encrypt(plaintext, span, out _));
+    }
+
+    public static string Decrypt(this ICipher cipher, string ciphertext)
+    {
+        if (cipher.MaxOutputCharactersPerInputCharacter > 1)
+        {
+            Span<char> buffer = stackalloc char[ciphertext.Length * cipher.MaxOutputCharactersPerInputCharacter];
+            cipher.Decrypt(ciphertext, buffer, out var written);
+            return new string(buffer[..written]);
+        }
+
+        return String.Create<object>(ciphertext.Length, null, (span, state) => cipher.Encrypt(ciphertext, span, out _));
     }
 }

@@ -1,24 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 namespace Science.Cryptography.Ciphers.Analysis
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class RelativeCharacterFrequencies : IReadOnlyDictionary<char, double>
+    public record class RelativeCharacterFrequencies(IReadOnlyDictionary<char, double> Frequencies) : IReadOnlyDictionary<char, double>
     {
-        public RelativeCharacterFrequencies(IReadOnlyDictionary<char, double> frequencies)
-        {
-            if (frequencies == null)
-                throw new ArgumentNullException(nameof(frequencies));
-
-            _frequencies = frequencies;
-        }
-
-        private readonly IReadOnlyDictionary<char, double> _frequencies;
-
         /// <summary>
         /// Gets the occurrences of a given <paramref name="character"/>.
         /// </summary>
@@ -29,30 +15,30 @@ namespace Science.Cryptography.Ciphers.Analysis
             get
             {
                 double frequency = 0;
-                _frequencies.TryGetValue(character, out frequency);
+                Frequencies.TryGetValue(character, out frequency);
                 return frequency;
             }
         }
 
-        
-        public IReadOnlyDictionary<char, double> ToDictionary() => _frequencies;
+
+        public IReadOnlyDictionary<char, double> ToDictionary() => Frequencies;
 
 
         #region IReadOnlyDictionary<char, double>
-        IEnumerable<char> IReadOnlyDictionary<char, double>.Keys => _frequencies.Keys;
-        IEnumerable<double> IReadOnlyDictionary<char, double>.Values => _frequencies.Values;
+        IEnumerable<char> IReadOnlyDictionary<char, double>.Keys => Frequencies.Keys;
+        IEnumerable<double> IReadOnlyDictionary<char, double>.Values => Frequencies.Values;
 
-        int IReadOnlyCollection<KeyValuePair<char, double>>.Count => _frequencies.Count;
+        int IReadOnlyCollection<KeyValuePair<char, double>>.Count => Frequencies.Count;
 
         double IReadOnlyDictionary<char, double>.this[char key] => this[key];
 
-        bool IReadOnlyDictionary<char, double>.ContainsKey(char key) => _frequencies.ContainsKey(key);
+        bool IReadOnlyDictionary<char, double>.ContainsKey(char key) => Frequencies.ContainsKey(key);
 
-        bool IReadOnlyDictionary<char, double>.TryGetValue(char key, out double value) => _frequencies.TryGetValue(key, out value);
+        bool IReadOnlyDictionary<char, double>.TryGetValue(char key, out double value) => Frequencies.TryGetValue(key, out value);
 
-        IEnumerator<KeyValuePair<char, double>> IEnumerable<KeyValuePair<char, double>>.GetEnumerator() => _frequencies.GetEnumerator();
+        IEnumerator<KeyValuePair<char, double>> IEnumerable<KeyValuePair<char, double>>.GetEnumerator() => Frequencies.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => _frequencies.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => Frequencies.GetEnumerator();
         #endregion
     }
 }

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Composition;
-using System.IO;
 
 namespace Science.Cryptography.Ciphers.Analysis
 {
@@ -13,21 +11,12 @@ namespace Science.Cryptography.Ciphers.Analysis
     {
         public WordlistKeySpaceSource(IReadOnlyList<string> words)
         {
-            if (words == null)
-                throw new ArgumentNullException(nameof(words));
-
             _words = words;
         }
-        public WordlistKeySpaceSource(string path)
-            : this(File.ReadAllLines(path))
-        { }
 
         private readonly IReadOnlyList<string> _words;
 
 
-        public IEnumerable<string> GetKeys()
-        {
-            return _words;
-        }
+        public IEnumerable<string> GetKeys() => _words;
     }
 }

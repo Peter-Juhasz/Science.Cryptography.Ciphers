@@ -21,7 +21,7 @@ namespace Science.Cryptography.Ciphers.Analysis
             if (minimumKeyLength < 0 || minimumKeyLength > ciphertext.Length)
                 throw new ArgumentOutOfRangeException(nameof(minimumKeyLength));
 
-            
+
             List<int> speculativeKeyLengths = new List<int>();
             object syncRoot = new object();
 
@@ -34,7 +34,7 @@ namespace Science.Cryptography.Ciphers.Analysis
                     {
                         string substring = ciphertext.Substring(i, keylength);
 
-                        foreach (int nextOccurrence in 
+                        foreach (int nextOccurrence in
                             from o in ciphertext.AllIndexesOf(substring, i + 1, comparison)
                             where (o - i) % keylength == 0
                             select o
@@ -56,7 +56,7 @@ namespace Science.Cryptography.Ciphers.Analysis
                     }
                 }
             );
-            
+
             return new KasiskiExaminationResult(speculativeKeyLengths);
         }
 

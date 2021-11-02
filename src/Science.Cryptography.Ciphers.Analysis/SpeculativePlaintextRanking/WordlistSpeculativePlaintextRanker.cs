@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +8,7 @@ namespace Science.Cryptography.Ciphers.Analysis
     /// <summary>
     /// Searches for a specific known portion of plaintext to classify potential plaintext candidates.
     /// </summary>
-    public sealed class WordlistSpeculativePlaintextRanker : ISpeculativePlaintextRanker
+    public sealed class WordlistSpeculativePlaintextRanker : ISpeculativePlaintextScorer
     {
         public WordlistSpeculativePlaintextRanker(IReadOnlyCollection<string> wordlist, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
@@ -27,9 +28,22 @@ namespace Science.Cryptography.Ciphers.Analysis
         /// </summary>
         /// <param name="speculativePlaintext"></param>
         /// <returns></returns>
-        public double Classify(string speculativePlaintext)
+        public double Score(ReadOnlySpan<char> speculativePlaintext)
         {
-            return ((double)speculativePlaintext.Length - _orderedWordlist.Aggregate(speculativePlaintext, (r, n) => r.Replace(n, String.Empty, _comparison)).Length) / speculativePlaintext.Length;
+            var bitArray = new BitArray(speculativePlaintext.Length);
+            foreach (var word in _orderedWordlist)
+            {
+                // TODO: all
+                var index = speculativePlaintext.IndexOf(word, StringComparison.OrdinalIgnoreCase);
+                if (index != -1)
+                {
+                    for (int i = 0; i < word.Length; i++)
+                    {
+                        bitArray[index + i] = true;
+                    }
+                }
+            }
+            return (speculativePlaintext.Length - bitArray.GetCardinality()) / (double)speculativePlaintext.Length;
         }
     }
 }

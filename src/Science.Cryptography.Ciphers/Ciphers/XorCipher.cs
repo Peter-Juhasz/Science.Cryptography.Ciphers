@@ -1,30 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Composition;
-using System.Linq;
 
-namespace Science.Cryptography.Ciphers
+namespace Science.Cryptography.Ciphers;
+
+/// <summary>
+/// Represents the XOR cipher.
+/// </summary>
+[Export("XOR", typeof(IKeyedCipher<>))]
+public class XorCipher : ReciprocalKeyedCipher<IReadOnlyList<int>>
 {
-    /// <summary>
-    /// Represents the XOR cipher.
-    /// </summary>
-    [Export("XOR", typeof(IKeyedCipher<>))]
-    public class XorCipher : ReciprocalKeyedCipher<IReadOnlyList<byte>>
+    protected override void Crypt(ReadOnlySpan<char> input, Span<char> output, IReadOnlyList<int> key, out int written)
     {
-        protected override string Crypt(string text, IReadOnlyList<byte> key)
+        if (key.Count == 0)
         {
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
-
-            if (key == null)
-                throw new ArgumentNullException(nameof(key));
-
-            if (key.Count == 0)
-                throw new ArgumentException("Key can't be zero-length.", nameof(key));
-
-            return String.Concat(
-                text.Zip(EnumerableEx.Repeat<byte>(key), (c, k) => (char)(c ^ k))
-            );
+            throw new ArgumentException("Key can't be zero-length.", nameof(key));
         }
+
+        if (output.Length < input.Length)
+        {
+            throw new ArgumentException("Size of output buffer is insufficient.", nameof(output));
+        }
+
+        for (int i = 0; i < input.Length; i++)
+        {
+            output[i] = (char)(input[i] ^ key[i % key.Count]);
+        }
+
+        written = input.Length;
     }
 }

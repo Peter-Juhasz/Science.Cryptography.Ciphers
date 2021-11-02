@@ -1,4 +1,6 @@
-﻿namespace Science.Cryptography.Ciphers.Analysis
+﻿using System;
+
+namespace Science.Cryptography.Ciphers.Analysis
 {
     /// <summary>
     /// Represents a recognition algorithm for a specific cipher.
@@ -10,6 +12,6 @@
         /// </summary>
         /// <param name="ciphertext"></param>
         /// <returns></returns>
-        RecognitionResult Recognize(string ciphertext);
+        RecognitionResult Recognize(ReadOnlySpan<char> ciphertext);
     }
 }

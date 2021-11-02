@@ -1,31 +1,13 @@
 ﻿using System;
+using System.Buffers;
+using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.Numerics;
 
 namespace Science.Cryptography.Ciphers.Analysis
 {
     internal static class StringExtensions
     {
-        public static string Replace(this string str, string oldValue, string newValue, StringComparison comparison)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            int previousIndex = 0;
-            int index = str.IndexOf(oldValue, comparison);
-            while (index != -1)
-            {
-                sb.Append(str.Substring(previousIndex, index - previousIndex));
-                sb.Append(newValue);
-                index += oldValue.Length;
-
-                previousIndex = index;
-                index = str.IndexOf(oldValue, index, comparison);
-            }
-            sb.Append(str.Substring(previousIndex));
-
-            return sb.ToString();
-        }
-
         public static IEnumerable<int> AllIndexesOf(this string str, string subject, int startIndex = 0, StringComparison comparison = StringComparison.Ordinal)
         {
             int idx = str.IndexOf(subject, startIndex, comparison);
@@ -35,6 +17,20 @@ namespace Science.Cryptography.Ciphers.Analysis
                 yield return idx;
                 idx = str.IndexOf(subject, idx + 1, comparison);
             }
+        }
+
+        public static int GetCardinality(this BitArray bitArray)
+        {
+            var length = (bitArray.Count >> 5) + 1;
+            uint[] ints = ArrayPool<uint>.Shared.Rent(length);
+            bitArray.CopyTo(ints, 0);
+            int count = 0;
+            for (int i = 0; i < ints.Length; i++)
+            {
+                count += BitOperations.PopCount(ints[i]);
+            }
+            ArrayPool<uint>.Shared.Return(ints);
+            return count;
         }
     }
 }

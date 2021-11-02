@@ -12,12 +12,12 @@ namespace Science.Cryptography.Ciphers
         public string Encrypt(string plaintext, char[,][,] key)
         {
             char[] result = new char[plaintext.Length];
-            
+
             for (int i = 0; i < plaintext.Length - 1; i++)
             {
                 if (Char.IsLetter(plaintext[i]) && Char.IsLetter(plaintext[i + 1]))
                 {
-                    Tuple<int, int> firstPosition = PolybiusSquare.FindOffsets(key[0, 0], Char.ToUpper(plaintext[i])),
+                    (int, int) firstPosition = PolybiusSquare.FindOffsets(key[0, 0], Char.ToUpper(plaintext[i])),
                         secondPosition = PolybiusSquare.FindOffsets(key[1, 1], Char.ToUpper(plaintext[i + 1]));
 
                     if (firstPosition == null || secondPosition == null)
@@ -48,7 +48,7 @@ namespace Science.Cryptography.Ciphers
             {
                 if (Char.IsLetter(ciphertext[i]) && Char.IsLetter(ciphertext[i + 1]))
                 {
-                    Tuple<int, int> firstPosition = PolybiusSquare.FindOffsets(key[1, 0], Char.ToUpper(ciphertext[i])),
+                    (int, int) firstPosition = PolybiusSquare.FindOffsets(key[1, 0], Char.ToUpper(ciphertext[i])),
                         secondPosition = PolybiusSquare.FindOffsets(key[0, 1], Char.ToUpper(ciphertext[i + 1]));
 
                     if (firstPosition == null || secondPosition == null)

@@ -6,13 +6,10 @@ namespace Science.Cryptography.Ciphers.Analysis
     /// <summary>
     /// Searches for a specific known portion of plaintext to classify potential plaintext candidates.
     /// </summary>
-    public sealed class RegexSpeculativePlaintextRanker : ISpeculativePlaintextRanker
+    public sealed class RegexSpeculativePlaintextRanker : ISpeculativePlaintextScorer
     {
         public RegexSpeculativePlaintextRanker(Regex regex)
         {
-            if (regex == null)
-                throw new ArgumentNullException(nameof(regex));
-
             _regex = regex;
         }
 
@@ -24,9 +21,9 @@ namespace Science.Cryptography.Ciphers.Analysis
         /// </summary>
         /// <param name="speculativePlaintext"></param>
         /// <returns></returns>
-        public double Classify(string speculativePlaintext)
+        public double Score(ReadOnlySpan<char> speculativePlaintext)
         {
-            return _regex.IsMatch(speculativePlaintext) ? 1 : 0;
+            return _regex.IsMatch(new string(speculativePlaintext)) ? 1 : 0;
         }
     }
 }

@@ -1,23 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{287897FC-D5BA-4B78-A2AE-BF09A26A329F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Ciphers", "src\Science.Cryptography.Ciphers\Science.Cryptography.Ciphers.csproj", "{C84B38DC-8C16-4547-A1E5-B92D55503062}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Ciphers.Analysis", "src\Science.Cryptography.Ciphers.Analysis\Science.Cryptography.Ciphers.Analysis.csproj", "{BF53E41E-35E6-4609-A558-C26C5DDFF71D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72292918-375F-4445-9DC3-6EBCB0279995}"
 	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Science.Cryptography.Ciphers", "src\Science.Cryptography.Ciphers\Science.Cryptography.Ciphers.xproj", "{92E290DE-12AA-456B-8970-FD6EBC9C4C94}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Science.Cryptography.Ciphers.Tests", "test\Science.Cryptography.Ciphers.Tests\Science.Cryptography.Ciphers.Tests.xproj", "{AB786420-1698-40CA-94EE-FCAD61CC9C01}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Science.Cryptography.Ciphers.Streaming", "src\Science.Cryptography.Ciphers.Streaming\Science.Cryptography.Ciphers.Streaming.xproj", "{DDA1E675-B0AA-4E8A-B8EF-3948D2EDEF63}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Science.Cryptography.Ciphers.Analysis", "src\Science.Cryptography.Ciphers.Analysis\Science.Cryptography.Ciphers.Analysis.xproj", "{5E23B061-CFB7-4761-9C37-99DF01435F25}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Science.Cryptography.Ciphers.Analysis.Tests", "test\Science.Cryptography.Ciphers.Analysis.Tests\Science.Cryptography.Ciphers.Analysis.Tests.xproj", "{9E08EA0D-55C1-44E0-BAD9-DA5016144E58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Ciphers.Tests", "test\Science.Cryptography.Ciphers.Tests\Science.Cryptography.Ciphers.Tests.csproj", "{44A688D0-7C9F-41D5-80AF-3C69F4EFF1E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,28 +23,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{92E290DE-12AA-456B-8970-FD6EBC9C4C94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92E290DE-12AA-456B-8970-FD6EBC9C4C94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92E290DE-12AA-456B-8970-FD6EBC9C4C94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92E290DE-12AA-456B-8970-FD6EBC9C4C94}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB786420-1698-40CA-94EE-FCAD61CC9C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB786420-1698-40CA-94EE-FCAD61CC9C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB786420-1698-40CA-94EE-FCAD61CC9C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB786420-1698-40CA-94EE-FCAD61CC9C01}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DDA1E675-B0AA-4E8A-B8EF-3948D2EDEF63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDA1E675-B0AA-4E8A-B8EF-3948D2EDEF63}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDA1E675-B0AA-4E8A-B8EF-3948D2EDEF63}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDA1E675-B0AA-4E8A-B8EF-3948D2EDEF63}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5E23B061-CFB7-4761-9C37-99DF01435F25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E23B061-CFB7-4761-9C37-99DF01435F25}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E23B061-CFB7-4761-9C37-99DF01435F25}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E23B061-CFB7-4761-9C37-99DF01435F25}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E08EA0D-55C1-44E0-BAD9-DA5016144E58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E08EA0D-55C1-44E0-BAD9-DA5016144E58}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E08EA0D-55C1-44E0-BAD9-DA5016144E58}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E08EA0D-55C1-44E0-BAD9-DA5016144E58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C84B38DC-8C16-4547-A1E5-B92D55503062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C84B38DC-8C16-4547-A1E5-B92D55503062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C84B38DC-8C16-4547-A1E5-B92D55503062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C84B38DC-8C16-4547-A1E5-B92D55503062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF53E41E-35E6-4609-A558-C26C5DDFF71D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF53E41E-35E6-4609-A558-C26C5DDFF71D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF53E41E-35E6-4609-A558-C26C5DDFF71D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF53E41E-35E6-4609-A558-C26C5DDFF71D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44A688D0-7C9F-41D5-80AF-3C69F4EFF1E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44A688D0-7C9F-41D5-80AF-3C69F4EFF1E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44A688D0-7C9F-41D5-80AF-3C69F4EFF1E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44A688D0-7C9F-41D5-80AF-3C69F4EFF1E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {67FC5211-A439-4DFA-8C3E-311ABA3D6CE7}
 	EndGlobalSection
 EndGlobal

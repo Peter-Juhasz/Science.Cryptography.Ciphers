@@ -1,95 +1,88 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Composition;
-using System.Linq;
-using System.Text;
 
-namespace Science.Cryptography.Ciphers
+namespace Science.Cryptography.Ciphers;
+
+/// <summary>
+/// Represents Francis Bacon's cipher.
+/// </summary>
+[Export("Bacon", typeof(ICipher))]
+public class BaconCipher : ICipher
 {
-    /// <summary>
-    /// Represents Francis Bacon's cipher.
-    /// </summary>
-    [Export("Bacon", typeof(ICipher))]
-    public class BaconCipher : ICipher
+    public BaconCipher(BaconOptions options)
     {
-        public BaconCipher()
+        Options = options;
+        _map = options.GetSubstitutionMap();
+    }
+    public BaconCipher()
+        : this(BaconOptions.Default)
+    { }
+
+    private readonly CharacterToSegmentSubstitutionMap _map;
+
+    public int MaxOutputCharactersPerInputCharacter => 5;
+
+    public BaconOptions Options { get; }
+
+    public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, out int written)
+    {
+        var writtenPosition = 0;
+
+        foreach (var ch in plaintext)
         {
-            this.Dictionary = new Dictionary<char, string>()
+            if (!_map.TryLookup(ch, ciphertext[writtenPosition..], ref writtenPosition))
             {
-                { 'A', "AAAAA" },
-                { 'B', "AAAAB" },
-                { 'C', "AAABA" },
-                { 'D', "AAABB" },
-                { 'E', "AABAA" },
-                { 'F', "AABAB" },
-                { 'G', "AABBA" },
-                { 'H', "AABBB" },
-                { 'I', "ABAAA" },
-                { 'J', "ABAAA" },
-                { 'K', "ABAAB" },
-                { 'L', "ABABA" },
-                { 'M', "ABABB" },
-                { 'N', "ABBAA" },
-                { 'O', "ABBAB" },
-                { 'P', "ABBBA" },
-                { 'Q', "ABBBB" },
-                { 'R', "BAAAA" },
-                { 'S', "BAAAB" },
-                { 'T', "BAABA" },
-                { 'U', "BAABB" },
-                { 'V', "BAABB" },
-                { 'W', "BABAA" },
-                { 'X', "BABAB" },
-                { 'Y', "BABBA" },
-                { 'Z', "BABBB" },
-            };
+                ciphertext[writtenPosition++] = ch;
+            }
         }
 
-        private readonly IReadOnlyDictionary<char, string> Dictionary;
+        written = writtenPosition;
+    }
 
+    public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, out int written)
+    {
+        var A = Options.A;
+        var B = Options.B;
 
-        public string Encrypt(string plaintext)
+        int start = 0, end = 0;
+
+        var writtenPosition = 0;
+
+        for (int i = 0; i < ciphertext.Length; i++)
         {
-            StringBuilder result = new StringBuilder();
-
-            foreach (char ch in plaintext)
-                result.Append(this.Dictionary.ContainsKey(Char.ToUpper(ch)) ? this.Dictionary[Char.ToUpper(ch)] : ch.ToString());
-
-            return result.ToString();
-        }
-
-        public string Decrypt(string ciphertext)
-        {
-            StringBuilder result = new StringBuilder();
-            StringBuilder window = new StringBuilder(5);
-
-            foreach (char ch in ciphertext)
+            var ch = ciphertext[i];
+            if (ch == A || ch == B)
             {
-                if (ch == 'A' || ch == 'B')
+                if (end - start == 4)
                 {
-                    window.Append(ch);
-
-                    if (window.Length == 5)
+                    end = i + 1;
+                    if (_map.TryReverseLookup(ciphertext[start..end], out var tr))
                     {
-                        if (this.Dictionary.Values.Contains(window.ToString()))
-                            result.Append(this.Dictionary.First(kvp => kvp.Value.Equals(window.ToString(), StringComparison.OrdinalIgnoreCase)).Key);
-                        else
-                            result.Append(window.ToString());
-
-                        window.Clear();
+                        plaintext[writtenPosition++] = tr;
                     }
+                    else
+                    {
+                        plaintext[writtenPosition++] = ch;
+                    }
+                    start = end = 0;
                 }
-                else
+                else if (start < end)
                 {
-                    result.Append(ch);
-                    window.Clear();
+                    end = i + 1;
+                }
+                else if (start == end)
+                {
+                    start = i;
+                    end = i + 1;
                 }
             }
-
-            if (window.Length == 5)
-                result.Append(this.Dictionary.First(kvp => kvp.Value.Equals(window.ToString(), StringComparison.OrdinalIgnoreCase)).Key);
-
-            return result.ToString();
+            else
+            {
+                plaintext[writtenPosition++] = ch;
+                start = end = 0;
+            }
         }
+
+        written = writtenPosition;
     }
 }

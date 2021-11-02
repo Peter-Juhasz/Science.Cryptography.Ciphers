@@ -6,7 +6,7 @@ namespace Science.Cryptography.Ciphers.Analysis
     /// <summary>
     /// Searches for a specific known portion of plaintext to classify potential plaintext candidates.
     /// </summary>
-    public sealed class RelativeLetterFrequenciesSpeculativePlaintextRanker : ISpeculativePlaintextRanker
+    public sealed class RelativeLetterFrequenciesSpeculativePlaintextRanker : ISpeculativePlaintextScorer
     {
         public RelativeLetterFrequenciesSpeculativePlaintextRanker(IReadOnlyDictionary<char, double> relativeFrequencies)
         {
@@ -27,9 +27,9 @@ namespace Science.Cryptography.Ciphers.Analysis
         /// </summary>
         /// <param name="speculativePlaintext"></param>
         /// <returns></returns>
-        public double Classify(string speculativePlaintext)
+        public double Score(ReadOnlySpan<char> speculativePlaintext)
         {
-            return FrequencyAnalysis.Compare(_relativeFrequencies, FrequencyAnalysis.Analyze(speculativePlaintext).AsRelativeFrequencies());
+            return FrequencyAnalysis.Compare(_relativeFrequencies, FrequencyAnalysis.Analyze(speculativePlaintext).ToRelativeFrequencies());
         }
     }
 }

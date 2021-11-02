@@ -1,32 +1,28 @@
-﻿using System.Composition;
+﻿using System;
+using System.Composition;
 
-namespace Science.Cryptography.Ciphers
+namespace Science.Cryptography.Ciphers;
+
+/// <summary>
+/// Represents the Variant Beaufort.
+/// </summary>
+[Export("Variant Beaufort", typeof(IKeyedCipher<>))]
+public class VariantBeaufortCipher : IKeyedCipher<string>
 {
-    /// <summary>
-    /// Represents the Variant Beaufort.
-    /// </summary>
-    [Export("Variant Beaufort", typeof(IKeyedCipher<>))]
-    public class VariantBeaufortCipher : IKeyedCipher<string>
+    public VariantBeaufortCipher(Alphabet alphabet)
     {
-        public VariantBeaufortCipher(string charset = Charsets.English)
-        {
-            this.Charset = charset;
-            _vigenère = new VigenèreCipher(this.Charset);
-        }
-
-        private readonly VigenèreCipher _vigenère;
-
-        public string Charset { get; private set; }
-
-
-        public string Encrypt(string plaintext, string key)
-        {
-            return _vigenère.Decrypt(plaintext, key);
-        }
-
-        public string Decrypt(string ciphertext, string key)
-        {
-            return _vigenère.Encrypt(ciphertext, key);
-        }
+        _inner = new(alphabet);
     }
+    public VariantBeaufortCipher()
+        : this(WellKnownAlphabets.English)
+    { }
+
+    private readonly VigenèreCipher _inner;
+
+    public Alphabet Alphabet => _inner.Alphabet;
+
+
+    public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, string key, out int written) => _inner.Decrypt(plaintext, ciphertext, key, out written);
+
+    public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, string key, out int written) => _inner.Encrypt(ciphertext, plaintext, key, out written);
 }

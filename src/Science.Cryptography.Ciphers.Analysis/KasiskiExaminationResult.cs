@@ -2,13 +2,7 @@
 
 namespace Science.Cryptography.Ciphers.Analysis
 {
-    public class KasiskiExaminationResult
+    public record class KasiskiExaminationResult(IReadOnlyCollection<int> SpeculativeKeyLengths)
     {
-        public KasiskiExaminationResult(IReadOnlyCollection<int> speculativeKeyLength)
-        {
-            this.SpeculativeKeyLengths = speculativeKeyLength;
-        }
-
-        public IReadOnlyCollection<int> SpeculativeKeyLengths { get; private set; }
     }
 }

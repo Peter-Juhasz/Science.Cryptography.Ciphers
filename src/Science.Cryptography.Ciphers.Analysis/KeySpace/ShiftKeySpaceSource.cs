@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Composition;
 using System.Linq;
 
@@ -8,19 +7,13 @@ namespace Science.Cryptography.Ciphers.Analysis
     [Export("Shift", typeof(IKeySpaceSource<int>))]
     public sealed class ShiftKeySpaceSource : IKeySpaceSource<int>
     {
-        public ShiftKeySpaceSource(string charset = Charsets.English)
+        public ShiftKeySpaceSource(Alphabet alphabet)
         {
-            if (charset == null)
-                throw new ArgumentNullException(nameof(charset));
-
-            this.Charset = charset;
+            Alphabet = alphabet;
         }
 
-        public string Charset { get; private set; }
+        public Alphabet Alphabet { get; }
 
-        public IEnumerable<int> GetKeys()
-        {
-            return Enumerable.Range(1, this.Charset.Length - 1);
-        }
+        public IEnumerable<int> GetKeys() => Enumerable.Range(1, Alphabet.Length - 1);
     }
 }

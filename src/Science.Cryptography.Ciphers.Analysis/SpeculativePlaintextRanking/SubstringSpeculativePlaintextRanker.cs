@@ -5,19 +5,16 @@ namespace Science.Cryptography.Ciphers.Analysis
     /// <summary>
     /// Searches for a specific known portion of plaintext to classify potential plaintext candidates.
     /// </summary>
-    public sealed class SubstringSpeculativePlaintextRanker : ISpeculativePlaintextRanker
+    public sealed class SubstringSpeculativePlaintextRanker : ISpeculativePlaintextScorer
     {
         public SubstringSpeculativePlaintextRanker(string substring, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
-            if (substring == null)
-                throw new ArgumentNullException(nameof(substring));
-
-            _substring = substring;
-            _comparison = comparison;
+            Substring = substring;
+            Comparison = comparison;
         }
 
-        private readonly string _substring;
-        private readonly StringComparison _comparison;
+        public string Substring { get; }
+        public StringComparison Comparison { get; }
 
 
         /// <summary>
@@ -25,9 +22,6 @@ namespace Science.Cryptography.Ciphers.Analysis
         /// </summary>
         /// <param name="speculativePlaintext"></param>
         /// <returns></returns>
-        public double Classify(string speculativePlaintext)
-        {
-            return speculativePlaintext.IndexOf(_substring, _comparison) != -1 ? 1 : 0;
-        }
+        public double Score(ReadOnlySpan<char> speculativePlaintext) => speculativePlaintext.IndexOf(Substring, Comparison) != -1 ? 1D : 0D;
     }
 }

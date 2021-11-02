@@ -20,13 +20,10 @@ namespace Science.Cryptography.Ciphers.Analysis.KeySpace
 
         private readonly IReadOnlyCollection<IKeySpaceSource<T>> _sources;
 
-        public IEnumerable<T> GetKeys()
-        {
-            return
-                from source in _sources
-                from key in source.GetKeys()
-                select key
-            ;
-        }
+        public IEnumerable<T> GetKeys() =>
+            from source in _sources
+            from key in source.GetKeys()
+            select key
+        ;
     }
 }

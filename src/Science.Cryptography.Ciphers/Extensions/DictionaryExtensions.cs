@@ -5,15 +5,18 @@ namespace Science.Cryptography.Ciphers
 {
     public static partial class DictionaryExtensions
     {
-        public static IReadOnlyDictionary<TValue, TKey> Swap<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> source)
+        public static IReadOnlyDictionary<TValue, TKey> Swap<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> source) => source.ToDictionary(kv => kv.Value, kv => kv.Key);
+
+        public static IReadOnlyDictionary<TValue, TKey> SwapIgnoreDuplicates<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> source)
         {
-            return source.ToDictionary(kv => kv.Value, kv => kv.Key);
+            var result = new Dictionary<TValue, TKey>();
+            foreach (var kvp in source)
+            {
+                result[kvp.Value] = kvp.Key;
+            }
+            return result;
         }
 
-        public static T GetOrSame<T>(this IReadOnlyDictionary<T, T> source, T key)
-        {
-            T value;
-            return source.TryGetValue(key, out value) ? value : key;
-        }
+        public static T GetOrSame<T>(this IReadOnlyDictionary<T, T> source, T key) => source.TryGetValue(key, out T value) ? value : key;
     }
 }

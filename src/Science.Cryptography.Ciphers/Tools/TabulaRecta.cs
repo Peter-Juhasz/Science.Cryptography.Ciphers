@@ -1,78 +1,69 @@
 ﻿using System;
 
-namespace Science.Cryptography.Ciphers
+namespace Science.Cryptography.Ciphers;
+
+/// <summary>
+/// Represents a Tabula Recta.
+/// </summary>
+public class TabulaRecta
 {
-    /// <summary>
-    /// Represents a Tabula Recta.
-    /// </summary>
-    public class TabulaRecta
+    public TabulaRecta(Alphabet alphabet)
     {
-        public TabulaRecta(string charset = Charsets.English)
+        this.Alphabet = alphabet;
+        _rowColumnCache = new string[alphabet.Length];
+    }
+
+
+    public static readonly TabulaRecta Regular = new(WellKnownAlphabets.English);
+
+
+    public string this[int index] => GetRowOrColumn(index);
+    public string this[char @char] => GetRowOrColumn(Alphabet.IndexOfIgnoreCase(@char));
+
+    public char this[int column, int row] => Alphabet.AtMod(column + row);
+    public char this[char column, char row]
+    {
+        get
         {
-            if (charset == null)
-                throw new ArgumentNullException(nameof(charset));
+            int i1 = this.Alphabet.IndexOfIgnoreCase(column),
+                i2 = this.Alphabet.IndexOfIgnoreCase(row);
 
-            this.Charset = charset;
-        }
-
-
-        public static readonly TabulaRecta Regular = new TabulaRecta();
-
-
-        public string this[int index]
-        {
-            get { return this.GetRowOrColumn(index); }
-        }
-        public string this[char @char]
-        {
-            get { return this.GetRowOrColumn(this.Charset.IndexOfIgnoreCase(@char)); }
-        }
-
-        public char this[int column, int row]
-        {
-            get { return this.GetRowOrColumn(column)[row]; }
-        }
-        public char this[char column, char row]
-        {
-            get
-            {
-                int i1 = this.Charset.IndexOfIgnoreCase(column),
-                    i2 = this.Charset.IndexOfIgnoreCase(row);
-
-                return this.GetRowOrColumn(i1)[i2];
-            }
-        }
-
-
-        public string Charset { get; private set; }
-        
-
-        /// <summary>
-        /// Gets a row or a column of the tabula recta.
-        /// </summary>
-        /// <param name="index">The index of the row or the column.</param>
-        /// <returns></returns>
-        public string GetRowOrColumn(int index)
-        {
-            if (index >= this.Charset.Length)
-                throw new ArgumentOutOfRangeException(nameof(index));
-
-            return this.Charset.Substring(index) + this.Charset.Substring(0, index);
-        }
-        public string GetRowOrColumn(char @char)
-        {
-            return this.GetRowOrColumn(this.Charset.IndexOfIgnoreCase(@char));
-        }
-
-        /// <summary>
-        /// Finds the corresponding column or row label for a character in a given column or row.
-        /// </summary>
-        /// <param name="columnOrRow"></param>
-        /// <param name="char"></param>
-        /// <returns></returns>
-        public char FindColumnOrRowLabel(char columnOrRow, char @char)
-        {
-            return this.Charset.At(this.Charset.IndexOfIgnoreCase(@char) - this.Charset.IndexOfIgnoreCase(columnOrRow));
+            return this[i1, i2];
         }
     }
+
+
+    public Alphabet Alphabet { get; }
+
+    private readonly string?[] _rowColumnCache;
+
+
+    /// <summary>
+    /// Gets a row or a column of the tabula recta.
+    /// </summary>
+    /// <param name="index">The index of the row or the column.</param>
+    /// <returns></returns>
+    public string GetRowOrColumn(int index)
+    {
+        if (index < 0 || index >= Alphabet.Length)
+            throw new ArgumentOutOfRangeException(nameof(index));
+
+        if (_rowColumnCache[index] is not string row)
+        {
+            row = string.Concat(Alphabet[index..], Alphabet[..index]);
+            _rowColumnCache[index] = row;
+        }
+
+        return row;
+    }
+
+    public string GetRowOrColumn(char @char) => GetRowOrColumn(Alphabet.IndexOfIgnoreCase(@char));
+
+    /// <summary>
+    /// Finds the corresponding column or row label for a character in a given column or row.
+    /// </summary>
+    /// <param name="columnOrRow"></param>
+    /// <param name="char"></param>
+    /// <returns></returns>
+    public char FindColumnOrRowLabel(char columnOrRow, char @char) => Alphabet.AtMod(Alphabet.IndexOfIgnoreCase(@char) - Alphabet.IndexOfIgnoreCase(columnOrRow));
 }

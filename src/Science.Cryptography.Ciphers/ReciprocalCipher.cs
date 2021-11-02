@@ -1,20 +1,12 @@
-﻿namespace Science.Cryptography.Ciphers
+﻿using System;
+
+namespace Science.Cryptography.Ciphers;
+
+public abstract class ReciprocalCipher : ICipher
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public abstract class ReciprocalCipher : ICipher
-    {
-        public string Encrypt(string plaintext)
-        {
-            return this.Crypt(plaintext);
-        }
+    public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, out int written) => Crypt(plaintext, ciphertext, out written);
 
-        public string Decrypt(string ciphertext)
-        {
-            return this.Crypt(ciphertext);
-        }
+    public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, out int written) => Crypt(ciphertext, plaintext, out written);
 
-        protected abstract string Crypt(string text);
-    }
+    protected abstract void Crypt(ReadOnlySpan<char> input, Span<char> output, out int written);
 }

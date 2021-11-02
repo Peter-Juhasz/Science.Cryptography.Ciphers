@@ -1,103 +1,138 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace Science.Cryptography.Ciphers.Analysis
+namespace Science.Cryptography.Ciphers.Analysis;
+
+public static class KeyFinder
 {
-    public static class KeyFinder
+    public static async Task<KeyFinderResult<TKey>>? FindBestAsync<TKey>(
+        string ciphertext,
+        IKeyedCipher<TKey> cipher,
+        IKeySpaceSource<TKey> keySpace,
+        ISpeculativePlaintextScorer speculativePlaintextScorer,
+        Action<KeyFinderResult<TKey>>? onBetterResultFound = null,
+        CancellationToken cancellationToken = default
+    )
     {
-        public static KeyFinderResult<TKey> FindBest<TKey>(
-            string ciphertext,
-            IKeyedCipher<TKey> cipher,
-            IKeySpaceSource<TKey> keySpace,
-            ISpeculativePlaintextRanker speculativePlaintextRanker,
-            Action<KeyFinderResult<TKey>> onBetterResultFound = null,
-            CancellationToken cancellationToken = default(CancellationToken)
-        )
-        {
-            if (ciphertext == null)
-                throw new ArgumentNullException(nameof(ciphertext));
+        var degreeOfParallelism = Environment.ProcessorCount;
 
-            if (cipher == null)
-                throw new ArgumentNullException(nameof(cipher));
+        var channel = Channel.CreateBounded<TKey>(degreeOfParallelism);
+        var writer = channel.Writer;
+        var reader = channel.Reader;
 
-            if (keySpace == null)
-                throw new ArgumentNullException(nameof(keySpace));
+        var keyReaderTask = ReadKeysAsync(keySpace, writer, cancellationToken);
 
-            if (speculativePlaintextRanker == null)
-                throw new ArgumentNullException(nameof(speculativePlaintextRanker));
-
-
-            KeyFinderResult<TKey> best = null;
-            object syncRoot = new object();
-
-            Parallel.ForEach(
-                keySpace.GetKeys(),
-                new ParallelOptions { CancellationToken = cancellationToken },
-                key =>
+        KeyFinderResult<TKey>? best = null;
+        object syncRoot = new();
+        var workers = Enumerable.Range(0, degreeOfParallelism).Select(_ => TestBestAsync(
+            ciphertext,
+            cipher,
+            speculativePlaintextScorer,
+            candidate =>
+            {
+                if (candidate.Score > best.Score)
                 {
-                    string speculativePlaintext = cipher.Decrypt(ciphertext, key);
-                    double rank = speculativePlaintextRanker.Classify(speculativePlaintext);
-
-                    if (rank > (best?.Rank ?? 0))
+                    lock (syncRoot)
                     {
-                        lock (syncRoot)
+                        if (candidate.Score > best.Score)
                         {
-                            if (rank > (best?.Rank ?? 0))
-                            {
-                                best = new KeyFinderResult<TKey>(key, speculativePlaintext, rank);
-
-                                onBetterResultFound?.Invoke(best);
-                            }
+                            best = candidate;
+                            onBetterResultFound?.Invoke(candidate);
                         }
                     }
                 }
-            );
+            },
+            reader,
+            cancellationToken
+        ));
+        var workerTasks = Task.WhenAll(workers);
+        await Task.WhenAll(keyReaderTask, workerTasks);
 
-            return best;
-        }
+        return best;
+    }
 
-        public static void FindAboveThreshold<TKey>(
-            string ciphertext,
-            IKeyedCipher<TKey> cipher,
-            IKeySpaceSource<TKey> keySpace,
-            ISpeculativePlaintextRanker speculativePlaintextRanker,
-            Action<KeyFinderResult<TKey>> onImmediateResultFound,
-            double threshold = 0.9,
-            CancellationToken cancellationToken = default(CancellationToken)
-        )
+    public static async Task FindAllAboveThresholdAsync<TKey>(
+        string ciphertext,
+        IKeyedCipher<TKey> cipher,
+        IKeySpaceSource<TKey> keySpace,
+        ISpeculativePlaintextScorer speculativePlaintextScorer,
+        Action<KeyFinderResult<TKey>> onImmediateResultFound,
+        double threshold = 0.9,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var degreeOfParallelism = Environment.ProcessorCount;
+
+        var channel = Channel.CreateBounded<TKey>(degreeOfParallelism);
+        var writer = channel.Writer;
+        var reader = channel.Reader;
+
+        var keyReaderTask = ReadKeysAsync(keySpace, writer, cancellationToken);
+
+        var workers = Enumerable.Range(0, degreeOfParallelism).Select(_ => TestAboveThresholdAsync(ciphertext, cipher, speculativePlaintextScorer, onImmediateResultFound, threshold, reader, cancellationToken));
+        var workerTasks = Task.WhenAll(workers);
+        await Task.WhenAll(keyReaderTask, workerTasks);
+    }
+
+    private static async Task ReadKeysAsync<TKey>(IKeySpaceSource<TKey> keySpace, ChannelWriter<TKey> writer, CancellationToken cancellationToken)
+    {
+        foreach (var key in keySpace.GetKeys())
         {
-            if (ciphertext == null)
-                throw new ArgumentNullException(nameof(ciphertext));
+            await writer.WriteAsync(key, cancellationToken);
+        }
+        writer.Complete();
+    }
 
-            if (cipher == null)
-                throw new ArgumentNullException(nameof(cipher));
+    private static async Task TestAboveThresholdAsync<TKey>(
+        string ciphertext,
+        IKeyedCipher<TKey> cipher,
+        ISpeculativePlaintextScorer speculativePlaintextScorer,
+        Action<KeyFinderResult<TKey>> onImmediateResultFound,
+        double threshold,
+        ChannelReader<TKey> reader,
+        CancellationToken cancellationToken
+    )
+    {
+        var buffer = new char[ciphertext.Length * 2];
 
-            if (keySpace == null)
-                throw new ArgumentNullException(nameof(keySpace));
+        await foreach (var key in reader.ReadAllAsync(cancellationToken))
+        {
+            cipher.Decrypt(ciphertext, buffer, key, out var written);
 
-            if (speculativePlaintextRanker == null)
-                throw new ArgumentNullException(nameof(speculativePlaintextRanker));
+            double rank = speculativePlaintextScorer.Score(buffer.AsSpan(0, written));
 
-            if (threshold < 0 || threshold > 1)
-                throw new ArgumentOutOfRangeException(nameof(threshold));
+            if (rank >= threshold)
+            {
+                onImmediateResultFound(new KeyFinderResult<TKey>(key, new string(buffer.AsSpan(0, written)), rank));
+            }
+        }
+    }
 
-            if (onImmediateResultFound == null)
-                throw new ArgumentNullException(nameof(onImmediateResultFound));
+    private static async Task TestBestAsync<TKey>(
+        string ciphertext,
+        IKeyedCipher<TKey> cipher,
+        ISpeculativePlaintextScorer speculativePlaintextScorer,
+        Action<KeyFinderResult<TKey>> onImmediateResultFound,
+        ChannelReader<TKey> reader,
+        CancellationToken cancellationToken
+    )
+    {
+        var buffer = new char[ciphertext.Length * 2];
+        var best = 0D;
 
+        await foreach (var key in reader.ReadAllAsync(cancellationToken))
+        {
+            cipher.Decrypt(ciphertext, buffer, key, out var written);
 
-            Parallel.ForEach(
-                keySpace.GetKeys(),
-                new ParallelOptions { CancellationToken = cancellationToken },
-                key =>
-                {
-                    string speculativePlaintext = cipher.Decrypt(ciphertext, key);
-                    double rank = speculativePlaintextRanker.Classify(speculativePlaintext);
+            double score = speculativePlaintextScorer.Score(buffer.AsSpan(0, written));
 
-                    if (rank >= threshold)
-                        onImmediateResultFound(new KeyFinderResult<TKey>(key, speculativePlaintext, rank));
-                }
-            );
+            if (score >= best)
+            {
+                onImmediateResultFound(new KeyFinderResult<TKey>(key, new string(buffer.AsSpan(0, written)), score));
+            }
         }
     }
 }

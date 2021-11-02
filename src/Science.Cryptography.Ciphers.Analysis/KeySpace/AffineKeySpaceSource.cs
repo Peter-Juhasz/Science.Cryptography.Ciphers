@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Composition;
 using System.Linq;
 
@@ -8,19 +7,17 @@ namespace Science.Cryptography.Ciphers.Analysis
     [Export("Affine", typeof(IKeySpaceSource<AffineKey>))]
     public sealed class AffineKeySpaceSource : IKeySpaceSource<AffineKey>
     {
-        public AffineKeySpaceSource(string charset = Charsets.English)
+        public AffineKeySpaceSource(Alphabet alphabet)
         {
-            if (charset == null)
-                throw new ArgumentNullException(nameof(charset));
-
-            this.Charset = charset;
+            Alphabet = alphabet;
         }
 
-        public string Charset { get; private set; }
+        public Alphabet Alphabet { get; }
+
 
         public IEnumerable<AffineKey> GetKeys()
         {
-            int n = this.Charset.Length;
+            int n = Alphabet.Length;
 
             return
                 from a in CoprimesTo(n)
@@ -43,11 +40,6 @@ namespace Science.Cryptography.Ciphers.Analysis
             return a;
         }
 
-        private static IEnumerable<int> CoprimesTo(int n)
-        {
-            return Enumerable.Range(0, n)
-                .Where(i => Gcd(i, n) == 1)
-            ;
-        }
+        private static IEnumerable<int> CoprimesTo(int n) => Enumerable.Range(0, n).Where(i => Gcd(i, n) == 1);
     }
 }

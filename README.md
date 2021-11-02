@@ -1,5 +1,5 @@
 ﻿# Science.Cryptography.Ciphers
-Ancient and classic cipher methods and analysis tools implemented in **.NET Standard 1.6**.
+Ancient and classic cipher methods and analysis tools implemented in **.NET** by using high performance memory management.
 
 ```PowerShell
 Install-Package Science.Cryptography.Ciphers -Pre
