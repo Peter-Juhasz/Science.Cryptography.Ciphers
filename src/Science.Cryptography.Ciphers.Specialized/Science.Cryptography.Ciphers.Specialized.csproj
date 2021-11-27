@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Classic and ancient cipher methods implemented in .NET.</Description>
+    <Copyright>Péter Juhász</Copyright>
+    <AssemblyTitle>Science.Cryptography.Ciphers.Specialized</AssemblyTitle>
+    <Authors>Péter Juhász</Authors>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>Science.Cryptography.Ciphers.Specialized</AssemblyName>
+    <PackageId>Science.Cryptography.Ciphers.Specialized</PackageId>
+    <PackageTags>cipher;cryptography;security;rot-13</PackageTags>
+    <PackageProjectUrl>https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Science.Cryptography.Ciphers\Science.Cryptography.Ciphers.csproj" />
+  </ItemGroup>
+
+</Project>

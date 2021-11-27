@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Science.Cryptography.Ciphers.Specialized;
+
 namespace Science.Cryptography.Ciphers.Tests
 {
     [TestClass]
@@ -271,6 +273,30 @@ namespace Science.Cryptography.Ciphers.Tests
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+        }
+
+        [TestMethod]
+        public void Base64()
+        {
+            var cipher = new Base64Encoder();
+
+            const string plaintext = "The quick brown fox jumps over the lazy dog.";
+            const string ciphertext = "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy4=";
+
+            Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
+            Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
+        }
+
+        [TestMethod]
+        public void Hex()
+        {
+            var cipher = new HexEncoder();
+
+            const string plaintext = "The quick brown fox jumps over the lazy dog.";
+            const string ciphertext = "54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f672e";
+
+            Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext), ignoreCase: true);
+            Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
         }
     }
 }

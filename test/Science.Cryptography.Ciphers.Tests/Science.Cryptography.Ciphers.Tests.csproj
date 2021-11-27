@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Science.Cryptography.Ciphers\Science.Cryptography.Ciphers.csproj" />
+	  <ProjectReference Include="..\..\src\Science.Cryptography.Ciphers\Science.Cryptography.Ciphers.csproj" />
+	  <ProjectReference Include="..\..\src\Science.Cryptography.Ciphers.Specialized\Science.Cryptography.Ciphers.Specialized.csproj" />
   </ItemGroup>
 
   <ItemGroup>
