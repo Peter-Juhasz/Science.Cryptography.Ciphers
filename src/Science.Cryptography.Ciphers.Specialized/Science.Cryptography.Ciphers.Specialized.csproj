@@ -10,6 +10,7 @@
     <PackageId>Science.Cryptography.Ciphers.Specialized</PackageId>
     <PackageTags>cipher;cryptography;security;rot-13</PackageTags>
     <PackageProjectUrl>https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers</PackageProjectUrl>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

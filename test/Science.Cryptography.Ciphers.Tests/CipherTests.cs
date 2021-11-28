@@ -2,6 +2,8 @@
 
 using Science.Cryptography.Ciphers.Specialized;
 
+using System.Text;
+
 namespace Science.Cryptography.Ciphers.Tests
 {
     [TestClass]
@@ -290,13 +292,27 @@ namespace Science.Cryptography.Ciphers.Tests
         [TestMethod]
         public void Hex()
         {
-            var cipher = new HexEncoder();
+            var cipher = new AsciiHexCipher();
 
             const string plaintext = "The quick brown fox jumps over the lazy dog.";
             const string ciphertext = "54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f672e";
 
             Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext), ignoreCase: true);
             Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
+        }
+
+        [TestMethod]
+        public void AsciiXor()
+        {
+            var cipher = new AsciiXorCipher();
+
+            const string plaintext = "thequickbrownfoxjumpsoverthelazydog";
+            const string ciphertext = @"EZV@GZRYQC]D_T\IXF\B@^DVCF[T^RKKW^U";
+            const string key = "123";
+            var keyBytes = Encoding.ASCII.GetBytes(key);
+
+            Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, keyBytes));
+            Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, keyBytes));
         }
     }
 }

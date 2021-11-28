@@ -5,7 +5,7 @@ using System.Text;
 namespace Science.Cryptography.Ciphers.Specialized;
 
 [Export("Hex", typeof(ICipher))]
-public class HexEncoder : ICipher
+public class AsciiHexCipher : ICipher
 {
     public Encoding Encoding = Encoding.ASCII;
 
@@ -30,7 +30,7 @@ public class HexEncoder : ICipher
         for (int i = 0; i < ciphertext.Length; i++)
         {
             var ch = ciphertext[i];
-            if (ch is (>= 'a' and <= 'f') or (>= '0' and <= '9') or (>= 'A' and <= 'Z'))
+            if (ch is (>= 'a' and <= 'f') or (>= '0' and <= '9') or (>= 'A' and <= 'F'))
             {
                 if (start == end)
                 {
