@@ -17,7 +17,14 @@ public static class BinaryXor
 
         if (Avx2.IsSupported)
         {
-            BinaryXor.Avx2Xor256(input, output, key);
+            if (input.Length < 256 / 8)
+            {
+                BinaryXor.SlowXor(input, output, key);
+            }
+            else
+            {
+                BinaryXor.Avx2Xor256(input, output, key);
+            }
         }
         else
         {
@@ -31,37 +38,75 @@ public static class BinaryXor
         var length = input.Length;
         int keyLength = key.Length;
         int vectorLength = Vector256<byte>.Count, maxVectorLength = length / vectorLength * vectorLength;
-        Span<byte> keyVectorBytes = stackalloc byte[vectorLength];
 
-        // chunks
+        // prefill buffer with running instances of key,
+        // so the right slice can be instantly selected
+        //
+        // same length:
+        // vector (4): 01 02 03 04
+        // key (4):    01 02 03 04
+        //
+        // key is longer:
+        // vector (4): 01 02 03 04
+        // key (6):    01 02 03 04 05 06 01 02 03
+        // 
+        // key is shorter:
+        // vector (4): 01 02 03 04
+        // key (3):    01 02 03 01 02 03
+        bool isVectorLengthMultipleOfKeyLength = (vectorLength % keyLength) == 0;
+        bool isKeyLongerThanVector = vectorLength < keyLength;
+        Span<byte> keyVectorBytes = stackalloc byte[isVectorLengthMultipleOfKeyLength switch
+        {
+            true => vectorLength,
+            false => keyLength + vectorLength - 1,
+        }];
+        if (isVectorLengthMultipleOfKeyLength)
+        {
+            for (int keyCopyIndex = 0; keyCopyIndex < keyVectorBytes.Length; keyCopyIndex += keyLength)
+            {
+                key.CopyTo(keyVectorBytes[keyCopyIndex..]);
+            }
+        }
+        else if (isKeyLongerThanVector)
+        {
+            key.CopyTo(keyVectorBytes);
+            key[..(vectorLength - 1)].CopyTo(keyVectorBytes[keyLength..]);
+        }
+        else
+        {
+            var remaining = keyVectorBytes.Length % keyLength;
+            var lastPosition = keyVectorBytes.Length - remaining;
+            int keyCopyIndex;
+            for (keyCopyIndex = 0; keyCopyIndex < lastPosition; keyCopyIndex += keyLength)
+            {
+                key.CopyTo(keyVectorBytes[keyCopyIndex..]);
+            }
+            key[..remaining].CopyTo(keyVectorBytes[keyCopyIndex..]);
+        }
+
+        // chunks of vector size
+        Vector256<byte> keyVector;
+        Unsafe.SkipInit(out keyVector);
         for (int chunkStartIndex = 0; chunkStartIndex < maxVectorLength; chunkStartIndex += vectorLength)
         {
             // input span as vector
             ref byte pointer = ref MemoryMarshal.GetReference(input[chunkStartIndex..(chunkStartIndex + vectorLength)]);
             var vector = Unsafe.As<byte, Vector256<byte>>(ref pointer);
 
-            // fill vector with running instances of key
-            var rem = chunkStartIndex % keyLength;
-            if (rem > 0)
+            // select the matching slice of the key bytes buffer
+            if (isVectorLengthMultipleOfKeyLength)
             {
-                key[(keyLength - rem)..].CopyTo(keyVectorBytes);
+                if (chunkStartIndex == 0)
+                {
+                    ref byte keyPointer = ref MemoryMarshal.GetReference(keyVectorBytes);
+                    keyVector = Unsafe.As<byte, Vector256<byte>>(ref keyPointer);
+                }
             }
-
-            var nextChunkStartIndex = chunkStartIndex + vectorLength;
-            int keyCopyIndex;
-            for (keyCopyIndex = chunkStartIndex + rem; keyCopyIndex + keyLength <= nextChunkStartIndex; keyCopyIndex += keyLength)
+            else
             {
-                key.CopyTo(keyVectorBytes[(keyCopyIndex - chunkStartIndex)..]);
+                ref byte keyPointer = ref MemoryMarshal.GetReference(keyVectorBytes[(chunkStartIndex % keyLength)..]);
+                keyVector = Unsafe.As<byte, Vector256<byte>>(ref keyPointer);
             }
-
-            var remainingKeyLength = nextChunkStartIndex - keyCopyIndex;
-            if (remainingKeyLength > 0)
-            {
-                key[..remainingKeyLength].CopyTo(keyVectorBytes[keyCopyIndex..]);
-            }
-
-            ref byte keyPointer = ref MemoryMarshal.GetReference(keyVectorBytes);
-            var keyVector = Unsafe.As<byte, Vector256<byte>>(ref keyPointer);
 
             // execute xor
             var result = Avx2.Xor(vector, keyVector);
@@ -73,7 +118,7 @@ public static class BinaryXor
             }
         }
 
-        // remaining
+        // process final block
         if (length != maxVectorLength)
         {
             var remaining = length - maxVectorLength;
@@ -83,9 +128,11 @@ public static class BinaryXor
 
     public static void SlowXor(ReadOnlySpan<byte> input, Span<byte> output, ReadOnlySpan<byte> key, int keyStart = 0)
     {
-        for (int i = 0; i < input.Length; i++)
+        int inputLength = input.Length;
+        int keyLength = key.Length;
+        for (int i = 0; i < inputLength; i++)
         {
-            output[i] = (byte)(input[i] ^ key[(keyStart + i) % key.Length]);
+            output[i] = (byte)(input[i] ^ key[(keyStart + i) % keyLength]);
         }
     }
 }
