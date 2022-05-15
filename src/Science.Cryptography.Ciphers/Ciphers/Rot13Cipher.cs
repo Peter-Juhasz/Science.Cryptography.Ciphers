@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Composition;
 
 namespace Science.Cryptography.Ciphers;
@@ -9,17 +9,20 @@ namespace Science.Cryptography.Ciphers;
 [Export("ROT-13", typeof(ICipher))]
 public class Rot13Cipher : ICipher
 {
-    public Rot13Cipher(Alphabet alphabet)
-    {
-        _shift = new(alphabet);
-    }
+	public Rot13Cipher(Alphabet alphabet)
+	{
+		_shift = new(alphabet);
+	}
+	public Rot13Cipher()
+		: this(WellKnownAlphabets.English)
+	{ }
 
-    private readonly ShiftCipher _shift;
+	private readonly ShiftCipher _shift;
 
-    public Alphabet Alphabet => _shift.Alphabet;
+	public Alphabet Alphabet => _shift.Alphabet;
 
 
-    public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, out int written) => _shift.Encrypt(plaintext, ciphertext, WellKnownShiftCipherKeys.Rot13, out written);
+	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, out int written) => _shift.Encrypt(plaintext, ciphertext, WellKnownShiftCipherKeys.Rot13, out written);
 
-    public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, out int written) => _shift.Decrypt(ciphertext, plaintext, WellKnownShiftCipherKeys.Rot13, out written);
+	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, out int written) => _shift.Decrypt(ciphertext, plaintext, WellKnownShiftCipherKeys.Rot13, out written);
 }

@@ -1,18 +1,17 @@
-﻿namespace Science.Cryptography.Ciphers.Analysis
+using System.Collections.Generic;
+
+namespace Science.Cryptography.Ciphers.Analysis;
+
+public sealed record class LanguageStatisticalInfo(
+	string Name,
+	string TwoLetterISOCode,
+	Alphabet Alphabet,
+	RelativeCharacterFrequencies RelativeFrequenciesOfLetters,
+	RelativeCharacterFrequencies RelativeFrequenciesOfFirstLettersOfWords,
+	IReadOnlyDictionary<int, RelativeStringFrequencies> RelativeNGramFrequencies
+)
 {
-    internal sealed class LanguageStatisticalInfo : ILanguageStatisticalInfo
-    {
-        public LanguageStatisticalInfo(
-            RelativeCharacterFrequencies relativeFrequenciesOfLetters,
-            RelativeCharacterFrequencies relativeFrequenciesOfFirstLettersOfWords
-        )
-        {
-            this.RelativeFrequenciesOfLetters = relativeFrequenciesOfLetters;
-            this.RelativeFrequenciesOfFirstLettersOfWords = relativeFrequenciesOfFirstLettersOfWords;
-        }
+	public RelativeStringFrequencies GetNGramFrequencies(int length) => RelativeNGramFrequencies[length];
 
-        public RelativeCharacterFrequencies RelativeFrequenciesOfLetters { get; private set; }
-
-        public RelativeCharacterFrequencies RelativeFrequenciesOfFirstLettersOfWords { get; private set; }
-    }
+	public override string ToString() => Name;
 }

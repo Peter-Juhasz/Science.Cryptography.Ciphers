@@ -1,35 +1,35 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
-namespace Science.Cryptography.Ciphers.Analysis.Tests
+namespace Science.Cryptography.Ciphers.Analysis.Tests;
+
+[TestClass]
+public class CharsetSpeculativePlaintextRankerTests
 {
-    [TestClass]
-    public class CharsetSpeculativePlaintextRankerTests
-    {
-        [TestMethod]
-        public void Rank_Full()
-        {
-            var ranker = new CharsetSpeculativePlaintextRanker(new[] { 'A', 'B', 'C' });
-            var result = ranker.Classify("ABCCBA");
-            
-            Assert.AreEqual(1, result);
-        }
+	[TestMethod]
+	public void Rank_Full()
+	{
+		var ranker = new CharsetSpeculativePlaintextScorer(new[] { 'A', 'B', 'C' }.ToHashSet());
+		var result = ranker.Score("ABCCBA");
 
-        [TestMethod]
-        public void Rank()
-        {
-            var ranker = new CharsetSpeculativePlaintextRanker(new[] { 'A', 'B', 'C' });
-            var result = ranker.Classify("ADBCEF");
+		Assert.AreEqual(1, result);
+	}
 
-            Assert.AreEqual(0.5, result);
-        }
+	[TestMethod]
+	public void Rank()
+	{
+		var ranker = new CharsetSpeculativePlaintextScorer(new[] { 'A', 'B', 'C' }.ToHashSet());
+		var result = ranker.Score("ADBCEF");
 
-        [TestMethod]
-        public void Rank_Opposite()
-        {
-            var ranker = new CharsetSpeculativePlaintextRanker(new[] { 'A', 'B', 'C' });
-            var result = ranker.Classify("XYZ");
+		Assert.AreEqual(0.5, result);
+	}
 
-            Assert.AreEqual(0, result);
-        }
-    }
+	[TestMethod]
+	public void Rank_Opposite()
+	{
+		var ranker = new CharsetSpeculativePlaintextScorer(new[] { 'A', 'B', 'C' }.ToHashSet());
+		var result = ranker.Score("XYZ");
+
+		Assert.AreEqual(0, result);
+	}
 }

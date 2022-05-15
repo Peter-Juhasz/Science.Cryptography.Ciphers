@@ -1,22 +1,22 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Science.Cryptography.Ciphers;
 
 public sealed class IgnoreCaseCharComparer : IEqualityComparer<char>
 {
-    public static readonly IgnoreCaseCharComparer Instance = new();
+	public static readonly IgnoreCaseCharComparer Instance = new();
 
-    public bool Equals(char x, char y)
-    {
-        if (char.IsLetter(x) && char.IsLetter(y))
-            return char.ToUpperInvariant(x).Equals(char.ToUpperInvariant(y));
+	public bool Equals(char x, char y)
+	{
+		if (char.IsLetter(x) && char.IsLetter(y))
+			return char.ToUpperInvariant(x).Equals(char.ToUpperInvariant(y));
 
-        return x.Equals(y);
-    }
+		return x.Equals(y);
+	}
 
-    public int GetHashCode(char obj)
-    {
-        if (char.IsLetter(obj)) char.ToUpperInvariant(obj).GetHashCode();
-        return obj.GetHashCode();
-    }
+	public int GetHashCode(char obj) => char.IsLetter(obj) switch
+	{
+		true => char.ToUpperInvariant(obj).GetHashCode(),
+		_ => obj.GetHashCode()
+	};
 }

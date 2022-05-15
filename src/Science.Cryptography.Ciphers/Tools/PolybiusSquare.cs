@@ -1,88 +1,64 @@
-﻿using System;
+using System;
 using System.Linq;
 
-namespace Science.Cryptography.Ciphers
+namespace Science.Cryptography.Ciphers;
+
+/// <summary>
+/// Contains methods for creating and manipulating Polybius Squares.
+/// </summary>
+public struct PolybiusSquare
 {
-    /// <summary>
-    /// Contains methods for creating and manipulating Polybius Squares.
-    /// </summary>
-    public struct PolybiusSquare
-    {
-        public PolybiusSquare(char[,] data)
-        {
-            _data = data;
-        }
+	internal PolybiusSquare(char[,] data)
+	{
+		_data = data;
+		_size = data.GetLength(0);
+	}
 
-        private readonly char[,] _data;
+	private readonly char[,] _data;
+	private readonly int _size;
 
-        public char this[int column, int row] => _data[column, row];
+	public int Size => _size;
 
-        public char this[(int column, int row) position] => _data[position.column, position.row];
+	public char this[int column, int row] => _data[column, row];
 
-        public (int x, int y) FindOffsets(char ch) => FindOffsets(_data, ch);
+	public char this[ValueTuple<int, int> position] => _data[position.Item1, position.Item2];
 
-        public bool TryFindOffsets(char ch, out (int x, int y) position) => TryFindOffsets(_data, ch, out position);
+	public bool TryFindOffsets(char ch, out ValueTuple<int, int> position) => ArrayHelper.TryFindOffsets(_data, ch, out position, _size);
 
-
-        public static implicit operator PolybiusSquare(char[,] s) => new(s);
+	public bool Contains(char ch) => TryFindOffsets(ch, out _);
 
 
-        public static readonly PolybiusSquare RegularWithoutI = CreateFromString("ABCDEFGHJKLMNOPQRSTUVWXYZ");
+	public static implicit operator PolybiusSquare(char[,] s) => new(s);
 
-        public static readonly PolybiusSquare RegularWithoutK = CreateFromString("ABCDEFGHIJLMNOPQRSTUVWXYZ");
 
-        public static PolybiusSquare CreateFromKeyword(string keyword, Alphabet alphabet)
-        {
-            return CreateFromString(
-                keyword.Select(Char.ToUpperInvariant)
-                .Concat(alphabet)
-                .Distinct()
-                .ToArray()
-            );
-        }
+	public static readonly PolybiusSquare RegularWithoutI = CreateFromAlphabet(WellKnownAlphabets.EnglishWithoutI);
 
-        public static PolybiusSquare CreateFromAlphabet(Alphabet alphabet) => CreateFromString(alphabet.ToString());
+	public static readonly PolybiusSquare RegularWithoutK = CreateFromAlphabet(WellKnownAlphabets.EnglishWithoutK);
 
-        public static PolybiusSquare CreateFromString(ReadOnlySpan<char> source)
-        {
-            int size = (int)Math.Sqrt(source.Length);
+	public static PolybiusSquare CreateFromKeyword(string keyword, Alphabet alphabet)
+	{
+		// TODO: optimize allocations
+		return CreateFromString(
+			keyword.Select(Char.ToUpperInvariant)
+			.Concat(alphabet)
+			.Distinct()
+			.ToArray()
+		);
+	}
 
-            char[,] result = new char[size, size];
+	public static PolybiusSquare CreateFromAlphabet(Alphabet alphabet) => CreateFromString(alphabet.AsSpan());
 
-            for (int i = 0; i < source.Length; i++)
-                result[i % size, i / size] = source[i];
+	public static PolybiusSquare CreateFromString(ReadOnlySpan<char> source)
+	{
+		int size = (int)Math.Sqrt(source.Length);
 
-            return result;
-        }
+		char[,] result = new char[size, size];
+		ArrayHelper.FillSlow(result, source, size);
+		return result;
+	}
 
-        public static (int x, int y) FindOffsets(char[,] polybiusSquare, char ch)
-        {
-            int width = polybiusSquare.GetLength(0), height = polybiusSquare.GetLength(1);
+	public static bool TryFindOffsets(char[,] polybiusSquare, char ch, out ValueTuple<int, int> positions) =>
+		ArrayHelper.TryFindOffsets(polybiusSquare, ch, out positions, polybiusSquare.GetLength(0), polybiusSquare.GetLength(1));
 
-            for (int x = 0; x < width; x++)
-                for (int y = 0; y < height; y++)
-                    if (polybiusSquare[x, y] == ch)
-                        return (x, y);
-
-            return (-1, -1);
-        }
-
-        public static bool TryFindOffsets(char[,] polybiusSquare, char ch, out (int x, int y) positions)
-        {
-            int width = polybiusSquare.GetLength(0), height = polybiusSquare.GetLength(1);
-
-            for (int x = 0; x < width; x++)
-                for (int y = 0; y < height; y++)
-                    if (polybiusSquare[x, y] == ch)
-                    {
-                        positions = (x, y);
-                        return true;
-                    }
-
-            positions = default;
-            return false;
-        }
-
-        public char[,] ToCharArray() => (char[,])_data.Clone();
-    }
+	public char[,] ToCharArray() => (char[,])_data.Clone();
 }

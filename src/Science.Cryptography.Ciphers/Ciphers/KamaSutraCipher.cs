@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Composition;
 
 namespace Science.Cryptography.Ciphers;
@@ -9,14 +9,14 @@ namespace Science.Cryptography.Ciphers;
 [Export("Kamasutra", typeof(IKeyedCipher<>))]
 public class KamaSutraCipher : ReciprocalKeyedCipher<CharacterSubstitutionMap>
 {
-    protected override void Crypt(ReadOnlySpan<char> input, Span<char> output, CharacterSubstitutionMap key, out int written)
-    {
-        for (int i = 0; i < input.Length; i++)
-        {
-            var ch = input[i];
-            output[i] = key.LookupOrSame(ch);
-        }
+	protected override void Crypt(ReadOnlySpan<char> input, Span<char> output, CharacterSubstitutionMap key, out int written)
+	{
+		for (int i = 0; i < input.Length; i++)
+		{
+			var ch = input[i];
+			output[i] = key.LookupOrSame(ch);
+		}
 
-        written = input.Length;
-    }
+		written = input.Length;
+	}
 }

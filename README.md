@@ -7,13 +7,20 @@ dotnet add package Science.Cryptography.Ciphers.Specialized
 dotnet add package Science.Cryptography.Ciphers.Analysis
 ```
 
+## What's new in v2?
+- **New CLI app** for regular users
+- Ciphers and tools rewritten to **allocation free** operation, take advantage of **hardware intrinsics**, and specialized **fast path for ASCII** encoding. See [Performance Improvements](docs/performance-improvements.md) for details and benchmarks.
+- New `IAsyncEnumerable` interface for consuming analysis intermediate results
+- Reworked *Recognizer*, *KeyFinder* analysis tools
+- **CryptogramSolver** for automatic decryption of ciphertext
+
 ## Ciphers
 ```cs
 ICipher caesar = ShiftCipher.CreateCaesar(Alphabets.English);
 string ciphertext = caesar.Encrypt("Hello world!");
 ```
 
-Affine, Atbash, Autokey, Bacon, Beaufort, Bifid, Caesar, Four-square, Gronsfeld, Gudhayojya, Kama-Sutra, Monoalphabetic Substitution, Morse Code, Multiplicative, Null, ROT-13, ROT-47, Running Key, Sandorf's, Shift, Tap Code, Trithemius, Two-square, Variant Beaufort, Vatsyayana, Vigenère, XOR
+Affine, Atbash, Autokey, Bacon, Beaufort, Bifid, Caesar, Four-square, Gronsfeld, Gudhayojya, Kama-Sutra, Monoalphabetic Substitution, Morse Code, Multiplicative, Null, Playfair, ROT-13, ROT-47, Running Key, Sandorf's, Shift, Tap Code, Trithemius, Two-square, Variant Beaufort, Vatsyayana, Vigenère, XOR
 
 ## Tools
 ```cs
@@ -77,7 +84,6 @@ Affine, Atbash, Monoalphabetic Substitution, Multiplicative, ROT-47, Running Key
 * Enigma
 * Hill
 * Permutation
-* Playfair
 * Rail fence
 * Myszkowski Transposition
 * Nihilist

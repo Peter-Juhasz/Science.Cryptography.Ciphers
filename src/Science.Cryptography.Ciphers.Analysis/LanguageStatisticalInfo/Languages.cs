@@ -1,21 +1,25 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
-namespace Science.Cryptography.Ciphers.Analysis
+namespace Science.Cryptography.Ciphers.Analysis;
+
+/// <summary>
+/// Contains reference data for languages.
+/// </summary>
+public static partial class Languages
 {
-    /// <summary>
-    /// Contains reference data for languages.
-    /// </summary>
-    public static partial class Languages
-    {
-        public static ILanguageStatisticalInfo FromCultureInfo(CultureInfo cultureInfo)
-        {
-            return CultureInfoMap[cultureInfo];
-        }
+	public static LanguageStatisticalInfo FromTwoLetterISOName(string name) => _map[name];
 
-        private static IReadOnlyDictionary<CultureInfo, ILanguageStatisticalInfo> CultureInfoMap = new Dictionary<CultureInfo, ILanguageStatisticalInfo>
-        {
-            { new CultureInfo("en-us"), English },
-        };
-    }
+	public static LanguageStatisticalInfo FromCultureInfo(CultureInfo cultureInfo) => FromTwoLetterISOName(cultureInfo.TwoLetterISOLanguageName);
+
+	private static readonly Dictionary<string, LanguageStatisticalInfo> _map = new();
+
+	public static IReadOnlySet<LanguageStatisticalInfo> GetSupportedLanguages() => _map.Values.ToHashSet();
+
+	static Languages()
+	{
+		_map.Add("en", English);
+	}
 }

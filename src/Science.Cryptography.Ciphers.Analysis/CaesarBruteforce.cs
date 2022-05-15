@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace Science.Cryptography.Ciphers.Analysis;
 
@@ -8,12 +7,16 @@ namespace Science.Cryptography.Ciphers.Analysis;
 /// </summary>
 public static class CaesarBruteforce
 {
-    public static IReadOnlyDictionary<int, string> Analyze(string text, Alphabet alphabet)
-    {
-        var cipher = new ShiftCipher(alphabet);
+	public static IReadOnlyDictionary<int, string> Analyze(string text, Alphabet alphabet)
+	{
+		var cipher = new ShiftCipher(alphabet);
+		var dictionary = new Dictionary<int, string>(capacity: alphabet.Length);
 
-        return Enumerable.Range(0, alphabet.Length)
-            .ToDictionary(k => k, k => cipher.Encrypt(text, k))
-        ;
-    }
+		for (int i = 0; i < alphabet.Length; i++)
+		{
+			dictionary[i] = cipher.Encrypt(text, i);
+		}
+
+		return dictionary;
+	}
 }

@@ -1,9 +1,3 @@
-﻿using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Running;
 
-class Program
-{
-    static void Main(string[] args)
-    {
-        BenchmarkRunner.Run<XorBenchmarks>();
-    }
-}
+BenchmarkRunner.Run<V1V2NGramAnalysisBenchmarks>();

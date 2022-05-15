@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Science.Cryptography.Ciphers.Specialized;
 
@@ -7,77 +7,90 @@ namespace Science.Cryptography.Ciphers.Tests;
 [TestClass]
 public class CipherTests
 {
-    [TestMethod]
-    public void Caesar()
-    {
-        var cipher = new ShiftCipher();
+	[TestMethod]
+	public void Caesar()
+	{
+		var cipher = new ShiftCipher();
 
-        const string plaintext = "The quick brown fox jumps over the lazy dog.";
-        const string ciphertext = "Wkh txlfn eurzq ira mxpsv ryhu wkh odcb grj.";
+		const string plaintext = "The quick brown fox jumps over the lazy dog.";
+		const string ciphertext = "Wkh txlfn eurzq ira mxpsv ryhu wkh odcb grj.";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, WellKnownShiftCipherKeys.Caesar));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, WellKnownShiftCipherKeys.Caesar));
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, WellKnownShiftCipherKeys.Caesar));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, WellKnownShiftCipherKeys.Caesar));
+	}
 
-    [TestMethod]
-    public void Rot13()
-    {
-        var cipher = new ShiftCipher();
+	[TestMethod]
+	public void Rot13()
+	{
+		var cipher = new ShiftCipher();
 
-        const string plaintext = "Why did the chicken cross the road?";
-        const string ciphertext = "Jul qvq gur puvpxra pebff gur ebnq?";
+		const string plaintext = "Why did the chicken cross the road?";
+		const string ciphertext = "Jul qvq gur puvpxra pebff gur ebnq?";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, WellKnownShiftCipherKeys.Rot13));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, WellKnownShiftCipherKeys.Rot13));
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, WellKnownShiftCipherKeys.Rot13));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, WellKnownShiftCipherKeys.Rot13));
+	}
 
-    [TestMethod]
-    public void TapCode()
-    {
-        var cipher = new TapCode();
+	[TestMethod]
+	public void TapCode()
+	{
+		var cipher = new TapCode();
 
-        const string plaintext = "WATER";
-        const string ciphertext = "..... .. . . .... .... . ..... .... ..";
+		const string plaintext = "WATER";
+		const string ciphertext = "..... .. . . .... .... . ..... .... ..";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext), true);
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext), true);
+	}
 
-    [TestMethod]
-    public void MorseCode()
-    {
-        var cipher = new MorseCode();
+	[TestMethod]
+	public void MorseCode()
+	{
+		var cipher = new MorseCode();
 
-        const string plaintext = "MORSE CODE";
-        const string ciphertext = "-- --- .-. ... .  -.-. --- -.. .";
+		const string plaintext = "morse code";
+		const string ciphertext = "-- --- .-. ... .  -.-. --- -.. .";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext), true);
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext), true);
+	}
 
-    [TestMethod]
-    public void Multiplicative_Encrypt()
-    {
-        var cipher = new MultiplicativeCipher();
+	[TestMethod]
+	public void Multiplicative_Encrypt()
+	{
+		var cipher = new MultiplicativeCipher();
 
-        const string plaintext = "GEHEIMNIS";
-        const string ciphertext = "SMVMYKNYC";
+		const string plaintext = "GEHEIMNIS";
+		const string ciphertext = "SMVMYKNYC";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, 3));
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, 3));
+	}
 
-    [TestMethod]
-    public void Atbash()
-    {
-        var cipher = new AtbashCipher();
+	[TestMethod]
+	public void Atbash()
+	{
+		var cipher = new AtbashCipher();
 
-        const string plaintext = "Abcdefghijklmnopqrstuvwxyz";
-        const string ciphertext = "Zyxwvutsrqponmlkjihgfedcba";
+		const string plaintext = "Abcdefghijklmnopqrstuvwxyz";
+		const string ciphertext = "Zyxwvutsrqponmlkjihgfedcba";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
-    }
-    /*
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
+	}
+
+	[TestMethod]
+	public void AsciiAtbash()
+	{
+		var cipher = new AsciiAtbashCipher();
+
+		const string plaintext = "Abcdefghijklmnopqrstuvwxyz";
+		const string ciphertext = "Zyxwvutsrqponmlkjihgfedcba";
+
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
+	}
+
+	/*
     [TestMethod]
     public void Bifid()
     {
@@ -98,45 +111,44 @@ public class CipherTests
         Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key), true);
     }
     */
-    [TestMethod]
-    public void Vigenère()
-    {
-        var cipher = new VigenèreCipher();
+	[TestMethod]
+	public void Vigenère()
+	{
+		var cipher = new VigenèreCipher();
 
-        const string key = "Lemon";
+		const string key = "Lemon";
 
-        const string plaintext = "Attack at dawn";
-        const string ciphertext = "Lxfopv ef rnhr";
+		const string plaintext = "Attack at dawn";
+		const string ciphertext = "Lxfopv ef rnhr";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+	}
 
-    [TestMethod]
-    public void Bacon()
-    {
-        var cipher = new BaconCipher();
+	[TestMethod]
+	public void Bacon()
+	{
+		var cipher = new BaconCipher();
 
-        const string plaintext = "HELLO WORLD";
-        const string ciphertext = "AABBBAABAAABABAABABAABBAB BABAAABBABBAAAAABABAAAABB";
+		const string plaintext = "HELLO WORLD";
+		const string ciphertext = "AABBBAABAAABABAABABAABBAB BABAAABBABBAAAAABABAAAABB";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext), true);
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext), true);
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext), true);
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext), true);
+	}
 
-    [TestMethod]
-    public void Rot47()
-    {
-        var cipher = new Rot47Cipher();
+	[TestMethod]
+	public void Rot47()
+	{
+		var cipher = new Rot47Cipher();
 
-        const string plaintext = "My string!";
-        const string ciphertext = "|J DEC:?8P";
+		const string plaintext = "My string!";
+		const string ciphertext = "|J DEC:?8P";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
+	}
 
-    /*
     [TestMethod]
     public void Autokey()
     {
@@ -151,6 +163,7 @@ public class CipherTests
         Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
     }
 
+	/*
     [TestMethod]
     public void Sandorf()
     {
@@ -207,107 +220,132 @@ public class CipherTests
     }
 
     */
-    [TestMethod]
-    public void Trithemius()
-    {
-        var cipher = new TrithemiusCipher();
+	[TestMethod]
+	public void Trithemius()
+	{
+		var cipher = new TrithemiusCipher();
 
-        const string plaintext = "The quick brown fox jumps over the lazy dog.";
-        const string ciphertext = "Tig tynir jayhz scm zleim jrbp shf nddd jvo.";
+		const string plaintext = "The quick brown fox jumps over the lazy dog.";
+		const string ciphertext = "Tig tynir jayhz scm zleim jrbp shf nddd jvo.";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
+	}
 
-    [TestMethod]
-    public void Gronsfeld()
-    {
-        var cipher = new GronsfeldCipher();
+	[TestMethod]
+	public void Gronsfeld()
+	{
+		var cipher = new GronsfeldCipher();
 
-        int[] key = { 3, 2, 6 };
+		int[] key = { 3, 2, 6 };
 
-        const string plaintext = "Geheimnis";
-        const string ciphertext = "Jgnhksqky";
+		const string plaintext = "Geheimnis";
+		const string ciphertext = "Jgnhksqky";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+	}
 
-    [TestMethod]
-    public void VariantBeaufort()
-    {
-        var cipher = new VariantBeaufortCipher();
+	[TestMethod]
+	public void VariantBeaufort()
+	{
+		var cipher = new VariantBeaufortCipher();
 
-        const string key = "CODE";
+		const string key = "CODE";
 
-        const string plaintext = "The quick brown fox jumps over the lazy dog.";
-        const string ciphertext = "Rtb msuzg zdlsl rlt hgjlq asap fea jmwu bad.";
+		const string plaintext = "The quick brown fox jumps over the lazy dog.";
+		const string ciphertext = "Rtb msuzg zdlsl rlt hgjlq asap fea jmwu bad.";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+	}
 
-    [TestMethod]
-    public void Gudhayojya()
-    {
-        var cipher = new GudhayojyaCipher();
+	[TestMethod]
+	public void Gudhayojya()
+	{
+		var cipher = new GudhayojyaCipher();
 
-        const string key = "dis";
+		const string key = "dis";
 
-        const string plaintext = "will visit you tonight.";
-        const string ciphertext = "diswill disvisit disyou distonight.";
+		const string plaintext = "will visit you tonight.";
+		const string ciphertext = "diswill disvisit disyou distonight.";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+	}
 
-    [TestMethod]
-    public void Beaufort()
-    {
-        var cipher = new BeaufortCipher();
+	[TestMethod]
+	public void Beaufort()
+	{
+		var cipher = new BeaufortCipher();
 
-        const string key = "m";
+		const string key = "m";
 
-        const string plaintext = "d J";
-        const string ciphertext = "j D";
+		const string plaintext = "d J";
+		const string ciphertext = "j D";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+	}
 
-    [TestMethod]
-    public void Base64()
-    {
-        var cipher = new Base64Encoder();
+	[TestMethod]
+	public void Base64()
+	{
+		var cipher = new Base64Encoder();
 
-        const string plaintext = "The quick brown fox jumps over the lazy dog.";
-        const string ciphertext = "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy4=";
+		const string plaintext = "The quick brown fox jumps over the lazy dog.";
+		const string ciphertext = "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy4=";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
+	}
 
-    [TestMethod]
-    public void Hex()
-    {
-        var cipher = new AsciiHexCipher();
+	[TestMethod]
+	public void Hex()
+	{
+		var cipher = new HexEncoder();
 
-        const string plaintext = "The quick brown fox jumps over the lazy dog.";
-        const string ciphertext = "54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f672e";
+		const string plaintext = "The quick brown fox jumps over the lazy dog.";
+		const string ciphertext = "54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f672e";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext), ignoreCase: true);
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext), ignoreCase: true);
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
+	}
 
-    [TestMethod]
-    public void A1z26()
-    {
-        var cipher = new A1Z26Cipher();
+	[TestMethod]
+	public void Binary()
+	{
+		var cipher = new AsciiBinaryBase();
 
-        const string plaintext = "The quick brown fox jumps over the lazy dog.";
-        const string ciphertext = "20-8-5 17-21-9-3-11 2-18-15-23-14 6-15-24 10-21-13-16-19 15-22-5-18 20-8-5 12-1-26-25 4-15-7.";
+		const string plaintext = "The quick brown fox jumps over the lazy dog.";
+		const string ciphertext = "0101010001101000011001010010000001110001011101010110100101100011011010110010000001100010011100100110111101110111011011100010000001100110011011110111100000100000011010100111010101101101011100000111001100100000011011110111011001100101011100100010000001110100011010000110010100100000011011000110000101111010011110010010000001100100011011110110011100101110";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
-        //Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, WellKnownShiftCipherKeys.Caesar));
-    }
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
+	}
+
+	[TestMethod]
+	public void A1z26()
+	{
+		var cipher = new A1Z26Cipher();
+
+		const string plaintext = "The quick brown fox jumps over the lazy dog.";
+		const string ciphertext = "20-8-5 17-21-9-3-11 2-18-15-23-14 6-15-24 10-21-13-16-19 15-22-5-18 20-8-5 12-1-26-25 4-15-7.";
+
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
+		//Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, WellKnownShiftCipherKeys.Caesar));
+	}
+
+	[TestMethod]
+	public void Playfair()
+	{
+		var cipher = new PlayfairCipher();
+
+		const string plaintext = "Hide the GOLD IN THE TREXE STUMP.";
+		const string ciphertext = "Bmod zbx DNAB EK UDM UIXMM OUVIF.";
+		var square = PolybiusSquare.CreateFromString("PLAYFIREXMBCDGHKNOQSTUVWZ");
+
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, square));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, square));
+	}
 }

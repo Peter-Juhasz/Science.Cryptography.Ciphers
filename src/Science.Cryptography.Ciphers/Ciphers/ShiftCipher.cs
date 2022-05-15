@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Composition;
 
 namespace Science.Cryptography.Ciphers;
@@ -9,37 +9,44 @@ namespace Science.Cryptography.Ciphers;
 [Export("Shift", typeof(IKeyedCipher<>))]
 public class ShiftCipher : IKeyedCipher<int>
 {
-    public ShiftCipher(Alphabet charset)
-    {
-        Alphabet = charset;
-    }
-    public ShiftCipher()
-        : this(WellKnownAlphabets.English)
-    { }
+	public ShiftCipher(Alphabet charset)
+	{
+		Alphabet = charset;
+	}
+	public ShiftCipher()
+		: this(WellKnownAlphabets.English)
+	{ }
 
-    public Alphabet Alphabet { get; }
+	public Alphabet Alphabet { get; }
 
-    protected void Crypt(ReadOnlySpan<char> text, Span<char> result, int key, out int written)
-    {
-        if (result.Length < text.Length)
-        {
-            throw new ArgumentException("Size of output buffer is insufficient.", nameof(result));
-        }
+	protected void Crypt(ReadOnlySpan<char> text, Span<char> result, int key, out int written)
+	{
+		if (result.Length < text.Length)
+		{
+			throw new ArgumentException("Size of output buffer is insufficient.", nameof(result));
+		}
 
-        for (int i = 0; i < text.Length; i++)
-        {
-            var ch = text[i];
-            result[i] = Alphabet.IndexOfIgnoreCase(ch) switch
-            {
-                -1 => ch,
-                int idx => Alphabet.AtMod(idx + key).ToSameCaseAs(ch)
-            };
-        }
+		if (key == 0)
+		{
+			text.CopyTo(result);
+			written = text.Length;
+			return;
+		}
 
-        written = text.Length;
-    }
+		for (int i = 0; i < text.Length; i++)
+		{
+			var ch = text[i];
+			result[i] = Alphabet.IndexOfIgnoreCase(ch) switch
+			{
+				-1 => ch,
+				int idx => Alphabet.AtMod(idx + key).ToSameCaseAs(ch)
+			};
+		}
 
-    public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, int key, out int written) => Crypt(plaintext, ciphertext, key, out written);
+		written = text.Length;
+	}
 
-    public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, int key, out int written) => Crypt(ciphertext, plaintext, -key, out written);
+	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, int key, out int written) => Crypt(plaintext, ciphertext, key, out written);
+
+	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, int key, out int written) => Crypt(ciphertext, plaintext, -key, out written);
 }

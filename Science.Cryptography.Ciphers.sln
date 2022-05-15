@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Cipher
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Ciphers.Benchmarks", "src\Science.Cryptography.Ciphers.Benchmarks\Science.Cryptography.Ciphers.Benchmarks.csproj", "{EE012ABC-3A72-49B0-8D6A-2981B773B40E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Ciphers.Analysis.Tests", "test\Science.Cryptography.Ciphers.Analysis.Tests\Science.Cryptography.Ciphers.Analysis.Tests.csproj", "{4271DBBA-0859-4E5C-A20E-3F2C42FF7605}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Ciphers.Console", "src\Science.Cryptography.Ciphers.Console\Science.Cryptography.Ciphers.Console.csproj", "{9C12E42B-FDE0-4C43-845E-19BE469FFD18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +51,14 @@ Global
 		{EE012ABC-3A72-49B0-8D6A-2981B773B40E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE012ABC-3A72-49B0-8D6A-2981B773B40E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE012ABC-3A72-49B0-8D6A-2981B773B40E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4271DBBA-0859-4E5C-A20E-3F2C42FF7605}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4271DBBA-0859-4E5C-A20E-3F2C42FF7605}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4271DBBA-0859-4E5C-A20E-3F2C42FF7605}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4271DBBA-0859-4E5C-A20E-3F2C42FF7605}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C12E42B-FDE0-4C43-845E-19BE469FFD18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C12E42B-FDE0-4C43-845E-19BE469FFD18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C12E42B-FDE0-4C43-845E-19BE469FFD18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C12E42B-FDE0-4C43-845E-19BE469FFD18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

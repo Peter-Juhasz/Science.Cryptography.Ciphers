@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+	<PropertyGroup>
+		<Description>Classic and ancient cipher methods implemented in .NET.</Description>
+		<Copyright>Péter Juhász</Copyright>
+		<AssemblyTitle>Science.Cryptography.Ciphers.Console</AssemblyTitle>
+		<Authors>Péter Juhász</Authors>
+		<TargetFramework>net7.0</TargetFramework>
+		<LangVersion>preview</LangVersion>
+		<Nullable>enable</Nullable>
+		<AssemblyName>crypto</AssemblyName>
+		<PackageId>Science.Cryptography.Ciphers.Console</PackageId>
+		<PackageTags>cipher;cryptography;security;rot-13</PackageTags>
+		<PackageProjectUrl>https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers</PackageProjectUrl>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Science.Cryptography.Ciphers\Science.Cryptography.Ciphers.csproj" />
+		<ProjectReference Include="..\Science.Cryptography.Ciphers.Specialized\Science.Cryptography.Ciphers.Specialized.csproj" />
+		<ProjectReference Include="..\Science.Cryptography.Ciphers.Analysis\Science.Cryptography.Ciphers.Analysis.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="*" />
+		<PackageReference Include="System.CommandLine" Version="*-*" />
+	</ItemGroup>
+
+</Project>
