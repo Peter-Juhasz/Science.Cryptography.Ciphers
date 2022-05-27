@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 namespace Science.Cryptography.Ciphers;
 
@@ -59,6 +58,16 @@ public struct PolybiusSquare
 		char[,] result = new char[size, size];
 		ArrayHelper.FillFast(result, source, size);
 		return result;
+	}
+
+	public static PolybiusSquare Create(char[,] source)
+	{
+		if (source.GetLength(0) != source.GetLength(1))
+		{
+			throw new ArgumentOutOfRangeException(nameof(source));
+		}
+
+		return source;
 	}
 
 	public static bool TryFindOffsets(char[,] polybiusSquare, char ch, out (int row, int column) positions) =>

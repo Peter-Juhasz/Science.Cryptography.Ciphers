@@ -189,7 +189,6 @@ public class CipherTests
     public void TwoSquare()
     {
         var cipher = new TwoSquareCipher();
-
         var key = (
             PolybiusSquare.CreateFromKeyword("EXAMPLE", WellKnownAlphabets.EnglishWithoutQ),
             PolybiusSquare.CreateFromKeyword("KEYWORD", WellKnownAlphabets.EnglishWithoutQ)
@@ -201,16 +200,17 @@ public class CipherTests
         Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
         Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
     }
-	/*
+	
     [TestMethod]
     public void FourSquare()
     {
         var cipher = new FourSquareCipher();
-
-        char[,][,] key = {
-            { PolybiusSquare.CreateFromAlphabet(WellKnownAlphabets.EnglishWithoutQ), PolybiusSquare.CreateFromKeyword("KEYWORD", WellKnownAlphabets.EnglishWithoutQ) },
-            { PolybiusSquare.CreateFromKeyword("EXAMPLE", WellKnownAlphabets.EnglishWithoutQ), PolybiusSquare.CreateFromAlphabet(WellKnownAlphabets.EnglishWithoutQ) }
-        };
+        var key = (
+            PolybiusSquare.CreateFromAlphabet(WellKnownAlphabets.EnglishWithoutQ),
+            PolybiusSquare.CreateFromKeyword("EXAMPLE", WellKnownAlphabets.EnglishWithoutQ), 
+			PolybiusSquare.CreateFromKeyword("KEYWORD", WellKnownAlphabets.EnglishWithoutQ),
+			PolybiusSquare.CreateFromAlphabet(WellKnownAlphabets.EnglishWithoutQ)
+        );
 
         const string plaintext = "Help me Obiwan Kenobi";
         const string ciphertext = "Fygm ky Hobxmf Kkkimd";
@@ -219,7 +219,6 @@ public class CipherTests
         Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
     }
 
-    */
 	[TestMethod]
 	public void Trithemius()
 	{
