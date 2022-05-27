@@ -20,7 +20,7 @@ public class PlayfairSquareTests
 	[TestMethod]
 	public void CreateFromString()
 	{
-		var square = PolybiusSquare.CreateFromString("PLAYFIREXMBCDGHKNOQSTUVWZ");
+		var square = PolybiusSquare.CreateFromCharacters("PLAYFIREXMBCDGHKNOQSTUVWZ");
 		Assert.AreEqual('P', square[0, 0]);
 		Assert.AreEqual('N', square[3, 1]);
 		Assert.AreEqual('D', square[2, 2]);
@@ -31,7 +31,7 @@ public class PlayfairSquareTests
 	[TestMethod]
 	public void Resolve_DifferentColumnRow()
 	{
-		var square = PolybiusSquare.CreateFromString("PLAYFIREXMBCDGHKNOQSTUVWZ");
+		var square = PolybiusSquare.CreateFromCharacters("PLAYFIREXMBCDGHKNOQSTUVWZ");
 		PlayfairCipher.TryResolveEncrypt(square, ('H', 'I'), out (char c1, char c2) position);
 		Assert.AreEqual(('B', 'M'), position);
 	}
@@ -39,7 +39,7 @@ public class PlayfairSquareTests
 	[TestMethod]
 	public void Resolve_SameRow()
 	{
-		var square = PolybiusSquare.CreateFromString("PLAYFIREXMBCDGHKNOQSTUVWZ");
+		var square = PolybiusSquare.CreateFromCharacters("PLAYFIREXMBCDGHKNOQSTUVWZ");
 		PlayfairCipher.TryResolveEncrypt(square, ('E', 'X'), out (char c1, char c2) position);
 		Assert.AreEqual(('X', 'M'), position);
 	}
@@ -47,7 +47,7 @@ public class PlayfairSquareTests
 	[TestMethod]
 	public void Resolve_SameColumn()
 	{
-		var square = PolybiusSquare.CreateFromString("PLAYFIREXMBCDGHKNOQSTUVWZ");
+		var square = PolybiusSquare.CreateFromCharacters("PLAYFIREXMBCDGHKNOQSTUVWZ");
 		Assert.IsTrue(PlayfairCipher.TryResolveEncrypt(square, ('E', 'D'), out (char c1, char c2) position));
 		Assert.AreEqual(('D', 'O'), position);
 		Assert.IsTrue(PlayfairCipher.TryResolveEncrypt(square, ('D', 'E'), out position));

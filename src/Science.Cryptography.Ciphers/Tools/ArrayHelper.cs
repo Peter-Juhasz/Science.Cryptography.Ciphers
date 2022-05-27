@@ -23,7 +23,35 @@ internal static class ArrayHelper
 
 	public static void FillFast(char[,] buffer, ReadOnlySpan<char> source, int size) => source.CopyTo(buffer.AsSpan(size));
 
-	public static bool TryFindOffsets(char[,] buffer, char ch, out ValueTuple<int, int> positions, int rows, int columns)
+	public static void FillWithKeywordAndAlphabet(Span<char> buffer, ReadOnlySpan<char> keyword, ReadOnlySpan<char> alphabet, bool throwOnDuplicates = false)
+	{
+		int written = 0;
+
+		for (int i = 0; i < keyword.Length; i++)
+		{
+			var upper = keyword[i].ToUpper();
+			if (buffer.IndexOf(upper) == -1)
+			{
+				buffer[written++] = upper;
+			}
+		}
+
+		if (throwOnDuplicates && written < keyword.Length)
+		{
+			throw new ArgumentOutOfRangeException(nameof(keyword), "Keyword contains duplicate characters.");
+		}
+
+		for (int i = 0; i < alphabet.Length; i++)
+		{
+			var upper = alphabet[i].ToUpper();
+			if (buffer.IndexOf(upper) == -1)
+			{
+				buffer[written++] = upper;
+			}
+		}
+	}
+
+	public static bool TryFindOffsets(char[,] buffer, char ch, out (int row, int column) positions, int rows, int columns)
 	{
 		char upper = ch.ToUpper();
 
@@ -38,10 +66,10 @@ internal static class ArrayHelper
 		return false;
 	}
 
-	public static bool TryFindOffsets(char[,] buffer, char ch, out ValueTuple<int, int> positions, int size) =>
+	public static bool TryFindOffsets(char[,] buffer, char ch, out (int row, int column) positions, int size) =>
 		TryFindOffsets(buffer, ch, out positions, size, size);
 
-	public static bool TryFindOffsetsSlow(char[,] square, char ch, out ValueTuple<int, int> positions, int rows, int columns)
+	public static bool TryFindOffsetsSlow(char[,] square, char ch, out (int row, int column) positions, int rows, int columns)
 	{
 		char upper = ch.ToUpper();
 

@@ -184,24 +184,24 @@ public class CipherTests
         Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
         Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
     }
-
+	*/
     [TestMethod]
     public void TwoSquare()
     {
         var cipher = new TwoSquareCipher();
 
-        char[][,] key = {
+        var key = (
             PolybiusSquare.CreateFromKeyword("EXAMPLE", WellKnownAlphabets.EnglishWithoutQ),
             PolybiusSquare.CreateFromKeyword("KEYWORD", WellKnownAlphabets.EnglishWithoutQ)
-        };
+        );
 
-        const string plaintext = "Help me Obiwan Kenobi";
-        const string ciphertext = "Hedl xw Sdjyan Hotkdg";
+        const string plaintext = "Help me Obiwan Kenobi!";
+        const string ciphertext = "Hedl xw Sdjyan Hotkdg!";
 
         Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
         Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
     }
-
+	/*
     [TestMethod]
     public void FourSquare()
     {
@@ -343,7 +343,7 @@ public class CipherTests
 
 		const string plaintext = "Hide the GOLD IN THE TREXE STUMP.";
 		const string ciphertext = "Bmod zbx DNAB EK UDM UIXMM OUVIF.";
-		var square = PolybiusSquare.CreateFromString("PLAYFIREXMBCDGHKNOQSTUVWZ");
+		var square = PolybiusSquare.CreateFromCharacters("PLAYFIREXMBCDGHKNOQSTUVWZ");
 
 		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, square));
 		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, square));

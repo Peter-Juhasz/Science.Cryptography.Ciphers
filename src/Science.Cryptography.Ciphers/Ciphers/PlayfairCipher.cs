@@ -1,7 +1,9 @@
 using System;
+using System.Composition;
 
 namespace Science.Cryptography.Ciphers;
 
+[Export("Playfair", typeof(IKeyedCipher<PolybiusSquare>))]
 public class PlayfairCipher : IKeyedCipher<PolybiusSquare>
 {
 	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, PolybiusSquare key, out int written)
@@ -109,10 +111,10 @@ public class PlayfairCipher : IKeyedCipher<PolybiusSquare>
 	}
 
 
-	public static bool TryResolveEncrypt(PolybiusSquare square, ValueTuple<char, char> pair, out ValueTuple<char, char> result)
+	public static bool TryResolveEncrypt(PolybiusSquare square, (char first, char second) pair, out (char first, char second) result)
 	{
-		if (square.TryFindOffsets(pair.Item1, out (int row, int column) position1) &&
-			square.TryFindOffsets(pair.Item2, out (int row, int column) position2))
+		if (square.TryFindOffsets(pair.first, out (int row, int column) position1) &&
+			square.TryFindOffsets(pair.second, out (int row, int column) position2))
 		{
 			if (position1.row != position2.row && position1.column != position2.column)
 			{
@@ -138,10 +140,10 @@ public class PlayfairCipher : IKeyedCipher<PolybiusSquare>
 		return false;
 	}
 
-	public static bool TryResolveDecrypt(PolybiusSquare square, ValueTuple<char, char> pair, out ValueTuple<char, char> result)
+	public static bool TryResolveDecrypt(PolybiusSquare square, (char first, char second) pair, out (char first, char second) result)
 	{
-		if (square.TryFindOffsets(pair.Item1, out (int row, int column) position1) &&
-			square.TryFindOffsets(pair.Item2, out (int row, int column) position2))
+		if (square.TryFindOffsets(pair.first, out (int row, int column) position1) &&
+			square.TryFindOffsets(pair.second, out (int row, int column) position2))
 		{
 			if (position1.row != position2.row && position1.column != position2.column)
 			{

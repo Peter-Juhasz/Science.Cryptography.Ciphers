@@ -21,9 +21,9 @@ public struct PolybiusSquare
 
 	public char this[int column, int row] => _data[column, row];
 
-	public char this[ValueTuple<int, int> position] => _data[position.Item1, position.Item2];
+	public char this[(int row, int column) position] => _data[position.row, position.column];
 
-	public bool TryFindOffsets(char ch, out ValueTuple<int, int> position) => ArrayHelper.TryFindOffsets(_data, ch, out position, _size);
+	public bool TryFindOffsets(char ch, out (int row, int column) position) => ArrayHelper.TryFindOffsets(_data, ch, out position, _size);
 
 	public bool Contains(char ch) => TryFindOffsets(ch, out _);
 
@@ -37,28 +37,60 @@ public struct PolybiusSquare
 
 	public static PolybiusSquare CreateFromKeyword(string keyword, Alphabet alphabet)
 	{
-		// TODO: optimize allocations
-		return CreateFromString(
-			keyword.Select(Char.ToUpperInvariant)
-			.Concat(alphabet)
-			.Distinct()
-			.ToArray()
-		);
-	}
-
-	public static PolybiusSquare CreateFromAlphabet(Alphabet alphabet) => CreateFromString(alphabet.AsSpan());
-
-	public static PolybiusSquare CreateFromString(ReadOnlySpan<char> source)
-	{
-		int size = (int)Math.Sqrt(source.Length);
+		if (!TrySqrt(alphabet.Length, out var size))
+		{
+			throw new ArgumentOutOfRangeException(nameof(alphabet));
+		}
 
 		char[,] result = new char[size, size];
-		ArrayHelper.FillSlow(result, source, size);
+		ArrayHelper.FillWithKeywordAndAlphabet(result.AsSpan(size), keyword, alphabet.AsSpan());
 		return result;
 	}
 
-	public static bool TryFindOffsets(char[,] polybiusSquare, char ch, out ValueTuple<int, int> positions) =>
+	public static PolybiusSquare CreateFromAlphabet(Alphabet alphabet) => CreateFromCharacters(alphabet.AsSpan());
+
+	public static PolybiusSquare CreateFromCharacters(ReadOnlySpan<char> source)
+	{
+		if (!TrySqrt(source.Length, out var size))
+		{
+			throw new ArgumentOutOfRangeException(nameof(source));
+		}
+
+		char[,] result = new char[size, size];
+		ArrayHelper.FillFast(result, source, size);
+		return result;
+	}
+
+	public static bool TryFindOffsets(char[,] polybiusSquare, char ch, out (int row, int column) positions) =>
 		ArrayHelper.TryFindOffsets(polybiusSquare, ch, out positions, polybiusSquare.GetLength(0), polybiusSquare.GetLength(1));
 
 	public char[,] ToCharArray() => (char[,])_data.Clone();
+
+
+	private static bool TrySqrt(int n, out int root)
+	{
+		root = n switch
+		{
+			25 => 5,
+			36 => 6,
+			16 => 4,
+			49 => 7,
+			9 => 3,
+			4 => 2,
+			1 => 1,
+			_ => -1
+		};
+		if (root != -1)
+		{
+			return true;
+		}
+
+		root = (int)Math.Sqrt(n);
+		if (root * root == n)
+		{
+			return true;
+		}
+
+		return false;
+	}
 }

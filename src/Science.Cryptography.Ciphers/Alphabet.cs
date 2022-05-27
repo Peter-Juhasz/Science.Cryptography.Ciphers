@@ -19,31 +19,7 @@ public class Alphabet : IReadOnlyList<char>, IEquatable<Alphabet>
 	public static Alphabet FromKeyword(string keyword, Alphabet @base, bool throwOnDuplicates = false)
 	{
 		var buffer = new char[@base.Length];
-		int written = 0;
-
-		for (int i = 0; i < keyword.Length; i++)
-		{
-			var upper = keyword[i].ToUpper();
-			if (Array.IndexOf(buffer, upper) != -1)
-			{
-				buffer[written++] = upper;
-			}
-		}
-
-		if (throwOnDuplicates && written < keyword.Length)
-		{
-			throw new ArgumentOutOfRangeException(nameof(keyword), "Keyword contains duplicate characters.");
-		}
-
-		for (int i = 0; i < @base.Length; i++)
-		{
-			var upper = @base[i].ToUpper();
-			if (Array.IndexOf(buffer, upper) != -1)
-			{
-				buffer[written++] = upper;
-			}
-		}
-
+		ArrayHelper.FillWithKeywordAndAlphabet(buffer, keyword, @base.AsSpan(), throwOnDuplicates);
 		return new(buffer);
 	}
 
