@@ -10,9 +10,9 @@ dotnet add package Science.Cryptography.Ciphers.Analysis
 ## What's new in v2?
 - **New CLI app** for regular users
 - Ciphers and tools rewritten to **allocation free** operation, take advantage of **hardware intrinsics**, and specialized **fast path for ASCII** encoding. See [Performance Improvements](docs/performance-improvements.md) for details and benchmarks.
-- New `IAsyncEnumerable` interface for consuming analysis intermediate results
-- Reworked *Recognizer*, *KeyFinder* analysis tools
+- Reworked analysis tools and `IAsyncEnumerable` interface for consuming analysis intermediate results
 - **CryptogramSolver** for automatic decryption of ciphertext
+- New ciphers: Morse Code with extended charset, Polybius, Wolfenbütteler, Malespin
 
 ## Ciphers
 ```cs

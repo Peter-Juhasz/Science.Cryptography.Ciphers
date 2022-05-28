@@ -14,7 +14,7 @@ public class CryptogramSolverTests
 		const string plaintext = "MORSE CODE";
 
 		var solver = new CryptogramSolverBuilder(new RelativeLetterFrequenciesSpeculativePlaintextScorer(Languages.English.RelativeFrequenciesOfLetters))
-			.AddCipher(new MorseCode())
+			.AddCipher(new InternationalMorseCode())
 			.AddCipher(new TapCode())
 			.Build();
 
@@ -45,7 +45,7 @@ public static class CryptogramSolverExtensions
 
 	public static CryptogramSolverBuilder AddAllCiphers(this CryptogramSolverBuilder builder) => builder
 		.AddCipher(new AtbashCipher())
-		.AddCipher(new MorseCode())
+		.AddCipher(new InternationalMorseCode())
 		.AddCipher(new TapCode())
 		.AddCipher(new A1Z26Cipher())
 		.AddCipher(new Rot13Cipher(WellKnownAlphabets.English))

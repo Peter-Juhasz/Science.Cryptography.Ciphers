@@ -46,7 +46,7 @@ public class CipherTests
 	[TestMethod]
 	public void MorseCode()
 	{
-		var cipher = new MorseCode();
+		var cipher = new InternationalMorseCode();
 
 		const string plaintext = "morse code";
 		const string ciphertext = "-- --- .-. ... .  -.-. --- -.. .";

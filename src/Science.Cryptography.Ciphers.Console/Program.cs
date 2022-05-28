@@ -361,8 +361,8 @@ solveCommand.SetHandler(async (
 		.AddCipher(new Base64Encoder(encoding, Base64Options.Url))
 		.AddCipher(new Base64Encoder(encoding, Base64Options.Imap))
 
-		.AddCipher(new MorseCode())
-		.AddCipher(new MorseCode(new(Dot: '-', Dash: '.', Delimiter: ' '))) // reverse
+		.AddCipher(new InternationalMorseCode())
+		.AddCipher(new InternationalMorseCode(new(Dot: '-', Dash: '.', Delimiter: ' '))) // reverse
 		.AddCipher(new TapCode())
 		.AddCipher(new BaconCipher())
 		.AddCipher(new BaconCipher(new(A: 'B', B: 'A'))) // reverse

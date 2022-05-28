@@ -1,18 +1,16 @@
 using System;
-using System.Composition;
 
 namespace Science.Cryptography.Ciphers;
 
 /// <summary>
 /// Represents the Morse Code cipher.
 /// </summary>
-[Export("Morse Code", typeof(ICipher))]
-public class MorseCode : ICipher
+public abstract class MorseCode : ICipher
 {
 	public MorseCode(MorseCodeOptions options)
 	{
 		Options = options;
-		_map = options.GetSubstitutionMap();
+		_map = GetSubstitutionMap(options);
 	}
 	public MorseCode()
 		: this(MorseCodeOptions.Default)
@@ -21,7 +19,9 @@ public class MorseCode : ICipher
 	public MorseCodeOptions Options { get; }
 	private readonly CharacterToSegmentSubstitutionMap _map;
 
-	public int MaxOutputCharactersPerInputCharacter => 4 + 1;
+	public int MaxOutputCharactersPerInputCharacter => 6 + 1;
+
+	protected abstract CharacterToSegmentSubstitutionMap GetSubstitutionMap(MorseCodeOptions options);
 
 	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, out int written)
 	{
