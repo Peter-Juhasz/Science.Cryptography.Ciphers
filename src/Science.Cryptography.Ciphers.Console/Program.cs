@@ -366,6 +366,7 @@ solveCommand.SetHandler(async (
 		.AddCipher(new TapCode())
 		.AddCipher(new BaconCipher())
 		.AddCipher(new BaconCipher(new(A: 'B', B: 'A'))) // reverse
+		.AddCipher(new MalespinSlang())
 
 		.AddCipher(new CaesarCipher(alphabet))
 		.AddCipher(new Rot13Cipher(alphabet))

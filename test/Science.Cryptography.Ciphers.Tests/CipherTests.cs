@@ -360,4 +360,16 @@ public class CipherTests
 		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, square));
 		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, square));
 	}
+
+	[TestMethod]
+	public void Malespin()
+	{
+		var cipher = new MalespinSlang();
+
+		const string plaintext = "Malespin";
+		const string ciphertext = "Pelasmon";
+
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
+	}
 }
