@@ -34,6 +34,8 @@ public struct PolybiusSquare
 
 	public static readonly PolybiusSquare RegularWithoutK = CreateFromAlphabet(WellKnownAlphabets.EnglishWithoutK);
 
+	public static readonly PolybiusSquare Greek = CreateFromCharacters("ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ\0");
+
 	public static PolybiusSquare CreateFromKeyword(string keyword, Alphabet alphabet)
 	{
 		if (!TrySqrt(alphabet.Length, out var size))
