@@ -7,6 +7,7 @@ The following practices were implemented to reduce heap allocations and speed up
  - Reusing buffers instead of creating new ones for each analysis cycle
  - Partitioning options to support parallel analysis better. State can be preserved safely for each thread, so no new instances need to be created to be stateless to avoid locking after all, and no locking is needed to race for resources from a pool either.
  - Specialized implementations for ASCII
+ - Flattened access of multi-dimensional arrays for vectorization
 
 ## XOR cipher
 The old v1 implementation was based on a very simple functional LINQ implementation.

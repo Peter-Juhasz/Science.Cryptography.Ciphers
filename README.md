@@ -1,6 +1,14 @@
 ﻿# Science.Cryptography.Ciphers
 Ancient and classic cipher methods and analysis tools implemented in **.NET** by using high performance memory management and SIMD hardware intrinsics.
 
+Use command-line interface:
+
+```sh
+crypto solve "Wkh txlfn eurzq ira mxpsv ryhu wkh odcb grj."
+```
+
+Use rich APIs:
+
 ```ps
 dotnet add package Science.Cryptography.Ciphers
 dotnet add package Science.Cryptography.Ciphers.Specialized
@@ -12,11 +20,44 @@ dotnet add package Science.Cryptography.Ciphers.Analysis
 - Ciphers and tools rewritten to **allocation free** operation, take advantage of **hardware intrinsics**, and specialized **fast path for ASCII** encoding. See [Performance Improvements](docs/performance-improvements.md) for details and benchmarks.
 - Reworked analysis tools and `IAsyncEnumerable` interface for consuming analysis intermediate results
 - **CryptogramSolver** for automatic decryption of ciphertext
+- New brute-force key spaces
 - New ciphers: Morse Code with extended charset, Polybius, One-Time Pad, Wolfenbütteler, Malespin
+
+## Command-line interface
+Many of the library operations are published via CLI as well:
+
+ - [List available assets](docs/cli/list.md)
+ - [Encrypt and decrypt text](docs/cli/encrypt-decrypt.md)
+ - [Analyze ciphertext](docs/cli/analyze.md)
+	- [Caesar Brute-force](docs/cli/analyze.md#caesar-brute-force)
+	- [Frequency analysis](docs/cli/analyze.md#frequency-analysis)
+	- [NGram analysis](docs/cli/analyze.md#ngram-analysis)
+	- [Score](docs/cli/analyze.md#score)
+ - [Find key for a ciphertext](docs/cli/find-key.md)
+ - [Solve a cryptogram](docs/cli/solve.md)
+
+## Framework APIs
+
+ - [Basic tools](docs/lib/basics.md)
+	- [Alphabet](docs/lib/basics.md#alphabet)
+	- [Tabula Recta](docs/lib/basics.md#tabula-recta)
+	- [Polybius Square](docs/lib/basics.md#polybius-square)
+ - [Encrypt and decrypt text](docs/lib/encrypt-decrypt.md)
+	- [Keyed ciphers](docs/lib/keyed-ciphers.md)
+	- [High performance](docs/lib/keyed-ciphers.md)
+ - [Analyze ciphertext](docs/lib/analyze.md)
+	- [Caesar Brute-force](docs/lib/analyze.md#caesar-brute-force)
+	- [Frequency analysis](docs/lib/analyze.md#frequency-analysis)
+	- [NGram analysis](docs/lib/analyze.md#ngram-analysis)
+	- [Score](docs/lib/analyze.md#score)
+ - [Find key for a ciphertext](docs/lib/find-key.md)
+    - [Keyspaces](docs/lib/find-key.md#keyspaces)
+    - [KeyFinder](docs/lib/find-key.md#keyfinder)
+ - [Solve a cryptogram](docs/lib/solve.md)
 
 ## Ciphers
 ```cs
-ICipher caesar = ShiftCipher.CreateCaesar(Alphabets.English);
+ICipher caesar = new CaesarCipher();
 string ciphertext = caesar.Encrypt("Hello world!");
 ```
 
@@ -24,7 +65,8 @@ Affine, Atbash, Autokey, Bacon, Beaufort, Bifid, Caesar, Four-square, Gronsfeld,
 
 ## Tools
 ```cs
-TabulaRecta tc = new TabulaRecta(Alphabets.English);
+var tabula = new TabulaRecta(Alphabets.English);
+var square = PolybiusSquare.FromKeyword("EXAMPLE", WellKnownAlphabets.EnglishWithoutQ);
 ```
 
 * Polybius Square
@@ -57,26 +99,6 @@ BinaryXor.Xor(inputBytes, outputBytes, keyBytes);
 ```
 
 The implementation of `BinaryXor` not only uses no heap allocation, but it uses vectorized SIMD instructions via hardware intrinsics to speed up computations.
-
-### Streaming support
-```cs
-IKeyedCipher<string> cipher = new RunningKeyCipher();
-IEnumerable<char> ciphertextStream = cipher.Encrypt(plaintextStream);
-```
-
-Affine, Atbash, Monoalphabetic Substitution, Multiplicative, ROT-47, Running Key, Shift (Caesar, ROT-13), Vigenère
-
-## Reference data
-* English
-  * Relative frequencies of letters
-  * Relative frequencies of first letters of words
-
-## Tutorials
-* [Encrypt and decrypt text](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/wiki/Encrypt-and-decrypt-text)
-* [Determine the cipher method for a given ciphertext](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/wiki/Determine-the-cipher-method-for-a-given-ciphertext)
-* [How to choose between speculative plaintext candidates](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/wiki/How-to-choose-between-speculative-plaintext-candidates)
-* [Decrypt ciphertext encrypted with an unkeyed cipher](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/wiki/Decrypt-ciphertext-encrypted-with-an-unkeyed-cipher)
-* [Find the key for a given ciphertext](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/wiki/Find-the-key-for-a-given-ciphertext)
 
 ## Accepting PRs
 * ADFGVX

@@ -48,6 +48,11 @@ public class TabulaRecta
 		if (index < 0 || index >= Alphabet.Length)
 			throw new ArgumentOutOfRangeException(nameof(index));
 
+		if (index == 0)
+		{
+			return Alphabet.ToString();
+		}
+
 		if (_rowColumnCache[index] is not string row)
 		{
 			row = String.Create<object>(Alphabet.Length, null, (buffer, state) => GetRowOrColumn(Alphabet, index, buffer));
