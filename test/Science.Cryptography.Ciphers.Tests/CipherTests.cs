@@ -384,4 +384,17 @@ public class CipherTests
 		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
 		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
 	}
+
+	[TestMethod]
+	public void OneTimePad()
+	{
+		var cipher = new OneTimePadCipher();
+
+		const string plaintext = "Hello";
+		const string ciphertext = "Eqnvz";
+		const string key = "XMCKL";
+
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+	}
 }

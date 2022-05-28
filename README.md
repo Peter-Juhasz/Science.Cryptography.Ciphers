@@ -12,7 +12,7 @@ dotnet add package Science.Cryptography.Ciphers.Analysis
 - Ciphers and tools rewritten to **allocation free** operation, take advantage of **hardware intrinsics**, and specialized **fast path for ASCII** encoding. See [Performance Improvements](docs/performance-improvements.md) for details and benchmarks.
 - Reworked analysis tools and `IAsyncEnumerable` interface for consuming analysis intermediate results
 - **CryptogramSolver** for automatic decryption of ciphertext
-- New ciphers: Morse Code with extended charset, Polybius, Wolfenbütteler, Malespin
+- New ciphers: Morse Code with extended charset, Polybius, One-Time Pad, Wolfenbütteler, Malespin
 
 ## Ciphers
 ```cs
@@ -87,7 +87,6 @@ Affine, Atbash, Monoalphabetic Substitution, Multiplicative, ROT-47, Running Key
 * Rail fence
 * Myszkowski Transposition
 * Nihilist
-* One Time Pad
 * Solitaire
 * Trifid
 * Any other missing cipher
