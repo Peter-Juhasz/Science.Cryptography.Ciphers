@@ -1,10 +1,11 @@
 using System;
 using System.Composition;
 
-namespace Science.Cryptography.Ciphers.Specialized;
+namespace Science.Cryptography.Ciphers;
 
-[Export("Malespin", typeof(ICipher))]
-public class MalespinSlang : ReciprocalCipher
+[Export("Wolfenbütteler", typeof(ICipher))]
+[Export("Wolfenbuetteler", typeof(ICipher))]
+public class WolfenbüttelerCipher : ReciprocalCipher
 {
 	protected override void Crypt(ReadOnlySpan<char> input, Span<char> output, out int written)
 	{
@@ -24,20 +25,20 @@ public class MalespinSlang : ReciprocalCipher
 
 	private static char Translate(char ch) => (ch.ToUpper() switch
 	{
-		'A' => 'E',
-		'E' => 'A',
+		'A' => 'M',
+		'M' => 'A',
 
-		'B' => 'T',
-		'T' => 'B',
+		'E' => 'K',
+		'K' => 'E',
 
-		'F' => 'G',
-		'G' => 'F',
+		'I' => 'D',
+		'D' => 'I',
 
-		'I' => 'O',
-		'O' => 'I',
+		'O' => 'T',
+		'T' => 'O',
 
-		'M' => 'P',
-		'P' => 'M',
+		'U' => 'H',
+		'H' => 'U',
 
 		_ => ch
 	}).ToSameCaseAs(ch);

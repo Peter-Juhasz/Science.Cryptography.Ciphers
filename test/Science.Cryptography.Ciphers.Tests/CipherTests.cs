@@ -372,4 +372,16 @@ public class CipherTests
 		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
 		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
 	}
+
+	[TestMethod]
+	public void Wolfenbütteler()
+	{
+		var cipher = new WolfenbüttelerCipher();
+
+		const string plaintext = "Beispielklartext";
+		const string ciphertext = "Bkdspdklelmrokxo";
+
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
+	}
 }
