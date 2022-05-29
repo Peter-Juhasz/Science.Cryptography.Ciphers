@@ -118,6 +118,8 @@ And many other tools, like [Tabula Recta](#tabula-recta).
 
 ## Tabula Recta
 
+The tabula recta is a square table of alphabets, each row of which is made by shifting the previous one to the left (see [Wikipedia](https://en.wikipedia.org/wiki/Tabula_recta)). For example, it is used by [Vigenère](../../src/Science.Cryptography.Ciphers/Ciphers/VigenèreCipher.cs).
+
 ### Create a tabula recta
 You can create a `TabulaRecta` from an `Alphabet`:
 ```cs
@@ -157,14 +159,16 @@ Z | Z A B C D E F G H I J K L M N O P Q R S T U V W X Y
 ```
 
 ### Using the tabula recta
-You can find intersecting characters by simply indexing it:
+You can find intersecting characters by simply indexing it. All operations can be indexed by both numbers or characters.
 ```cs
 char intersection = tabulaRecta['D', 'B']; // E
+char intersection = tabulaRecta[3, 1]; // E
 ```
 
 You can also extract a whole row or column:
 ```cs
 string thirdRow = tabulaRecta.GetRowOrColumn('C'); // CDEFGHIJKLMNOPQRSTUVWXYZAB
+string thirdRow = tabulaRecta.GetRowOrColumn(2); // CDEFGHIJKLMNOPQRSTUVWXYZAB
 ```
 
 *Warning: instance method `GetRowOrColumn` a new `string`. And a backing storage array `string[]` as well to cache rows, so all subsequent calls can be allocation free.*
@@ -177,12 +181,95 @@ TabulaRecta.GetRowOrColumn(alphabet, 'C', buffer); // CDEFGHIJKLMNOPQRSTUVWXYZAB
 
 ## Polybius Square
 
+A Polybius Square is a set of characters ordered into a square matrix. It is used by many ciphers, for example [Playfair](../../src/Science.Cryptography.Ciphers/Ciphers/PlayfairCipher.cs).
+
+### Create a polybius square
+You can simply create one by specifying the exact characters (or an alphabet):
+```cs
+var polybiusSquare = PolybiusSquare.FromCharacters("ABCDEFGHJKLMNOPQRSTUVWXYZ");
+```
+
+Which would result in this:
+```
+A B C D E
+F G H I K
+L M N O P
+Q R S T U
+V W X Y Z
+```
+
+Or by a keyword:
+```cs
+var polybiusSquare = PolybiusSquare.FromKeyword("PLAYFAIREXAMPLE", WellKnownAlphabets.EnglishWithoutJ);
+```
+
+Which would result in this:
+```
+P L A Y F
+I R E X M
+B C D G H
+K N O Q S
+T U V W Z
+```
+
+Once created you can get its size:
+```
+int size = polybiusSquare.Size; // 5
+```
+
+### Operations
+**Important!** Instead of [x, y] indexing order, use [row, column], see [Layout of two-dimensional arrays](#Layout-of-two-dimensional-arrays) for more information.
+
+Reference for examples:
+```
+P L A Y F
+I R E X M
+B C D G H
+K N O Q S
+T U V W Z
+```
+
+You can get characters from it by indexing:
+```
+char secondRowThirdColumn = polybiusSquare[1, 2]; // E
+char secondRowThirdColumn = polybiusSquare[(1, 2)]; // E
+```
+
+You can test for whether it contains a specific character or not:
+```
+bool containsI = polybiusSquare.Contains('I'); // true
+bool containsJ = polybiusSquare.Contains('J'); // false
+```
+
+You can find the position of an exact character:
+```
+if (polybiusSquare.TryFindOffsets('I', out (int row, int column) position)
+{
+	// found
+}
+```
+
+### Extract its content
+You can convert it to a character array:
+```cs
+char[,] array = polybiusSquare.ToCharArray();
+```
+
+*Warning: `ToCharArray` allocates a new array for each call*
+
+### Use a polybius square
+Many ciphers use it as a key for example:
+```cs
+var playfair = new PlayfairCipher();
+var key = PolybiusSquare.FromKeyword("PLAYFAIREXAMPLE", WellKnownAlphabets.EnglishWithoutJ);
+var plaintext = "sample";
+var ciphertext = playfair.Encrypt(plaintext, key);
+```
+
 
 ## Arrays
 
-### Layout of multi-dimensional arrays
-**Important!** Instead of [x, y] indexing order, use [row, column].
-
+### Layout of two-dimensional arrays
 The library follows the layout of arrays determined by the .NET specifications. Which means that two-dimensional arrays are indexed as follows:
 1. row index
 2. column index
@@ -192,6 +279,7 @@ For example, the array:
 |   | 0 | 1 | 2 |
 |---+---+---+---|
 | 0 | C | I | P |
+|---+---+---+---|
 | 1 | H | E | R |
 ```
 
@@ -208,12 +296,13 @@ example[1, 2] = 'R';
 Its raw memory representation looks like this (2x3 = 6 length):
 ```
 | 0 | 1 | 2 | 3 | 4 | 5 |
+|---+---+---+---+---+---|
 | C | I | P | H | E | R |
 ```
 
 The reason the library follows the .NET layout and not the mathematical one (x, y), is to be able to compatible, so a two-dimensional array can be flatten out, to be able to use vectorization techniques (search, copy, etc...).
 
-For example, the `ArrayHelper` class contains lots of utilities to manage arrays. One of them is `FillFast(char[,] buffer, ReadOnlySpan<char> source)` which basically works like this:
+For example, the [`ArrayHelper`](../../src/Science.Cryptography.Ciphers/Tools/ArrayHelper.cs) class contains lots of utilities to manage arrays. One of them is [`FillFast`](../../src/Science.Cryptography.Ciphers/Tools/ArrayHelper.cs) which basically works like this:
 ```cs
 char[,] buffer = new char[5, 5];
 Span<char> flat = MemoryMarshal.CreateSpan(ref buffer[0, 0], length: 25);
