@@ -12,7 +12,7 @@ var alphabet = new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 Or reorder letters by a keyword:
 ```cs
 var english = new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-var key = Alphabet.FromKeyword("EXAMPLE", english); // EXAMPLBCDFGHIJKNOQRSTUVWYZ
+var key = Alphabet.FromKeyword("EXAMPLE", english); // "EXAMPLBCDFGHIJKNOQRSTUVWYZ"
 ```
 
 The number of characters can be found in `Length`:
@@ -25,29 +25,29 @@ int count = alphabet.Length; // 26
 
 Simply index the alphabet:
 ```cs
-char thirdLetter = alphabet[2]; // C
+char thirdLetter = alphabet[2]; // 'C'
 ```
 
 Index either from the start or its end:
 ```cs
-char lastLetter = alphabet[^1]; // Z
+char lastLetter = alphabet[^1]; // 'Z'
 ```
 
 Or get a range:
 ```cs
-ReadOnlySpan<char> fromSecondToFourth = alphabet[1..5]; // BCD
+ReadOnlySpan<char> fromSecondToFourth = alphabet[1..5]; // "BCD"
 ```
 
 ### Operations
 You can access characters by indexing:
 ```cs
-char thirdLetter = alphabet[2]; // C
+char thirdLetter = alphabet[2]; // 'C'
 ```
 
 But many ciphers need arithmetic operations which can under- or overflow, so alphabet provides `AtMod` for convenient out of bound access:
 ```cs
-char nextSecondLetter = alphabet.AtMod(27); // B
-char lastLetter = alphabet.AtMod(-1); // Z
+char nextSecondLetter = alphabet.AtMod(27); // 'B'
+char lastLetter = alphabet.AtMod(-1); // 'Z'
 ```
 
 *Note: all other indexing operations throw an `ArgumentOutOfRangeException` in case of overflow.*
@@ -101,12 +101,12 @@ List of built-in alphabets:
 
 | Name | Letters |
 | ---- | ------- |
-| English | ABCDEFGHIJKLMNOPQRSTUVWXYZ |
-| EnglishWithoutI | ABCDEFGHJKLMNOPQRSTUVWXYZ |
-| EnglishWithoutJ | ABCDEFGHIKLMNOPQRSTUVWXYZ |
-| EnglishWithoutK | ABCDEFGHIJLMNOPQRSTUVWXYZ |
-| EnglishWithoutL | ABCDEFGHIJKMNOPQRSTUVWXYZ |
-| EnglishWithoutQ | ABCDEFGHIJKLMNOPRSTUVWXYZ |
+| `English` | `ABCDEFGHIJKLMNOPQRSTUVWXYZ` |
+| `EnglishWithoutI` | `ABCDEFGHJKLMNOPQRSTUVWXYZ` |
+| `EnglishWithoutJ` | `ABCDEFGHIKLMNOPQRSTUVWXYZ` |
+| `EnglishWithoutK` | `ABCDEFGHIJLMNOPQRSTUVWXYZ` |
+| `EnglishWithoutL` | `ABCDEFGHIJKMNOPQRSTUVWXYZ` |
+| `EnglishWithoutQ` | `ABCDEFGHIJKLMNOPRSTUVWXYZ` |
 
 ### Use an alphabet
 Many ciphers use alphabets, for example:
@@ -161,14 +161,14 @@ Z | Z A B C D E F G H I J K L M N O P Q R S T U V W X Y
 ### Using the tabula recta
 You can find intersecting characters by simply indexing it. All operations can be indexed by both numbers or characters.
 ```cs
-char intersection = tabulaRecta['D', 'B']; // E
-char intersection = tabulaRecta[3, 1]; // E
+char intersection = tabulaRecta['D', 'B']; // 'E'
+char intersection = tabulaRecta[3, 1]; // 'E'
 ```
 
 You can also extract a whole row or column:
 ```cs
-string thirdRow = tabulaRecta.GetRowOrColumn('C'); // CDEFGHIJKLMNOPQRSTUVWXYZAB
-string thirdRow = tabulaRecta.GetRowOrColumn(2); // CDEFGHIJKLMNOPQRSTUVWXYZAB
+string thirdRow = tabulaRecta.GetRowOrColumn('C'); // "CDEFGHIJKLMNOPQRSTUVWXYZAB"
+string thirdRow = tabulaRecta.GetRowOrColumn(2); // "CDEFGHIJKLMNOPQRSTUVWXYZAB"
 ```
 
 *Warning: instance method `GetRowOrColumn` a new `string`. And a backing storage array `string[]` as well to cache rows, so all subsequent calls can be allocation free.*
@@ -176,7 +176,7 @@ string thirdRow = tabulaRecta.GetRowOrColumn(2); // CDEFGHIJKLMNOPQRSTUVWXYZAB
 To avoid memory allocation, all operations are available as static methods, for example:
 ```cs
 char[] buffer;
-TabulaRecta.GetRowOrColumn(alphabet, 'C', buffer); // CDEFGHIJKLMNOPQRSTUVWXYZAB
+TabulaRecta.GetRowOrColumn(alphabet, 'C', buffer); // "CDEFGHIJKLMNOPQRSTUVWXYZAB"
 ```
 
 ## Polybius Square
@@ -213,7 +213,7 @@ T U V W Z
 ```
 
 Once created you can get its size:
-```
+```cs
 int size = polybiusSquare.Size; // 5
 ```
 
@@ -230,19 +230,19 @@ T U V W Z
 ```
 
 You can get characters from it by indexing:
-```
+```cs
 char secondRowThirdColumn = polybiusSquare[1, 2]; // E
 char secondRowThirdColumn = polybiusSquare[(1, 2)]; // E
 ```
 
 You can test for whether it contains a specific character or not:
-```
+```cs
 bool containsI = polybiusSquare.Contains('I'); // true
 bool containsJ = polybiusSquare.Contains('J'); // false
 ```
 
 You can find the position of an exact character:
-```
+```cs
 if (polybiusSquare.TryFindOffsets('I', out (int row, int column) position)
 {
 	// found
