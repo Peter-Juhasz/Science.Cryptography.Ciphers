@@ -369,6 +369,7 @@ solveCommand.SetHandler(async (
 		.AddCipher(new WolfenbüttelerCipher())
 		.AddCipher(new MalespinSlang())
 
+		.AddCipher(new ScytaleCipher(), new IntKeySpace(minimum: 2, maximum: ciphertext.Length / 2))
 		.AddCipher(new CaesarCipher(alphabet))
 		.AddCipher(new Rot13Cipher(alphabet))
 		.AddCipher(new Rot47Cipher())

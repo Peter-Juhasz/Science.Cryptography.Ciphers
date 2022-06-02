@@ -397,4 +397,17 @@ public class CipherTests
 		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
 		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
 	}
+
+	[TestMethod]
+	public void Scytale()
+	{
+		var cipher = new ScytaleCipher();
+
+		const string plaintext = "Iamhurtverybadlyhelp";
+		const string ciphertext = "Iryyatbhmvaehedlurlp";
+		const int key = 4;
+
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+	}
 }
