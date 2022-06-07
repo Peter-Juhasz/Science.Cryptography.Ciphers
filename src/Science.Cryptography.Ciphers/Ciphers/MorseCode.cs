@@ -7,21 +7,16 @@ namespace Science.Cryptography.Ciphers;
 /// </summary>
 public abstract class MorseCode : ICipher
 {
-	public MorseCode(MorseCodeOptions options)
+	public MorseCode(MorseCodeOptions options, CharacterToSegmentSubstitutionMap map)
 	{
 		Options = options;
-		_map = GetSubstitutionMap(options);
+		_map = map;
 	}
-	public MorseCode()
-		: this(MorseCodeOptions.Default)
-	{ }
 
 	public MorseCodeOptions Options { get; }
 	private readonly CharacterToSegmentSubstitutionMap _map;
 
 	public int MaxOutputCharactersPerInputCharacter => 6 + 1;
-
-	protected abstract CharacterToSegmentSubstitutionMap GetSubstitutionMap(MorseCodeOptions options);
 
 	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, out int written)
 	{

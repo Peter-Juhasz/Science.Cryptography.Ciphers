@@ -7,14 +7,11 @@ namespace Science.Cryptography.Ciphers;
 public class InternationalMorseCode : MorseCode
 {
 	public InternationalMorseCode(MorseCodeOptions options)
-		: base(options)
+		: base(options, options.GetInternationalSubstitutionMap())
 	{ }
 	public InternationalMorseCode()
 		: this(MorseCodeOptions.Default)
 	{ }
-
-	protected override CharacterToSegmentSubstitutionMap GetSubstitutionMap(MorseCodeOptions options) =>
-		options.GetInternationalSubstitutionMap();
 }
 
 public static class MorseCodeOptionsExtensions
