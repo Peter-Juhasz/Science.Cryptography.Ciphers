@@ -2,12 +2,12 @@ using System.Collections.Generic;
 
 namespace Science.Cryptography.Ciphers;
 
-public record class BaconOptions(
+public record struct BaconOptions(
 	char A = 'A',
 	char B = 'B'
 )
 {
-	public static readonly BaconOptions Default = new();
+	public static readonly BaconOptions Default = new(A: 'A', B: 'B');
 
 	public CharacterToSegmentSubstitutionMap GetSubstitutionMap() => new(new Dictionary<char, string>(IgnoreCaseCharComparer.Instance)
 	{

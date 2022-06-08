@@ -53,8 +53,8 @@ Many of the library operations are published via CLI as well:
 	- [NGram analysis](docs/lib/analyze.md#ngram-analysis)
 	- [Score](docs/lib/analyze.md#score)
  - [Find key for a ciphertext](docs/lib/find-key.md)
-    - [Keyspaces](docs/lib/find-key.md#keyspaces)
-    - [KeyFinder](docs/lib/find-key.md#keyfinder)
+    - [Keyspaces](docs/lib/find-key.md#key-spaces)
+    - [KeyFinder](docs/lib/find-key.md#analysis)
  - [Solve a cryptogram](docs/lib/solve.md)
 
 ## Ciphers

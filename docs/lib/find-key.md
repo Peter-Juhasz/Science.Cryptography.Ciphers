@@ -6,13 +6,13 @@ Key space &gt; Speculative plaintext scorer &gt; Candidate promoter &gt; Results
 ## Key spaces
 We need to define the key space to search.
 
-Kinds of key spaces:
+### Kinds of key spaces
 
 | Type | Description |
 | ---- | ----------- |
-| [IKeySpace&lt;TKey&gt;](../../src/Science.Cryptography.Ciphers.Analysis/KeySpace/IKeySpace.cs) | Represents a synchronous, sequential keyspace. |
-| [IAsyncKeySpace&lt;TKey&gt;](../../src/Science.Cryptography.Ciphers.Analysis/KeySpace/IAsyncKeySpace.cs) | Represents an asynchronous, sequential keyspace. |
-| [IPartitionedKeySpace&lt;TKey&gt;](../../src/Science.Cryptography.Ciphers.Analysis/KeySpace/IKeySpace.cs) | Represents a synchronous, parallel keyspace. |
+| [IKeySpace&lt;TKey&gt;](../../src/Science.Cryptography.Ciphers.Analysis/KeySpace/IKeySpace.cs) | Represents a synchronous, sequential keyspace. (for example: in-memory) |
+| [IAsyncKeySpace&lt;TKey&gt;](../../src/Science.Cryptography.Ciphers.Analysis/KeySpace/IAsyncKeySpace.cs) | Represents an asynchronous, sequential keyspace. (for example: read file) |
+| [IPartitionedKeySpace&lt;TKey&gt;](../../src/Science.Cryptography.Ciphers.Analysis/KeySpace/IKeySpace.cs) | Represents a synchronous, parallel keyspace. (for example: brute-force) |
 
 The [IKeySpace&lt;TKey&gt;](../../src/Science.Cryptography.Ciphers.Analysis/KeySpace/IKeySpace.cs) represents the most basic key space. It is applicable to a small or medium set of values which are either already available in-memory or can be generated synchronously.
 ```cs
