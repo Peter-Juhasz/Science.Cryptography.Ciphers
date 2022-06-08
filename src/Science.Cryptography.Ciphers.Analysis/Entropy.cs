@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 namespace Science.Cryptography.Ciphers.Analysis;
 
@@ -14,11 +13,15 @@ public static class Entropy
 	public static double Analyze(ReadOnlySpan<char> input, double logarithmBase = 2)
 	{
 		var length = input.Length;
-		return -(
-			from kv in FrequencyAnalysis.Analyze(input)
-			let occurrence = kv.Value
-			let probability = occurrence / length
-			select probability * Math.Log(probability, logarithmBase)
-		).Sum();
+		var sum = 0D;
+
+		foreach (var kv in FrequencyAnalysis.Analyze(input))
+		{
+			var occurrence = kv.Value;
+			var probability = occurrence / length;
+			sum -= probability * Math.Log(probability, logarithmBase);
+		}
+
+		return sum;
 	}
 }
