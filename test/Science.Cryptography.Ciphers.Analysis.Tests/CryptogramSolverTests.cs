@@ -29,7 +29,7 @@ public class CryptogramSolverTests
 		const string ciphertext = "Wkh txlfn eurzq ira mxpsv ryhu wkh odcb grj.";
 		const string plaintext = "The quick brown fox jumps over the lazy dog.";
 
-		var solver = new CryptogramSolverBuilder(new TwoGramAsciiLettersFrequenciesSpeculativePlaintextScorer(Languages.English.GetNGramFrequencies(2)))
+		var solver = new CryptogramSolverBuilder(new TwoGramAsciiLettersRelativeFrequenciesSpeculativePlaintextScorer(Languages.English.GetNGramFrequencies(2)))
 			.AddCipher(new ShiftCipher(), new ShiftKeySpace(WellKnownAlphabets.English))
 			.Build();
 

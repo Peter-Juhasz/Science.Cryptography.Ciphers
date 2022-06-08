@@ -55,7 +55,7 @@ internal static class BindingContextExtenions
 			scorerName is "letters" && encoding == Encoding.ASCII ? new AsciiRelativeLetterFrequenciesSpeculativePlaintextScorer(language.RelativeFrequenciesOfLetters) :
 			scorerName is "letters" ? new RelativeLetterFrequenciesSpeculativePlaintextScorer(language.RelativeFrequenciesOfLetters) :
 			scorerName is "first-letters" ? new RelativeFirstLetterOfWordsFrequenciesSpeculativePlaintextScorer(language.RelativeFrequenciesOfFirstLettersOfWords) :
-			scorerName is "n-grams-2" && encoding == Encoding.ASCII ? new TwoGramAsciiLettersFrequenciesSpeculativePlaintextScorer(language.GetNGramFrequencies(2)) :
+			scorerName is "n-grams-2" && encoding == Encoding.ASCII ? new TwoGramAsciiLettersRelativeFrequenciesSpeculativePlaintextScorer(language.GetNGramFrequencies(2)) :
 			scorerName is "n-grams-2" ? new RelativeNGramFrequenciesSpeculativePlaintextScorer(language.GetNGramFrequencies(2), 2) :
 			scorerName is "n-grams-3" ? new RelativeNGramFrequenciesSpeculativePlaintextScorer(language.GetNGramFrequencies(3), 3) :
 			new RelativeNGramFrequenciesSpeculativePlaintextScorer(language.GetNGramFrequencies(2), 2);

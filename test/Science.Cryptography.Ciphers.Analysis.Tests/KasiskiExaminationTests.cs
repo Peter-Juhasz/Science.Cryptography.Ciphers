@@ -13,7 +13,7 @@ public class KasiskiExaminationTests
 		string ciphertext = "qvvjcibdftsicicqvvjcibswcstqwmb.";
 
 		var result = KasiskiExamination.Analyze(ciphertext);
-		CollectionAssert.AreEquivalent(new[] { 3, 5 }, result.SpeculativeKeyLengths.ToArray());
+		CollectionAssert.AreEquivalent(new[] { 3, 5 }, result.Select(r => r.SpeculativeKeyLength).ToArray());
 	}
 
 	[TestMethod]
@@ -22,6 +22,6 @@ public class KasiskiExaminationTests
 		string ciphertext = "QvvjcibdftsicicqvvJcibswcstqwmb.";
 
 		var result = KasiskiExamination.Analyze(ciphertext, comparison: StringComparison.OrdinalIgnoreCase);
-		CollectionAssert.AreEquivalent(new[] { 3, 5 }, result.SpeculativeKeyLengths.ToArray());
+		CollectionAssert.AreEquivalent(new[] { 3, 5 }, result.Select(r => r.SpeculativeKeyLength).ToArray());
 	}
 }

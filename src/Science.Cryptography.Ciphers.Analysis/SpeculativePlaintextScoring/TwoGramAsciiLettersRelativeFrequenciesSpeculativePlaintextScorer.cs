@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Science.Cryptography.Ciphers.Analysis;
 
-public sealed class TwoGramAsciiLettersFrequenciesSpeculativePlaintextScorer : ISpeculativePlaintextScorer, IPartitionedSpeculativePlaintextScorer
+public sealed class TwoGramAsciiLettersRelativeFrequenciesSpeculativePlaintextScorer : ISpeculativePlaintextScorer, IPartitionedSpeculativePlaintextScorer
 {
-	public TwoGramAsciiLettersFrequenciesSpeculativePlaintextScorer(RelativeStringFrequencies relativeFrequencies)
+	public TwoGramAsciiLettersRelativeFrequenciesSpeculativePlaintextScorer(RelativeStringFrequencies relativeFrequencies)
 	{
 		if (relativeFrequencies.Any(f => f.Key.Length != 2))
 		{
