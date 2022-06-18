@@ -27,16 +27,15 @@ public sealed class WordlistSpeculativePlaintextScorer : ISpeculativePlaintextSc
 	/// <returns></returns>
 	public double Score(ReadOnlySpan<char> speculativePlaintext)
 	{
-		var bitArray = new BitArray(speculativePlaintext.Length);
-		foreach (var word in _orderedWordlist)
+		Span<ulong> bitsBuffer = stackalloc ulong[ValueBitArray.GetNumberOfBucketsForBits(speculativePlaintext.Length)];
+		var bitArray = new ValueBitArray(bitsBuffer);
+
+		foreach (var word in _orderedWordlist.AsValueEnumerable())
 		{
 			var index = speculativePlaintext.IndexOf(word, _comparison);
 			while (index != -1)
 			{
-				for (int i = 0; i < word.Length; i++)
-				{
-					bitArray[index + i] = true;
-				}
+				bitArray.SetRangeToOne(index, word.Length);
 
 				var nextStartIndex = index + word.Length;
 				if (nextStartIndex + word.Length > speculativePlaintext.Length)
@@ -44,9 +43,16 @@ public sealed class WordlistSpeculativePlaintextScorer : ISpeculativePlaintextSc
 					break;
 				}
 
-				index = speculativePlaintext[nextStartIndex..].IndexOf(word, _comparison) + nextStartIndex;
+				int relativeIndex = speculativePlaintext[nextStartIndex..].IndexOf(word, _comparison);
+				if (relativeIndex == -1)
+				{
+					break;
+				}
+
+				index = relativeIndex + nextStartIndex;
 			}
 		}
+
 		return bitArray.GetCardinality() / (double)speculativePlaintext.Length;
 	}
 }
