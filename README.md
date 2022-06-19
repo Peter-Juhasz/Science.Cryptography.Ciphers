@@ -22,7 +22,7 @@ dotnet add package Science.Cryptography.Ciphers.Analysis
 - Reworked analysis tools and `IAsyncEnumerable` interface for consuming analysis intermediate results
 - **CryptogramSolver** for automatic decryption of ciphertext
 - New brute-force key spaces
-- New ciphers: Scytale, Morse Code with extended charset, Polybius, Columnar Transposition, Double Columnar Transposition, One-Time Pad, Wolfenbütteler, Malespin
+- New ciphers: Scytale, Morse Code with extended charset, Polybius, Columnar Transposition, Double Columnar Transposition, ADFGX, ADFGVX, One-Time Pad, Wolfenbütteler, Malespin
 - More detailed documentation
 
 ## Command-line interface
@@ -63,10 +63,9 @@ ICipher caesar = new CaesarCipher();
 string ciphertext = caesar.Encrypt("Hello world!");
 ```
 
-Affine, Atbash, Autokey, Bacon, Beaufort, Bifid, Caesar, Columnar Transposition, Double Columnar Transposition, Four-square, Gronsfeld, Gudhayojya, Kama-Sutra, Monoalphabetic Substitution, Morse Code, Multiplicative, Null, Playfair, ROT-13, ROT-47, Running Key, Sandorf's, Scytale, Shift, Tap Code, Trithemius, Two-square, Variant Beaufort, Vatsyayana, Vigenère, XOR
+ADFGX, ADFGVX, Affine, Atbash, Autokey, Bacon, Beaufort, Bifid, Caesar, Columnar Transposition, Double Columnar Transposition, Four-square, Gronsfeld, Gudhayojya, Kama-Sutra, Monoalphabetic Substitution, Morse Code, Multiplicative, Null, Playfair, ROT-13, ROT-47, Running Key, Sandorf's, Scytale, Shift, Tap Code, Trithemius, Two-square, Variant Beaufort, Vatsyayana, Vigenère, XOR
 
 ## Accepting PRs
-* ADFGVX
 * Enigma
 * Hill
 * Permutation

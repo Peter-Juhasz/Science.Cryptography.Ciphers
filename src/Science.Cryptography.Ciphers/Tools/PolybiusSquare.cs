@@ -18,7 +18,7 @@ public struct PolybiusSquare
 
 	public int Size => _size;
 
-	public char this[int column, int row] => _data[column, row];
+	public char this[int row, int column] => _data[row, column];
 
 	public char this[(int row, int column) position] => _data[position.row, position.column];
 
