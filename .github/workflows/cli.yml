@@ -1,0 +1,52 @@
+name: CLI
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 7.0.x
+        include-prerelease: true
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1
+
+    - name: Clean
+      run: dotnet clean
+    - name: NuGet clear cache
+      run: nuget locals all -clear
+
+    - name: Restore tools
+      run: dotnet tool restore
+    - name: Check format
+      run: dotnet format --verify-no-changes
+
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Check dependencies for deprecated packages
+      run: dotnet list package --deprecated
+
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --collect "Code coverage"
+      
+    - name: Publish
+      run: dotnet publish
+      with:
+        working-directory: src/Science.Cryptography.Ciphers.Console
