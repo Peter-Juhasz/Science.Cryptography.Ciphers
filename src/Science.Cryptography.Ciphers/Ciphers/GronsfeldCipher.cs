@@ -27,11 +27,13 @@ public class GronsfeldCipher : IKeyedCipher<int[]>
 	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, int[] key, out int written) => _inner.Decrypt(ciphertext, plaintext, GetVigenèreKey(key), out written);
 
 
-	private string GetVigenèreKey(int[] key) => String.Create<object>(key.Length, null, (span, state) =>
+	private char[] GetVigenèreKey(int[] key) // TODO: optimize allocations
 	{
+		var result = new char[key.Length];
 		for (int i = 0; i < key.Length; i++)
 		{
-			span[i] = Alphabet[key[i]];
+			result[i] = Alphabet[key[i]];
 		}
-	});
+		return result;
+	}
 }

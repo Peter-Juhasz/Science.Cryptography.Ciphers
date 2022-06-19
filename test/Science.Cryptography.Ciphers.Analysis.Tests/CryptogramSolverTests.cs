@@ -56,6 +56,6 @@ public static class CryptogramSolverExtensions
 		.AddCipher(new TrithemiusCipher())
 		.AddCipher(new ShiftCipher(), new ShiftKeySpace(WellKnownAlphabets.English))
 		.AddCipher(new AffineCipher(), new AffineKeySpace(WellKnownAlphabets.English))
-		.AddCipher(new VigenèreCipher(), Wordlist)
+		.AddCipher(new VigenèreCipher().AsStringKeyed(), Wordlist)
 	;
 }

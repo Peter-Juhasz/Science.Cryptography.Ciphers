@@ -8,7 +8,7 @@ namespace Science.Cryptography.Ciphers;
 /// </summary>
 [Export("One-Time Pad", typeof(IKeyedCipher<>))]
 [Export("OTP", typeof(IKeyedCipher<>))]
-public class OneTimePadCipher : IKeyedCipher<string>
+public class OneTimePadCipher : IKeyedCipher<char[]>
 {
 	public OneTimePadCipher(Alphabet alphabet)
 	{
@@ -21,7 +21,7 @@ public class OneTimePadCipher : IKeyedCipher<string>
 	public Alphabet Alphabet { get; }
 
 
-	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, string key, out int written)
+	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, char[] key, out int written)
 	{
 		if (ciphertext.Length < plaintext.Length)
 		{
@@ -43,7 +43,7 @@ public class OneTimePadCipher : IKeyedCipher<string>
 		written = plaintext.Length;
 	}
 
-	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, string key, out int written)
+	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, char[] key, out int written)
 	{
 		if (plaintext.Length < ciphertext.Length)
 		{

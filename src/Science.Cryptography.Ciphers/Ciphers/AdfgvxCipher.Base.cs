@@ -69,8 +69,6 @@ public abstract class AdfgvxBaseCipher : IKeyedCipher<(PolybiusSquare polybiusSq
 		for (int i = 0; i < lastIndex; i++)
 		{
 			var first = intermediate[i];
-			var second = intermediate[i + 1];
-
 			var firstLabelIndex = labels.IndexOf(first);
 			if (firstLabelIndex == -1)
 			{
@@ -78,6 +76,7 @@ public abstract class AdfgvxBaseCipher : IKeyedCipher<(PolybiusSquare polybiusSq
 				continue;
 			}
 
+			var second = intermediate[i + 1];
 			var secondLabelIndex = labels.IndexOf(second);
 			if (secondLabelIndex == -1)
 			{

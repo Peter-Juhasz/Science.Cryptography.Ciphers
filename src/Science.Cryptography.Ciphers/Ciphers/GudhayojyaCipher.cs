@@ -7,11 +7,11 @@ namespace Science.Cryptography.Ciphers;
 /// Represents the Null cipher.
 /// </summary>
 [Export("Gudhayojya", typeof(IKeyedCipher<>))]
-public class GudhayojyaCipher : IKeyedCipher<string>
+public class GudhayojyaCipher : IKeyedCipher<char[]>
 {
-	public int GetMaxOutputCharactersPerInputCharacter(string key) => key.Length + 1;
+	public int GetMaxOutputCharactersPerInputCharacter(char[] key) => key.Length + 1;
 
-	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, string key, out int written)
+	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, char[] key, out int written)
 	{
 		var writer = new SpanWriter<char>(ciphertext);
 
@@ -35,7 +35,7 @@ public class GudhayojyaCipher : IKeyedCipher<string>
 		written = writer.Written;
 	}
 
-	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, string key, out int written)
+	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, char[] key, out int written)
 	{
 		var writer = new SpanWriter<char>(plaintext);
 

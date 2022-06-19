@@ -7,7 +7,7 @@ namespace Science.Cryptography.Ciphers;
 /// Represents the Autokey cipher.
 /// </summary>
 [Export("Autokey", typeof(IKeyedCipher<>))]
-public class AutokeyCipher : IKeyedCipher<string>
+public class AutokeyCipher : IKeyedCipher<char[]>
 {
 	public AutokeyCipher(Alphabet charset)
 	{
@@ -20,7 +20,7 @@ public class AutokeyCipher : IKeyedCipher<string>
 	public Alphabet Alphabet { get; }
 
 
-	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, string key, out int written)
+	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, char[] key, out int written)
 	{
 		if (ciphertext.Length < plaintext.Length)
 		{
@@ -52,7 +52,7 @@ public class AutokeyCipher : IKeyedCipher<string>
 		written = plaintext.Length;
 	}
 
-	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, string key, out int written)
+	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, char[] key, out int written)
 	{
 		if (plaintext.Length < ciphertext.Length)
 		{

@@ -7,7 +7,7 @@ namespace Science.Cryptography.Ciphers;
 /// Represents Sir Francis Beaufort's cipher.
 /// </summary>
 [Export("Beaufort", typeof(IKeyedCipher<>))]
-public class BeaufortCipher : ReciprocalKeyedCipher<string>
+public class BeaufortCipher : ReciprocalKeyedCipher<char[]>
 {
 	public BeaufortCipher(Alphabet alphabet)
 	{
@@ -22,7 +22,7 @@ public class BeaufortCipher : ReciprocalKeyedCipher<string>
 
 	public Alphabet Alphabet { get; }
 
-	protected override void Crypt(ReadOnlySpan<char> input, Span<char> output, string key, out int written)
+	protected override void Crypt(ReadOnlySpan<char> input, Span<char> output, char[] key, out int written)
 	{
 		if (output.Length < input.Length)
 		{

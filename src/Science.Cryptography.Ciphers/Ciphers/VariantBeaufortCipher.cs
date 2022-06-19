@@ -7,7 +7,7 @@ namespace Science.Cryptography.Ciphers;
 /// Represents the Variant Beaufort.
 /// </summary>
 [Export("Variant Beaufort", typeof(IKeyedCipher<>))]
-public class VariantBeaufortCipher : IKeyedCipher<string>
+public class VariantBeaufortCipher : IKeyedCipher<char[]>
 {
 	public VariantBeaufortCipher(Alphabet alphabet)
 	{
@@ -22,7 +22,7 @@ public class VariantBeaufortCipher : IKeyedCipher<string>
 	public Alphabet Alphabet => _inner.Alphabet;
 
 
-	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, string key, out int written) => _inner.Decrypt(plaintext, ciphertext, key, out written);
+	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, char[] key, out int written) => _inner.Decrypt(plaintext, ciphertext, key, out written);
 
-	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, string key, out int written) => _inner.Encrypt(ciphertext, plaintext, key, out written);
+	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, char[] key, out int written) => _inner.Encrypt(ciphertext, plaintext, key, out written);
 }

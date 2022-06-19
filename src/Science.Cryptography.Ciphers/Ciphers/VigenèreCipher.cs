@@ -7,7 +7,7 @@ namespace Science.Cryptography.Ciphers;
 /// Represents Blaise de Vigenère's cipher.
 /// </summary>
 [Export("Vigenère", typeof(IKeyedCipher<>))]
-public class VigenèreCipher : IKeyedCipher<string>
+public class VigenèreCipher : IKeyedCipher<char[]>
 {
 	public VigenèreCipher(Alphabet alphabet)
 	{
@@ -23,7 +23,7 @@ public class VigenèreCipher : IKeyedCipher<string>
 	public Alphabet Alphabet { get; }
 
 
-	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, string key, out int written)
+	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, char[] key, out int written)
 	{
 		if (ciphertext.Length < plaintext.Length)
 		{
@@ -45,7 +45,7 @@ public class VigenèreCipher : IKeyedCipher<string>
 		written = plaintext.Length;
 	}
 
-	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, string key, out int written)
+	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, char[] key, out int written)
 	{
 		if (plaintext.Length < ciphertext.Length)
 		{

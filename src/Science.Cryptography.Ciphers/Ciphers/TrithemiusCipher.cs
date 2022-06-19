@@ -23,7 +23,7 @@ public class TrithemiusCipher : ICipher
 	public Alphabet Alphabet { get; }
 
 
-	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, out int written) => _inner.Encrypt(plaintext, ciphertext, Alphabet.ToString(), out written);
+	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, out int written) => _inner.Encrypt(plaintext, ciphertext, Alphabet.ToCharArray(), out written);
 
-	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, out int written) => _inner.Decrypt(ciphertext, plaintext, Alphabet.ToString(), out written);
+	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, out int written) => _inner.Decrypt(ciphertext, plaintext, Alphabet.ToCharArray(), out written);
 }

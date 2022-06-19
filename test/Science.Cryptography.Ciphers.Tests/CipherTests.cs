@@ -121,8 +121,8 @@ public class CipherTests
 		const string plaintext = "Attack at dawn";
 		const string ciphertext = "Lxfopv ef rnhr";
 
-		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
-		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key.ToCharArray()));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key.ToCharArray()));
 	}
 
 	[TestMethod]
@@ -159,8 +159,8 @@ public class CipherTests
         const string plaintext = "Attack AT DAWN";
         const string ciphertext = "Qnxepv YT WTWP";
 
-        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
-        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+        Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key.ToCharArray()));
+        Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key.ToCharArray()));
     }
 
 	/*
@@ -255,8 +255,8 @@ public class CipherTests
 		const string plaintext = "The quick brown fox jumps over the lazy dog.";
 		const string ciphertext = "Rtb msuzg zdlsl rlt hgjlq asap fea jmwu bad.";
 
-		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
-		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key.ToCharArray()));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key.ToCharArray()));
 	}
 
 	[TestMethod]
@@ -269,8 +269,8 @@ public class CipherTests
 		const string plaintext = "will visit you tonight.";
 		const string ciphertext = "diswill disvisit disyou distonight.";
 
-		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
-		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key.ToCharArray()));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key.ToCharArray()));
 	}
 
 	[TestMethod]
@@ -283,8 +283,8 @@ public class CipherTests
 		const string plaintext = "d J";
 		const string ciphertext = "j D";
 
-		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
-		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key.ToCharArray()));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key.ToCharArray()));
 	}
 
 	[TestMethod]
@@ -394,8 +394,8 @@ public class CipherTests
 		const string ciphertext = "Eqnvz";
 		const string key = "XMCKL";
 
-		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key));
-		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key));
+		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, key.ToCharArray()));
+		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, key.ToCharArray()));
 	}
 
 	[TestMethod]

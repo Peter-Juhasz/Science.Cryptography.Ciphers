@@ -7,7 +7,7 @@ namespace Science.Cryptography.Ciphers;
 /// Represents the Running Key cipher.
 /// </summary>
 [Export("Running Key", typeof(IKeyedCipher<>))]
-public class RunningKeyCipher : IKeyedCipher<string>
+public class RunningKeyCipher : IKeyedCipher<char[]>
 {
 	public RunningKeyCipher(Alphabet charset)
 	{
@@ -20,7 +20,7 @@ public class RunningKeyCipher : IKeyedCipher<string>
 	public Alphabet Alphabet { get; }
 
 
-	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, string key, out int written)
+	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, char[] key, out int written)
 	{
 		if (ciphertext.Length < plaintext.Length)
 		{
@@ -41,7 +41,7 @@ public class RunningKeyCipher : IKeyedCipher<string>
 		written = plaintext.Length;
 	}
 
-	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, string key, out int written)
+	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, char[] key, out int written)
 	{
 		if (plaintext.Length < ciphertext.Length)
 		{
