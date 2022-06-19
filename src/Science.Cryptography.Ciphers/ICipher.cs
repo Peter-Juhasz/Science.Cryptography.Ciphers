@@ -39,6 +39,6 @@ public static partial class CipherExtensions
 			return new string(buffer[..written]);
 		}
 
-		return String.Create<object>(ciphertext.Length, null, (span, state) => cipher.Encrypt(ciphertext, span, out _));
+		return String.Create<object>(ciphertext.Length, null, (span, state) => cipher.Decrypt(ciphertext, span, out _));
 	}
 }
