@@ -1,4 +1,4 @@
-﻿# Science.Cryptography.Ciphers
+﻿# Science.Cryptography.Ciphers v2 PREVIEW
 Ancient and classic cipher methods and analysis tools implemented in **.NET** by using high performance memory management and SIMD hardware intrinsics.
 
 Use command-line interface:
@@ -18,10 +18,10 @@ dotnet add package Science.Cryptography.Ciphers.Analysis
 
 ## What's new in v2?
 - **New CLI app** for new way of usage
-- Ciphers and tools rewritten to **allocation free** operation, take advantage of **hardware intrinsics**, and specialized **fast path for ASCII** encoding. See [Performance Improvements](docs/performance-improvements.md) for details and benchmarks.
+- Ciphers and tools rewritten to **allocation free** operation, take advantage of **hardware intrinsics**, and use specialized **fast path for ASCII** encoding. See [Performance Improvements](docs/performance-improvements.md) for details and benchmarks.
 - Reworked analysis tools and `IAsyncEnumerable` interface for consuming analysis intermediate results
 - **CryptogramSolver** for automatic decryption of ciphertext
-- New brute-force key spaces
+- Brute force key spaces
 - New ciphers: Scytale, Morse Code with extended charset, Polybius, Columnar Transposition, Double Columnar Transposition, ADFGX, ADFGVX, One-Time Pad, Wolfenbütteler, Malespin
 - More detailed documentation
 
