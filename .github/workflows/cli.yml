@@ -47,6 +47,5 @@ jobs:
       run: dotnet test --no-build --verbosity normal --collect "Code coverage"
       
     - name: Publish
+      working-directory: src/Science.Cryptography.Ciphers.Console
       run: dotnet publish
-      with:
-        working-directory: src/Science.Cryptography.Ciphers.Console
