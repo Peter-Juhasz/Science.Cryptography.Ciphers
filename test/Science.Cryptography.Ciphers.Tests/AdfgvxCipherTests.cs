@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Science.Cryptography.Ciphers.Tests;
 
@@ -18,7 +18,7 @@ public class AdfgvxCipherTests
 			{ '9', 'J', '0', 'K', 'L', 'Q' },
 			{ 'S', 'U', 'V', 'X', 'Y', 'Z' },
 		});
-		var transpositionKey = new[] { 4, 5, 3, 6, 1, 2, 7 };
+		var transpositionKey = IntArrayKey.FromCharIndexesOfAlphabetSequential("PRIVACY", WellKnownAlphabets.English, firstIndex: 1);
 
 		const string plaintext = "ATTACKAT1200AM";
 		const string ciphertext = "DGDDDAGDDGAFADDFDADVDVFAADVX";
@@ -39,7 +39,7 @@ public class AdfgvxCipherTests
 			{ '9', 'J', '0', 'K', 'L', 'Q' },
 			{ 'S', 'U', 'V', 'X', 'Y', 'Z' },
 		});
-		var transpositionKey = new[] { 4, 5, 3, 6, 1, 2, 7 };
+		var transpositionKey = IntArrayKey.FromCharIndexesOfAlphabetSequential("PRIVACY", WellKnownAlphabets.English, firstIndex: 1);
 
 		const string plaintext = "ATTACKAT1200AM";
 		const string ciphertext = "DGDDDAGDDGAFADDFDADVDVFAADVX";

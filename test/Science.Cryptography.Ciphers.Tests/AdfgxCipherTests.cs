@@ -17,7 +17,7 @@ public class AdfgxCipherTests
 			{ 'G', 'I', 'C', 'U', 'X' },
 			{ 'M', 'R', 'E', 'W', 'Y' },
 		});
-		var transpositionKey = new[] { 2, 1, 5, 3, 4 };
+		var transpositionKey = IntArrayKey.FromCharIndexesOfAlphabetSequential("CARGO", WellKnownAlphabets.English, firstIndex: 1);
 
 		const string plaintext = "attackatonce";
 		const string ciphertext = "FAXDFADDDGDGFFFAFAXAFAFX";
@@ -37,7 +37,7 @@ public class AdfgxCipherTests
 			{ 'G', 'I', 'C', 'U', 'X' },
 			{ 'M', 'R', 'E', 'W', 'Y' },
 		});
-		var transpositionKey = new[] { 2, 1, 5, 3, 4 };
+		var transpositionKey = IntArrayKey.FromCharIndexesOfAlphabetSequential("CARGO", WellKnownAlphabets.English, firstIndex: 1);
 
 		const string plaintext = "ATTACKATONCE";
 		const string ciphertext = "FAXDFADDDGDGFFFAFAXAFAFX";
