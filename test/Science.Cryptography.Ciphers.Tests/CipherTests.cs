@@ -44,18 +44,6 @@ public class CipherTests
 	}
 
 	[TestMethod]
-	public void MorseCode()
-	{
-		var cipher = new InternationalMorseCode();
-
-		const string plaintext = "morse code";
-		const string ciphertext = "-- --- .-. ... .  -.-. --- -.. .";
-
-		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
-		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext), true);
-	}
-
-	[TestMethod]
 	public void Multiplicative_Encrypt()
 	{
 		var cipher = new MultiplicativeCipher();
