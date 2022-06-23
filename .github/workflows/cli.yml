@@ -32,8 +32,8 @@ jobs:
 
     - name: Restore tools
       run: dotnet tool restore
-    - name: Check format
-      run: dotnet format --verify-no-changes
+    #- name: Check format
+    #  run: dotnet format --verify-no-changes
 
     - name: Restore dependencies
       run: dotnet restore
