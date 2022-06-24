@@ -77,6 +77,49 @@ public class A1Z26Cipher : ICipher
 			throw new ArgumentException("Size of output buffer is insufficient.", nameof(plaintext));
 		}
 
-		throw new NotImplementedException();
+		int start = 0, end = 0;
+
+		var writer = new SpanWriter<char>(plaintext);
+
+		for (int i = 0; i < ciphertext.Length; i++)
+		{
+			var ch = ciphertext[i];
+			if (ch is >= '0' and <= '9')
+			{
+				if (start == end)
+				{
+					start = i;
+				}
+
+				end = i + 1;
+			}
+			else
+			{
+				if (start < end)
+				{
+					var span = ciphertext[start..end];
+					var number = Int32.Parse(span);
+					var result = Alphabet[number - 1];
+					writer.Write(result);
+				}
+
+				if (ch != Options.Separator)
+				{
+					writer.Write(ch);
+				}
+
+				start = end = 0;
+			}
+		}
+
+		if (start < end)
+		{
+			var span = ciphertext[start..end];
+			var number = Int32.Parse(span);
+			var result = Alphabet[number - 1];
+			writer.Write(result);
+		}
+
+		written = writer.Written;
 	}
 }
