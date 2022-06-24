@@ -8,7 +8,7 @@ crypto encrypt shift -k 13 "Hello world!"
 crypto solve "Wkh txlfn eurzq ira mxpsv ryhu wkh odcb grj."
 ```
 
-Use rich APIs:
+Use rich framework APIs:
 
 ```ps
 dotnet add package Science.Cryptography.Ciphers
@@ -39,6 +39,7 @@ Many of the library operations are published via CLI as well:
  - [Solve a cryptogram](docs/cli/solve.md)
 
 ## Framework APIs
+You can unlock the full power of the library from code:
 
  - [Basic tools](docs/lib/basics.md)
 	- [Alphabet](docs/lib/basics.md#alphabet)

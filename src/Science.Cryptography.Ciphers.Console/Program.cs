@@ -354,6 +354,7 @@ solveCommand.SetHandler(async (
 	var solver = new CryptogramSolverBuilder(scorer)
 		.AddCipher(new ReverseCipher())
 		.AddCipher(new AtbashCipher(alphabet))
+		.AddCipher(new A1Z26Cipher(alphabet, A1Z26Options.Default))
 
 		.AddCipher(new AsciiBinaryBase(BinaryOptions.Default))
 		.AddCipher(new HexEncoder(encoding))

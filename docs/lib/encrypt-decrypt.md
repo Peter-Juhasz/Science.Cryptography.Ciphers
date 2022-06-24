@@ -36,6 +36,46 @@ var shiftCipher = new ShiftCipher(); // IKeyedCipher<int>
 var rot13Cipher = shiftCipher.Pin(13); // ICipher
 ```
 
+### Helpers
+The following helper methods are available to construct keys.
+
+There are some well-known shift keys in [`WellKnownShiftCipherKeys`](../../src/Science.Cryptography.Ciphers/Ciphers/ShiftCipher.Keys.cs):
+
+| Name | Value |
+| ---- | ----- |
+| Caesar | 3 |
+| Rot13 | 13 |
+
+To create a [Polybius Square](basic.md#polybius-square) from a keyword, `CreateFromKeyword` starts to fill a polybius square from the top left corner with the letters of the keyword, deduplicated, and fills the remaining slots with letters of the alphabet:
+```cs
+var square = PolybiusSquare.CreateFromKeyword("PLAYFAIR", WellKnownAlphabets.EnglishWithoutJ);
+```
+```
+P L A Y F
+I R B C D
+E G H K M
+N O Q S T
+U V W X Z
+```
+
+There are multiple modes available to create an array of ints from keywords. Find indexes of letters in an alphabet:
+```cs
+int[] key = IntArrayKey.FromCharIndexesOfAlphabet("CARGO", WellKnownAlphabets.English);
+// 3 1 18 7 15
+```
+
+Find indexes of letters in an alphabet, and also sort them:
+```cs
+int[] key = IntArrayKey.FromCharIndexesOfAlphabetSorted("CARGO", WellKnownAlphabets.English);
+// 1 3 7 15 18
+```
+
+Find indexes of letters in an alphabet, but use sequential order for final result:
+```cs
+int[] key = IntArrayKey.FromCharIndexesOfAlphabetSequential("CARGO", WellKnownAlphabets.English);
+// 2 1 5 3 4
+```
+
 ## Memory management
 While in the previous examples you could see `string` inputs and outputs, those were only made possible by extensions methods to simplify usage. But by default, all ciphers let the caller do memory management, they don't allocate memory for the results. So, to avoid allocations, you can use the raw interface of ciphers like this:
 ```cs
