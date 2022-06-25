@@ -48,7 +48,7 @@ jobs:
       
     - name: Publish
       working-directory: src/Science.Cryptography.Ciphers.Console
-      run: dotnet publish --configuration Release
+      run: dotnet publish --configuration Release --version-suffix "preview.${{ github.run_number }}"
       
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
