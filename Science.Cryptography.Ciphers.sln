@@ -17,13 +17,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Ciphers.Tests", "test\Science.Cryptography.Ciphers.Tests\Science.Cryptography.Ciphers.Tests.csproj", "{44A688D0-7C9F-41D5-80AF-3C69F4EFF1E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Ciphers.Tests", "tests\Science.Cryptography.Ciphers.Tests\Science.Cryptography.Ciphers.Tests.csproj", "{44A688D0-7C9F-41D5-80AF-3C69F4EFF1E9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Ciphers.Specialized", "src\Science.Cryptography.Ciphers.Specialized\Science.Cryptography.Ciphers.Specialized.csproj", "{AA02A537-19B2-4434-AB36-B792069F0F76}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Ciphers.Benchmarks", "src\Science.Cryptography.Ciphers.Benchmarks\Science.Cryptography.Ciphers.Benchmarks.csproj", "{EE012ABC-3A72-49B0-8D6A-2981B773B40E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Ciphers.Analysis.Tests", "test\Science.Cryptography.Ciphers.Analysis.Tests\Science.Cryptography.Ciphers.Analysis.Tests.csproj", "{4271DBBA-0859-4E5C-A20E-3F2C42FF7605}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Ciphers.Analysis.Tests", "tests\Science.Cryptography.Ciphers.Analysis.Tests\Science.Cryptography.Ciphers.Analysis.Tests.csproj", "{4271DBBA-0859-4E5C-A20E-3F2C42FF7605}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Science.Cryptography.Ciphers.Console", "src\Science.Cryptography.Ciphers.Console\Science.Cryptography.Ciphers.Console.csproj", "{9C12E42B-FDE0-4C43-845E-19BE469FFD18}"
 EndProject
