@@ -1,6 +1,6 @@
 ﻿# Science.Cryptography.Ciphers v2 PREVIEW
 
-![NuGet](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/actions/workflows/nuget.yml/badge.svg) ![CLI](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/actions/workflows/cli.yml/badge.svg)
+![NuGet](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/actions/workflows/nuget.yml/badge.svg) ![CLI](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/actions/workflows/cli.yml/badge.svg) [![NuGet](https://img.shields.io/nuget/v/Science.Cryptography.Ciphers.svg)](https://www.nuget.org/packages/Science.Cryptography.Ciphers/)
 
 Ancient and classic cipher methods and analysis tools implemented in **.NET** by using high performance memory management and SIMD hardware intrinsics.
 
@@ -23,12 +23,13 @@ dotnet add package Science.Cryptography.Ciphers.Analysis --prerelease
 - Reworked analysis tools and `IAsyncEnumerable` interface for consuming analysis intermediate results
 - **CryptogramSolver** for automatic decryption of ciphertext
 - Brute force key spaces with parallel partitioning support
-- New ciphers: Scytale, Morse Code with extended charset, Polybius, Columnar Transposition, Double Columnar Transposition, ADFGX, ADFGVX, One-Time Pad, Wolfenbütteler, Malespin
-- More detailed documentation
+- [New ciphers](docs/assets.md#list-ciphers) (10+): Scytale, Morse Code with extended charset, Polybius, Columnar Transposition, Double Columnar Transposition, ADFGX, ADFGVX, One-Time Pad, Wolfenbütteler, Malespin
+- More detailed [documentation](docs)
 
 ## Command-line interface
 Many of the library operations are published via CLI as well:
 
+ - [Download](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/releases)
  - [List available assets](docs/cli/list.md)
  - [Encrypt and decrypt text](docs/cli/encrypt-decrypt.md)
  - [Analyze ciphertext](docs/cli/analyze.md)
@@ -48,6 +49,7 @@ var key = PolybiusSquare.CreateFromKeyword("PLAYFAIR", WellKnownAlphabets.Englis
 var ciphertext = cipher.Encrypt("Hello world!", key);
 ```
 
+ - [Get started](docs/lib/install.md)
  - [Basic tools](docs/lib/basics.md)
 	- [Alphabet](docs/lib/basics.md#alphabet)
 	- [Tabula Recta](docs/lib/basics.md#tabula-recta)
