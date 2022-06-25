@@ -1,62 +1,83 @@
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Science.Cryptography.Ciphers.Analysis;
 
 public static class KasiskiExamination
 {
-	public static KasiskiExaminationResult Analyze(
-		string ciphertext,
+	public static IEnumerable<KasiskiExaminationResult> FindRepeatedSegments(
+		StringSegment ciphertext,
 		int minimumKeyLength = 3,
 		StringComparison comparison = StringComparison.OrdinalIgnoreCase,
-		CancellationToken cancellationToken = default(CancellationToken)
+		CancellationToken cancellationToken = default
 	)
 	{
-		if (ciphertext == null)
-			throw new ArgumentNullException(nameof(ciphertext));
-
 		if (minimumKeyLength < 0 || minimumKeyLength > ciphertext.Length)
+		{
 			throw new ArgumentOutOfRangeException(nameof(minimumKeyLength));
+		}
 
+		int maximumKeyLength = ciphertext.Length / 2;
+		for (int keyLength = minimumKeyLength; keyLength <= maximumKeyLength; keyLength++)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
 
-		List<int> speculativeKeyLengths = new List<int>();
-		object syncRoot = new object();
-
-		Parallel.For(
-			minimumKeyLength, ciphertext.Length / 2,
-			new ParallelOptions { CancellationToken = cancellationToken },
-			keylength =>
+			for (int i = 0; i < ciphertext.Length - 2 * keyLength; i++)
 			{
-				for (int i = 0; i < ciphertext.Length - 2 * keylength; i++)
+				var substring = ciphertext.Subsegment(i, keyLength);
+
+				foreach (var nextOccurrence in ciphertext.AllIndexesOf(substring, i + 1, comparison))
 				{
-					string substring = ciphertext.Substring(i, keylength);
-
-					foreach (int nextOccurrence in
-						from o in ciphertext.AllIndexesOf(substring, i + 1, comparison)
-						where (o - i) % keylength == 0
-						select o
-					)
+					if ((nextOccurrence - i) % keyLength != 0)
 					{
-						int length = nextOccurrence - i;
-
-						lock (syncRoot)
-						{
-							if (speculativeKeyLengths.Any(l => keylength % l == 0))
-								continue;
-
-							if (speculativeKeyLengths.Any(l => l % keylength == 0))
-								speculativeKeyLengths.RemoveAll(l => l % keylength == 0);
-
-							speculativeKeyLengths.Add(keylength);
-						}
+						continue;
 					}
+
+					int length = nextOccurrence - i;
+					yield return new(length, new string(substring));
 				}
 			}
-		);
+		}
+	}
 
-		return new KasiskiExaminationResult(speculativeKeyLengths);
+	public static IEnumerable<KasiskiExaminationResult> Analyze(
+		ReadOnlySpan<char> ciphertext,
+		int minimumKeyLength = 3,
+		StringComparison comparison = StringComparison.OrdinalIgnoreCase,
+		CancellationToken cancellationToken = default
+	)
+	{
+		throw new NotImplementedException();
+		/*
+		if (minimumKeyLength < 0 || minimumKeyLength > ciphertext.Length)
+		{
+			throw new ArgumentOutOfRangeException(nameof(minimumKeyLength));
+		}
+
+		int maximumKeyLength = ciphertext.Length / 2;
+		for (int keyLength = minimumKeyLength; keyLength <= maximumKeyLength; keyLength++)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+
+			for (int i = 0; i < ciphertext.Length - 2 * keyLength; i++)
+			{
+				var substring = ciphertext.Substring(i, keyLength);
+
+				var enumerator = ciphertext.AllIndexesOf(substring, i + 1, comparison).GetEnumerator();
+				while (enumerator.MoveNext())
+				{
+					var nextOccurrence = enumerator.Current;
+					if ((nextOccurrence - i) % keyLength != 0)
+					{
+						continue;
+					}
+
+					int length = nextOccurrence - i;
+					yield return new(length, new string(substring));
+				}
+			}
+		}*/
 	}
 }

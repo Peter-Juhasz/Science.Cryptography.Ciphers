@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Science.Cryptography.Ciphers.Tests;
 
 [TestClass]
+[Ignore]
 public class StraddlingCheckerboardTests
 {
 	[TestMethod]

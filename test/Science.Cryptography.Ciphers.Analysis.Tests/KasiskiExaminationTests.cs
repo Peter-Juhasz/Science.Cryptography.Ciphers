@@ -5,6 +5,7 @@ using System.Linq;
 namespace Science.Cryptography.Ciphers.Analysis.Tests;
 
 [TestClass]
+[Ignore]
 public class KasiskiExaminationTests
 {
 	[TestMethod]
