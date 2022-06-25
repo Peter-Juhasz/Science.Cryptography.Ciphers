@@ -1,15 +1,16 @@
 ﻿# Science.Cryptography.Ciphers v2 PREVIEW
+
+![NuGet](actions/workflows/nuget.yml/badge.svg) ![CLI](actions/workflows/cli.yml/badge.svg)
+
 Ancient and classic cipher methods and analysis tools implemented in **.NET** by using high performance memory management and SIMD hardware intrinsics.
 
 Use command-line interface:
-
 ```sh
 crypto encrypt shift -k 13 "Hello world!"
 crypto solve "Wkh txlfn eurzq ira mxpsv ryhu wkh odcb grj."
 ```
 
 Use rich framework APIs:
-
 ```ps
 dotnet add package Science.Cryptography.Ciphers
 dotnet add package Science.Cryptography.Ciphers.Specialized
@@ -21,7 +22,7 @@ dotnet add package Science.Cryptography.Ciphers.Analysis
 - Ciphers and tools rewritten to **allocation free** operation, take advantage of **hardware intrinsics**, and use specialized **fast path for ASCII** encoding. See [Performance Improvements](docs/performance-improvements.md) for details and benchmarks.
 - Reworked analysis tools and `IAsyncEnumerable` interface for consuming analysis intermediate results
 - **CryptogramSolver** for automatic decryption of ciphertext
-- Brute force key spaces
+- Brute force key spaces with parallel partitioning support
 - New ciphers: Scytale, Morse Code with extended charset, Polybius, Columnar Transposition, Double Columnar Transposition, ADFGX, ADFGVX, One-Time Pad, Wolfenbütteler, Malespin
 - More detailed documentation
 
@@ -41,6 +42,12 @@ Many of the library operations are published via CLI as well:
 ## Framework APIs
 You can unlock the full power of the library from code:
 
+```cs
+var cipher = new PlayfairCipher();
+var key = PolybiusSquare.CreateFromKeyword("PLAYFAIR", WellKnownAlphabets.EnglishWithoutJ);
+var ciphertext = cipher.Encrypt("Hello world!", key);
+```
+
  - [Basic tools](docs/lib/basics.md)
 	- [Alphabet](docs/lib/basics.md#alphabet)
 	- [Tabula Recta](docs/lib/basics.md#tabula-recta)
@@ -58,13 +65,12 @@ You can unlock the full power of the library from code:
     - [KeyFinder](docs/lib/find-key.md#analysis)
  - [Solve a cryptogram](docs/lib/solve.md)
 
-## Ciphers
-```cs
-ICipher caesar = new CaesarCipher();
-string ciphertext = caesar.Encrypt("Hello world!");
-```
+## Assets
+The full list of assets:
 
-ADFGX, ADFGVX, Affine, Atbash, Autokey, Bacon, Beaufort, Bifid, Caesar, Columnar Transposition, Double Columnar Transposition, Four-square, Gronsfeld, Gudhayojya, Kama-Sutra, Monoalphabetic Substitution, Morse Code, Multiplicative, Null, Playfair, ROT-13, ROT-47, Running Key, Sandorf's, Scytale, Shift, Tap Code, Trithemius, Two-square, Variant Beaufort, Vatsyayana, Vigenère, XOR
+ - [List of ciphers](docs/assets.md#list-of-ciphers)
+ - [List of languages](docs/assets.md#list-of-languages)
+ - [List of encodings](docs/assets.md#list-of-encodings)
 
 ## Accepting PRs
 * Enigma

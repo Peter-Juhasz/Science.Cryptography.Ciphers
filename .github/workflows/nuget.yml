@@ -46,6 +46,10 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --collect "Code coverage"
       
-    - name: Publish
-      working-directory: src/Science.Cryptography.Ciphers.Console
-      run: dotnet publish
+    - name: Pack
+      working-directory: src/Science.Cryptography.Ciphers
+      run: dotnet pack --version-suffix "preview.${{ github.run_number }}"
+      
+    - name: Pack
+      working-directory: src/Science.Cryptography.Ciphers.Analysis
+      run: dotnet pack --version-suffix "preview.${{ github.run_number }}"
