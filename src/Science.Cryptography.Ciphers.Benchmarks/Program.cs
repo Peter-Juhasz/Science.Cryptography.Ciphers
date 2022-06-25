@@ -1,3 +1,3 @@
 using BenchmarkDotNet.Running;
 
-BenchmarkRunner.Run<V1V2NGramAnalysisBenchmarks>();
+BenchmarkRunner.Run<V1V2CaesarBruteforceBenchmarks>();

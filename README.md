@@ -74,14 +74,10 @@ The full list of assets:
  - [List of languages](docs/assets.md#list-of-languages)
  - [List of encodings](docs/assets.md#list-of-encodings)
 
-## Accepting PRs
-* Enigma
-* Hill
-* Permutation
-* Rail fence
-* Myszkowski Transposition
-* Nihilist
-* Solitaire
-* Trifid
-* Any other missing cipher
-* Unit tests
+## Contribution
+ - Add any [missing cipher](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/issues?q=is%3Aissue+is%3Aopen+label%3Acipher)
+    - Prefer performance (no heap allocations, SIMD operations, ...)
+    - *Feel free to add any not listed*
+ - Performance improvements
+	- Post benchmark and its results as evidence to show change in efficiency
+ - Unit tests

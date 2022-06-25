@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - docs/**
   pull_request:
     branches:
       - main
@@ -70,3 +72,4 @@ jobs:
       
     - name: NuGet Push
       run: nuget push src/Science.Cryptography.*/bin/Release/Science.Cryptography.*.nupkg -Source https://api.nuget.org/v3/index.json
+      if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
