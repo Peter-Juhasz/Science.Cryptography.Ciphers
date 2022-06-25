@@ -48,15 +48,15 @@ jobs:
       
     - name: Pack
       working-directory: src/Science.Cryptography.Ciphers
-      run: dotnet pack --configuration Release --include-symbols --version-suffix "preview.${{ github.run_number }}"
+      run: dotnet pack --configuration Release --version-suffix "preview.${{ github.run_number }}" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
       
     - name: Pack
       working-directory: src/Science.Cryptography.Ciphers.Specialized
-      run: dotnet pack --configuration Release --include-symbols --version-suffix "preview.${{ github.run_number }}"
+      run: dotnet pack --configuration Release --version-suffix "preview.${{ github.run_number }}" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
       
     - name: Pack
       working-directory: src/Science.Cryptography.Ciphers.Analysis
-      run: dotnet pack --configuration Release --include-symbols --version-suffix "preview.${{ github.run_number }}"
+      run: dotnet pack --configuration Release --version-suffix "preview.${{ github.run_number }}" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
       
     - name: Upload artifact
       uses: actions/upload-artifact@v3
