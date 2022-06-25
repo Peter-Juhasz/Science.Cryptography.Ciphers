@@ -48,4 +48,10 @@ jobs:
       
     - name: Publish
       working-directory: src/Science.Cryptography.Ciphers.Console
-      run: dotnet publish
+      run: dotnet publish --configuration Release
+      
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: packages
+        path: src/*.Console/bin/Release/*/publish/*

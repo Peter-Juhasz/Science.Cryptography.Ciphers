@@ -1,6 +1,6 @@
 ﻿# Science.Cryptography.Ciphers v2 PREVIEW
 
-![NuGet](/Peter-Juhasz/Science.Cryptography.Ciphers/actions/workflows/nuget.yml/badge.svg) ![CLI](/Peter-Juhasz/Science.Cryptography.Ciphers/actions/workflows/cli.yml/badge.svg)
+![NuGet](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/actions/workflows/nuget.yml/badge.svg) ![CLI](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/actions/workflows/cli.yml/badge.svg)
 
 Ancient and classic cipher methods and analysis tools implemented in **.NET** by using high performance memory management and SIMD hardware intrinsics.
 
@@ -12,9 +12,9 @@ crypto solve "Wkh txlfn eurzq ira mxpsv ryhu wkh odcb grj."
 
 Use rich framework APIs:
 ```ps
-dotnet add package Science.Cryptography.Ciphers
-dotnet add package Science.Cryptography.Ciphers.Specialized
-dotnet add package Science.Cryptography.Ciphers.Analysis
+dotnet add package Science.Cryptography.Ciphers --prerelease
+dotnet add package Science.Cryptography.Ciphers.Specialized --prerelease
+dotnet add package Science.Cryptography.Ciphers.Analysis --prerelease
 ```
 
 ## What's new in v2?
