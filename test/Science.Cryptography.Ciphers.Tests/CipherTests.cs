@@ -325,19 +325,6 @@ public class CipherTests
 	}
 
 	[TestMethod]
-	public void Polybius()
-	{
-		var cipher = new PolybiusCipher();
-
-		const string plaintext = "HELXLO WORLDX";
-		const string ciphertext = "343214522252 524332222455";
-		var square = PolybiusSquare.CreateFromKeyword("PLAYFAIR", WellKnownAlphabets.EnglishWithoutJ);
-
-		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, square));
-		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext, square));
-	}
-
-	[TestMethod]
 	public void Malespin()
 	{
 		var cipher = new MalespinSlang();

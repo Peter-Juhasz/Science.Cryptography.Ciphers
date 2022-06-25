@@ -28,4 +28,7 @@ public static partial class CharExtensions
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool IsAsciiLetter(this char newChar) => newChar.IsUpperAsciiLetter() || newChar.IsLowerAsciiLetter();
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static bool IsDigit(this char newChar) => newChar >= '0' && newChar <= '9';
 }

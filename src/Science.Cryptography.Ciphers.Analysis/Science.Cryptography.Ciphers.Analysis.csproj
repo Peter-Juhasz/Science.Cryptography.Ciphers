@@ -12,6 +12,7 @@
 		<PackageId>Science.Cryptography.Ciphers.Analysis</PackageId>
 		<PackageTags>cryptanalysis;cipher;cryptography;security;analysis</PackageTags>
 		<PackageProjectUrl>https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
