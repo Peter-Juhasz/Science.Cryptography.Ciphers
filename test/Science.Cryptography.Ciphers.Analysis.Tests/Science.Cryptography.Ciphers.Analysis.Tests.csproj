@@ -14,10 +14,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
-		<PackageReference Include="MSTest.TestAdapter" Version="*" />
-		<PackageReference Include="Microsoft.Composition" Version="*" />
-		<PackageReference Include="MSTest.TestFramework" Version="*" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*-*" />
+		<PackageReference Include="MSTest.TestFramework" Version="2.*" />
 	</ItemGroup>
 
 </Project>

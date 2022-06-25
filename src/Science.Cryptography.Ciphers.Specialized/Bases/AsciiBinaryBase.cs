@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Composition;
 using System.Text;
 
@@ -23,11 +22,9 @@ public class AsciiBinaryBase : ICipher
 
 	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, out int written)
 	{
-		Span<byte> buffer = stackalloc byte[plaintext.Length];
-		Encoding.GetBytes(plaintext, buffer);
 		int i = 0;
 		var (zero, one) = Options;
-		foreach (var @byte in buffer)
+		foreach (var @byte in plaintext)
 		{
 			var value = (int)@byte;
 			ciphertext[i++] = ((value & 0b10000000) == 0b10000000) ? one : zero;

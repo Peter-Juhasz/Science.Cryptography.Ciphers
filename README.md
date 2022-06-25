@@ -1,6 +1,6 @@
 ﻿# Science.Cryptography.Ciphers v2 PREVIEW
 
-![NuGet](actions/workflows/nuget.yml/badge.svg) ![CLI](actions/workflows/cli.yml/badge.svg)
+![NuGet](/Peter-Juhasz/Science.Cryptography.Ciphers/actions/workflows/nuget.yml/badge.svg) ![CLI](/Peter-Juhasz/Science.Cryptography.Ciphers/actions/workflows/cli.yml/badge.svg)
 
 Ancient and classic cipher methods and analysis tools implemented in **.NET** by using high performance memory management and SIMD hardware intrinsics.
 

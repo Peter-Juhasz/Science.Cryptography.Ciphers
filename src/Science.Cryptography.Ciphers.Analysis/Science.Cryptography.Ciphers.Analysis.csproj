@@ -20,10 +20,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="*" />
-		<PackageReference Include="Microsoft.Extensions.Primitives" Version="*" />
-		<PackageReference Include="System.Threading.Tasks.Parallel" Version="*" />
-		<PackageReference Include="System.Interactive.Async" Version="*" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.*-*" />
+		<PackageReference Include="Microsoft.Extensions.Primitives" Version="7.*-*" />
+		<PackageReference Include="System.Interactive.Async" Version="6.*" />
 	</ItemGroup>
 
 </Project>

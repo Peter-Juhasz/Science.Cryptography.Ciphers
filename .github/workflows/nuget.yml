@@ -1,4 +1,4 @@
-name: CLI
+name: NuGet
 
 on:
   push:

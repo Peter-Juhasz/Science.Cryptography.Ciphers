@@ -18,9 +18,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Composition" Version="*" />
-		<PackageReference Include="System.Interactive" Version="*" />
-		<PackageReference Include="Science.Collections.MultiDimensional.Linq" Version="*-*" />
+		<PackageReference Include="System.Composition.AttributedModel" Version="7.*-*" />
+		<PackageReference Include="System.Interactive" Version="6.*" />
 	</ItemGroup>
 
 </Project>

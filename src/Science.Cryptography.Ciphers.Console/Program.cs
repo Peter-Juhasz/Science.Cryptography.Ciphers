@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Binding;
+using System.CommandLine.Invocation;
 using System.Composition;
 using System.Diagnostics;
 using System.Globalization;
@@ -92,7 +93,7 @@ encryptCommand.AddArgument(cipherArgument);
 encryptCommand.AddOption(keyArgument);
 encryptCommand.AddArgument(textArgument);
 encryptCommand.AddOption(simpleDetailedOption);
-encryptCommand.SetHandler((BindingContext context) =>
+encryptCommand.SetHandler((InvocationContext context) =>
 {
 	var detailed = context.GetShowDetails(simpleDetailedOption);
 	if (!detailed) logger = NullLogger.Instance;
@@ -141,7 +142,7 @@ decryptCommand.AddArgument(cipherArgument);
 decryptCommand.AddOption(keyArgument);
 decryptCommand.AddArgument(textArgument);
 decryptCommand.AddOption(simpleDetailedOption);
-decryptCommand.SetHandler((BindingContext context) =>
+decryptCommand.SetHandler((InvocationContext context) =>
 {
 	var detailed = context.GetShowDetails(simpleDetailedOption);
 	if (!detailed) logger = NullLogger.Instance;
@@ -220,11 +221,7 @@ var findKeyCommand = new Command("findkey", "Find a key for a cipher.")
 	analysisDetailedOption
 };
 findKeyCommand.AddArgument(textArgument);
-findKeyCommand.SetHandler(async (
-	string ciphertext,
-	BindingContext bindingContext,
-	CancellationToken cancellationToken
-) =>
+findKeyCommand.SetHandler(async (InvocationContext bindingContext) =>
 {
 	var detailed = bindingContext.GetShowDetails(analysisDetailedOption);
 	if (!detailed) logger = NullLogger.Instance;
@@ -302,7 +299,7 @@ findKeyCommand.SetHandler(async (
 	{
 		Console.WriteLine(bestResult.SpeculativePlaintext.Plaintext);
 	}
-}, textArgument);
+});
 rootCommand.AddCommand(findKeyCommand);
 
 // solve
@@ -325,14 +322,12 @@ var solveCommand = new Command("solve", "Solve a cryptogram.")
 	analysisDetailedOption
 };
 solveCommand.AddArgument(textArgument);
-solveCommand.SetHandler(async (
-	string ciphertext,
-	BindingContext bindingContext,
-	CancellationToken cancellationToken
-) =>
+solveCommand.SetHandler(async (InvocationContext bindingContext) =>
 {
 	var detailed = bindingContext.GetShowDetails(analysisDetailedOption);
 	if (!detailed) logger = NullLogger.Instance;
+
+	var ciphertext = bindingContext.GetText(textArgument);
 
 	// configure
 	var language = bindingContext.GetLanguage(languageOption);
@@ -392,7 +387,7 @@ solveCommand.SetHandler(async (
 	SolverResult? bestResult = null;
 	var builder = new StringBuilder();
 	var formatArgs = new List<object?>();
-	await foreach (var candidate in solver.SolveAsync(ciphertext, candidatePromoter, cancellationToken))
+	await foreach (var candidate in solver.SolveAsync(ciphertext, candidatePromoter, bindingContext.GetCancellationToken()))
 	{
 		if (bestResult == null || candidate.SpeculativePlaintext.Score > bestResult.SpeculativePlaintext.Score)
 		{
@@ -438,15 +433,16 @@ solveCommand.SetHandler(async (
 	{
 		Console.WriteLine(bestResult.SpeculativePlaintext.Plaintext);
 	}
-}, textArgument);
+});
 rootCommand.AddCommand(solveCommand);
 
 // frequency analysis
 var frequencyAnalysisCommand = new Command("frequency-analysis", "Frequency analysis");
 frequencyAnalysisCommand.AddAlias("fa");
 frequencyAnalysisCommand.AddArgument(textArgument);
-frequencyAnalysisCommand.SetHandler((string text, BindingContext context) =>
+frequencyAnalysisCommand.SetHandler((InvocationContext bindingContext) =>
 {
+	var text = bindingContext.GetText(textArgument);
 	var result = FrequencyAnalysis.Analyze(text, _ => true, IgnoreCaseCharComparer.Instance);
 	var sum = (double)result.Sum(r => r.Value);
 	if (sum <= 0D)
@@ -457,7 +453,7 @@ frequencyAnalysisCommand.SetHandler((string text, BindingContext context) =>
 	{
 		Console.WriteLine($"{item.Key,-2}\t{item.Value,-4}\t{item.Value / sum:N4}");
 	}
-}, textArgument);
+});
 rootCommand.AddCommand(frequencyAnalysisCommand);
 
 // caesar bruteforce
@@ -466,7 +462,7 @@ caesarBruteforceCommand.AddAlias("cbf");
 caesarBruteforceCommand.AddArgument(textArgument);
 caesarBruteforceCommand.AddOption(languageOption);
 caesarBruteforceCommand.AddOption(alphabetOption);
-caesarBruteforceCommand.SetHandler((string text, BindingContext bindingContext) =>
+caesarBruteforceCommand.SetHandler((InvocationContext bindingContext) =>
 {
 	var language = bindingContext.GetLanguage(languageOption);
 	logger.LogInformation("Language: {language}", language);
@@ -474,12 +470,13 @@ caesarBruteforceCommand.SetHandler((string text, BindingContext bindingContext) 
 	var alphabet = bindingContext.GetAlphabet(alphabetOption, language);
 	logger.LogInformation("Alphabet: {alphabet}", alphabet.ToString());
 
+	var text = bindingContext.GetText(textArgument);
 	var result = CaesarBruteforce.Analyze(text, alphabet);
 	foreach (var item in result.OrderBy(k => k.Key))
 	{
 		Console.WriteLine($"{item.Key,-2}\t{item.Value}");
 	}
-}, textArgument);
+});
 rootCommand.AddCommand(caesarBruteforceCommand);
 
 // n-gram analysis
@@ -489,8 +486,10 @@ ngramAnalysisCommand.AddArgument(textArgument);
 var ngramLengthOption = new Option<int>("--length", "Length of n-grams");
 ngramLengthOption.SetDefaultValue(2);
 ngramAnalysisCommand.AddOption(ngramLengthOption);
-ngramAnalysisCommand.SetHandler((string text, int length, BindingContext context) =>
+ngramAnalysisCommand.SetHandler(async (InvocationContext bindingContext) =>
 {
+	var text = bindingContext.GetText(textArgument);
+	var length = bindingContext.ParseResult.GetValueForOption(ngramLengthOption);
 	var result = NGramAnalysis.Analyze(text, length, StringComparer.OrdinalIgnoreCase);
 	var sum = (double)result.Sum(r => r.Value);
 	if (sum <= 0D)
@@ -501,7 +500,7 @@ ngramAnalysisCommand.SetHandler((string text, int length, BindingContext context
 	{
 		Console.WriteLine($"{item.Key,-4}\t{item.Value,-4}\t{item.Value / sum:N4}");
 	}
-}, textArgument, ngramLengthOption);
+});
 rootCommand.AddCommand(ngramAnalysisCommand);
 
 // score
@@ -518,10 +517,12 @@ var scoreCommand = new Command("score", "Score a speculative plaintext.")
 	analysisDetailedOption,
 };
 scoreCommand.AddArgument(textArgument);
-scoreCommand.SetHandler((string plaintext, BindingContext bindingContext) =>
+scoreCommand.SetHandler((InvocationContext bindingContext) =>
 {
 	var detailed = bindingContext.GetShowDetails(analysisDetailedOption);
 	if (!detailed) logger = NullLogger.Instance;
+
+	var text = bindingContext.GetText(textArgument);
 
 	var language = bindingContext.GetLanguage(languageOption);
 	logger.LogInformation("Language: {language}", language);
@@ -535,14 +536,14 @@ scoreCommand.SetHandler((string plaintext, BindingContext bindingContext) =>
 	var scorer = bindingContext.GetScorer(substringOption, wordlistScorerOption, regexOption, scorerOption, language, encoding);
 	logger.LogInformation("Scorer: {scorer}", scorer.GetType().Name);
 
-	var score = scorer.Score(plaintext);
+	var score = scorer.Score(text);
 	logger.LogInformation("Score: {score}", score);
 
 	if (!detailed)
 	{
 		Console.WriteLine(score.ToString(CultureInfo.InvariantCulture));
 	}
-}, textArgument);
+});
 rootCommand.Add(scoreCommand);
 
 // run

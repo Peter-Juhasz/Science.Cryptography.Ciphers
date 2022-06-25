@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Binding;
+using System.CommandLine.Invocation;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -12,32 +13,32 @@ using System.Text;
 
 internal static class BindingContextExtenions
 {
-	public static ICipher GetCipher(this BindingContext context, Argument<string> option) =>
+	public static ICipher GetCipher(this InvocationContext context, Argument<string> option) =>
 		CipherCatalog.CreateCipher(context.ParseResult.GetValueForArgument(option)!);
 
-	public static object GetKeyedCipher(this BindingContext context, Argument<string> option) =>
+	public static object GetKeyedCipher(this InvocationContext context, Argument<string> option) =>
 		CipherCatalog.CreateKeyedCipher(context.ParseResult.GetValueForArgument(option)!);
 
-	public static string GetText(this BindingContext context, Argument<string> option) =>
+	public static string GetText(this InvocationContext context, Argument<string> option) =>
 		context.ParseResult.GetValueForArgument(option)!;
 
-	public static LanguageStatisticalInfo GetLanguage(this BindingContext context, Option<string> option) =>
+	public static LanguageStatisticalInfo GetLanguage(this InvocationContext context, Option<string> option) =>
 		Languages.FromTwoLetterISOName(context.ParseResult.GetValueForOption(option) ?? "en");
 
-	public static Alphabet GetAlphabet(this BindingContext context, Option<string?> option, LanguageStatisticalInfo language) =>
+	public static Alphabet GetAlphabet(this InvocationContext context, Option<string?> option, LanguageStatisticalInfo language) =>
 		context.ParseResult.GetValueForOption(option) ??
 		language.Alphabet ??
 		WellKnownAlphabets.English;
 
-	public static Encoding GetEncoding(this BindingContext context, Option<string?> option) =>
+	public static Encoding GetEncoding(this InvocationContext context, Option<string?> option) =>
 		Encoding.GetEncoding(context.ParseResult.GetValueForOption(option)!) ??
 		Encoding.ASCII;
 
-	public static bool GetShowDetails(this BindingContext context, Option<bool> option) =>
+	public static bool GetShowDetails(this InvocationContext context, Option<bool> option) =>
 		context.ParseResult.GetValueForOption(option);
 
 	public static ISpeculativePlaintextScorer GetScorer(
-		this BindingContext context,
+		this InvocationContext context,
 		Option<string[]> substringOption, Option<string?> substringWordlistOption, Option<string?> regexOption, Option<string> scorerOption,
 		LanguageStatisticalInfo language, Encoding encoding
 	)
@@ -62,7 +63,7 @@ internal static class BindingContextExtenions
 	}
 
 	public static ICandidatePromoter GetPromoter(
-		this BindingContext context,
+		this InvocationContext context,
 		Option<bool> betterOption, Option<double?> thresholdOption
 	)
 	{
@@ -75,7 +76,7 @@ internal static class BindingContextExtenions
 			new ProgressivelyBetterCandidatePromoter();
 	}
 
-	public static object GetKey(this BindingContext context, Option<string?> option, Type type)
+	public static object GetKey(this InvocationContext context, Option<string?> option, Type type)
 	{
 		var serialized = context.ParseResult.GetValueForOption(option)!;
 		return type switch
