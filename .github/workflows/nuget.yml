@@ -50,43 +50,23 @@ jobs:
       working-directory: src/Science.Cryptography.Ciphers
       run: dotnet pack --configuration Release --include-symbols --version-suffix "preview.${{ github.run_number }}"
       
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: packages
-        path: src/Science.Cryptography.Ciphers/bin/Release/*.nupkg
-
     - name: Pack
       working-directory: src/Science.Cryptography.Ciphers.Specialized
       run: dotnet pack --configuration Release --include-symbols --version-suffix "preview.${{ github.run_number }}"
       
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: packages
-        path: src/Science.Cryptography.Ciphers/bin/Release/*.nupkg
-
     - name: Pack
       working-directory: src/Science.Cryptography.Ciphers.Analysis
       run: dotnet pack --configuration Release --include-symbols --version-suffix "preview.${{ github.run_number }}"
       
     - name: Upload artifact
       uses: actions/upload-artifact@v3
+      if: always()
       with:
         name: packages
-        path: src/Science.Cryptography.Ciphers/bin/Release/*.nupkg
+        path: src/Science.Cryptography.*/bin/Release/Science.Cryptography.*.nupkg
 
     - name: NuGet Authenticate
       run: nuget setapikey "${{ secrets.NUGET_API_KEY }}"
       
-    - name: Push
-      working-directory: src/Science.Cryptography.Ciphers
-      run: nuget push bin/Release/*.nupkg
-      
-    - name: Push
-      working-directory: src/Science.Cryptography.Ciphers.Specialized
-      run: nuget push bin/Release/*.nupkg
-      
-    - name: Push
-      working-directory: src/Science.Cryptography.Ciphers.Analysis
-      run: nuget push bin/Release/*.nupkg
+    - name: NuGet Push
+      run: nuget push src/Science.Cryptography.*/bin/Release/Science.Cryptography.*.nupkg -Source https://api.nuget.org/v3/index.json

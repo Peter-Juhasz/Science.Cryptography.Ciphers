@@ -53,5 +53,5 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: packages
-        path: src/*.Console/bin/Release/*/publish/*
+        name: dotnet
+        path: src/*.Console/bin/Release/*/publish/
