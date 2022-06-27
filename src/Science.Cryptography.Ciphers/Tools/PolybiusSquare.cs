@@ -2,9 +2,6 @@ using System;
 
 namespace Science.Cryptography.Ciphers;
 
-/// <summary>
-/// Contains methods for creating and manipulating Polybius Squares.
-/// </summary>
 public struct PolybiusSquare
 {
 	internal PolybiusSquare(char[,] data)
@@ -74,6 +71,9 @@ public struct PolybiusSquare
 
 	public static bool TryFindOffsets(char[,] polybiusSquare, char ch, out (int row, int column) positions) =>
 		ArrayHelper.TryFindOffsets(polybiusSquare, ch, out positions, polybiusSquare.GetLength(0), polybiusSquare.GetLength(1));
+
+	public ReadOnlySpan<char> GetRow(int row) =>
+		_data.AsSpan(_size).Slice(row * _size, _size);
 
 	public char[,] ToCharArray() => (char[,])_data.Clone();
 

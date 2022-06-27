@@ -266,6 +266,57 @@ var plaintext = "sample";
 var ciphertext = playfair.Encrypt(plaintext, key);
 ```
 
+## Straddling Checkerboard
+A [straddling checkerboard](https://en.wikipedia.org/wiki/Straddling_checkerboard) is a device for converting an alphanumeric plaintext into digits whilst simultaneously achieving fractionation (a simple form of information diffusion) and data compression relative to other schemes using digits.
+
+### Create a Straddling Checkerboard
+```cs
+var checkerboard = StraddlingCheckerboard.Create(new char[,]
+{
+	{ 'E', 'T', '\0', 'A', 'O', 'N', '\0', 'R', 'I', 'S' }, // (empty)
+	{ 'B', 'C', 'D',  'F', 'G', 'H', 'J',  'K', 'L', 'M' }, // 2
+	{ 'P', 'Q', '/',  'U', 'V', 'W', 'X',  'Y', 'Z', '.' }, // 6
+}, 2, 6);
+```
+*Note: for empty cells and special values, use constants available on `StraddlingCheckerboard`. The example code was intentionally shortened.*
+
+### Operations
+You can access the elements by indexing the instance in row-column order. Rows can be referenced by the chose indexes, not by numerical order. For columns, indexing starts from zero. 
+```cs
+var C = checkerboard[2, 1]; // 'C'
+var U = checkerboard[6, 3]; // 'U'
+```
+
+Use `StraddlingCheckerboard.EmptyIndex` to index the top row:
+```cs
+var A = checkerboard[StraddlingCheckerboard.EmptyIndex, 3]; // 'A'
+```
+
+You can also find the position of an exact character:
+```cs
+if (checkerboard.TryFindOffsets('Z', out (int row, int column) position)
+{
+	// found (row: 6, column: 8)
+}
+```
+*Note: row indexes are translated are not in numerical order.*
+
+### Special values
+Use the following constants for special values:
+
+| Name | Description |
+| ---- | ----------- |
+| `EmptyValue` | Empty cell in the top row. |
+| `FullStop` | The `.` character. |
+| `NumericEscape` | The `/` character. |
+
+### Extract its content
+You can convert it to a character array:
+```cs
+char[,] array = checkerboard.ToCharArray();
+```
+
+*Warning: `ToCharArray` allocates a new array for each call*
 
 ## Arrays
 

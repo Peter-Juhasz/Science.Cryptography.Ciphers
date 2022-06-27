@@ -1,79 +1,100 @@
 using System;
-using System.Linq;
 
 namespace Science.Cryptography.Ciphers;
 
-/// <summary>
-/// Contains methods for creating a manipulating straddling checkerboards.
-/// </summary>
-public class StraddlingCheckerboard
+public struct StraddlingCheckerboard
 {
-	private StraddlingCheckerboard(char[,] buffer)
+	private StraddlingCheckerboard(char[,] buffer, int[] indexes)
 	{
 		_buffer = buffer;
+		_indexes = indexes;
+		_height = buffer.GetLength(0);
 	}
 
-	public const int Width = 10, Height = 3;
+	public const int Width = 10;
+
+	public const char EmptyValue = default;
+	public const char FullStop = '.';
+	public const char NumericEscape = '/';
+
+	public const int EmptyIndex = default;
 
 	private readonly char[,] _buffer;
+	private readonly int[] _indexes;
+	private readonly int _height;
+
+	public int Height => _height;
+
+	private int TranslateRowIndexFromNamedToNumerical(int rowNamedIndex) => rowNamedIndex switch
+	{
+		EmptyIndex => 0,
+		_ when _indexes.AsSpan().IndexOf(rowNamedIndex) is int translated and not -1 => 1 + translated,
+		_ => throw new ArgumentOutOfRangeException(nameof(rowNamedIndex))
+	};
+
+	private int TranslateRowIndexFromNumericalToNamed(int rowNumericalIndex) => rowNumericalIndex switch
+	{
+		0 => EmptyIndex,
+		_ => _indexes[rowNumericalIndex - 1]
+	};
 
 	/// <summary>
 	/// Gets a <see cref="char"/> at a specified position.
 	/// </summary>
-	/// <param name="row">The row of the checkerboard.</param>
+	/// <param name="row">The custom index of the row of the checkerboard.</param>
 	/// <param name="column">The column of the checkerboard.</param>
 	/// <returns></returns>
-	public char this[int column, int row] => _buffer[column, row];
+	public char this[int namedRow, int column] => _buffer[TranslateRowIndexFromNamedToNumerical(namedRow), column];
 
-	/// <summary>
-	/// Creates a straddling checkerboard from a <see cref="char[]"/>.
-	/// </summary>
-	/// <param name="source"></param>
-	/// <returns></returns>
-	public static StraddlingCheckerboard CreateFromCharArray(char[] source) => new(CreateBufferFromString(source));
-
-	/// <summary>
-	/// Creates a straddling checkerboard from a <see cref="string"/>.
-	/// </summary>
-	/// <param name="source"></param>
-	/// <returns></returns>
-	public static StraddlingCheckerboard CreateFromString(string source) => new(CreateBufferFromString(source));
-
-	public static StraddlingCheckerboard CreateFromAlphabet(Alphabet alphabet) => new(CreateBufferFromString(alphabet.ToString()));
-
-	/// <summary>
-	/// Creates a straddling checkerboard from a keyword, based on a custom charset.
-	/// </summary>
-	/// <param name="keyword"></param>
-	/// <param name="charset"></param>
-	/// <returns></returns>
-	public static StraddlingCheckerboard CreateFromKeyword(string keyword, Alphabet alphabet) => new(CreateBufferFromKeyword(keyword, alphabet));
-
-
-	internal static char[,] CreateBufferFromString(ReadOnlySpan<char> source)
+	public static StraddlingCheckerboard CreateFromCharacters(ReadOnlySpan<char> source, params int[] namedRowIndexes)
 	{
-		char[,] result = new char[Width, Height];
+		var (quotient, remainder) = Math.DivRem(source.Length, Width);
+		if (remainder != 0)
+		{
+			throw new ArgumentOutOfRangeException(nameof(source), $"Size of input characters must be a multiplier of {Width}.");
+		}
 
-		for (int i = 0; i < source.Length; i++)
-			result[i % Width, i / Height] = source[i];
-
-		return result;
+		var buffer = new char[quotient, Width];
+		ArrayHelper.FillFast(buffer, source, quotient, Width);
+		return new(buffer, namedRowIndexes);
 	}
 
-	internal static char[,] CreateBufferFromKeyword(string keyword, Alphabet charset)
+	public static StraddlingCheckerboard Create(char[,] source, params int[] namedRowIndexes)
 	{
-		return CreateBufferFromString(
-			keyword.Select(Char.ToUpper)
-				.Concat(charset)
-				.Distinct()
-				.ToArray()
-		);
+		if (source.GetLength(1) != 10)
+		{
+			throw new ArgumentOutOfRangeException(nameof(source));
+		}
+
+		if (source.GetLength(0) != 1 + namedRowIndexes.Length)
+		{
+			throw new ArgumentOutOfRangeException(nameof(source));
+		}
+
+		foreach (var rowIndex in namedRowIndexes.AsSpan())
+		{
+			if (source[0, rowIndex] != EmptyValue)
+			{
+				throw new ArgumentException($"Top row of source at index {rowIndex} must be empty.", nameof(source));
+			}
+		}
+
+		return new(source, namedRowIndexes);
 	}
 
+	public bool TryFindOffsets(char ch, out (int namedRow, int column) position)
+	{
+		if (ArrayHelper.TryFindOffsets(_buffer, ch, out position, _height, Width))
+		{
+			position.namedRow = TranslateRowIndexFromNumericalToNamed(position.namedRow);
+			return true;
+		}
 
-	/// <summary>
-	/// Returns a copy of the buffer behind the <see cref="StraddlingCheckerboard"/>.
-	/// </summary>
-	/// <returns></returns>
+		return false;
+	}
+
+	public ReadOnlySpan<char> GetRow(int namedRowIndex) =>
+		_buffer.AsSpan(_height, Width).Slice(TranslateRowIndexFromNamedToNumerical(namedRowIndex) * Width, Width);
+
 	public char[,] ToCharArray() => (char[,])_buffer.Clone();
 }

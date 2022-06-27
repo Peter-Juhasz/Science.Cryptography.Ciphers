@@ -21,7 +21,9 @@ internal static class ArrayHelper
 		}
 	}
 
-	public static void FillFast(char[,] buffer, ReadOnlySpan<char> source, int size) => source.CopyTo(buffer.AsSpan(size));
+	public static void FillFast(char[,] buffer, ReadOnlySpan<char> source, int size) => FillFast(buffer, source, size, size);
+
+	public static void FillFast(char[,] buffer, ReadOnlySpan<char> source, int rows, int columns) => source.CopyTo(buffer.AsSpan(rows, columns));
 
 	public static void FillWithKeywordAndAlphabet(Span<char> buffer, ReadOnlySpan<char> keyword, ReadOnlySpan<char> alphabet, bool throwOnDuplicates = false)
 	{

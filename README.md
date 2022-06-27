@@ -54,6 +54,7 @@ var ciphertext = cipher.Encrypt("Hello world!", key);
 	- [Alphabet](docs/lib/basics.md#alphabet)
 	- [Tabula Recta](docs/lib/basics.md#tabula-recta)
 	- [Polybius Square](docs/lib/basics.md#polybius-square)
+	- [Straddling Checkerboard](docs/lib/basics.md#straddling-checkerboard)
  - [Encrypt and decrypt text](docs/lib/encrypt-decrypt.md)
 	- [Memory management](docs/lib/encrypt-decrypt.md#memory-management)
  - [Implement a cipher](docs/lib/encrypt-decrypt.md#implement-a-cipher)

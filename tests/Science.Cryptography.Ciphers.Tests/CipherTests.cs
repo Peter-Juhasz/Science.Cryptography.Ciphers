@@ -1,10 +1,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Science.Cryptography.Ciphers.Specialized;
+using System;
 
 namespace Science.Cryptography.Ciphers.Tests;
 
 [TestClass]
+[Obsolete("Encapsulate tests for each cipher into a separate class.")]
 public class CipherTests
 {
 	[TestMethod]
