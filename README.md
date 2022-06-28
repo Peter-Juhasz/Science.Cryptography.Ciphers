@@ -2,7 +2,7 @@
 
 ![NuGet](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/actions/workflows/nuget.yml/badge.svg) ![CLI](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/actions/workflows/cli.yml/badge.svg) [![NuGet](https://img.shields.io/nuget/v/Science.Cryptography.Ciphers.svg)](https://www.nuget.org/packages/Science.Cryptography.Ciphers/)
 
-Ancient and classic cipher methods and analysis tools implemented in **.NET** by using high performance memory management and SIMD hardware intrinsics.
+A full featured toolkit for ancient and classic cipher methods, and their analysis tools, implemented in **.NET** using high performance memory management and SIMD hardware intrinsics.
 
 Use command-line interface:
 ```sh
@@ -23,7 +23,7 @@ dotnet add package Science.Cryptography.Ciphers.Analysis --prerelease
 - Reworked analysis tools and `IAsyncEnumerable` interface for consuming analysis intermediate results
 - **CryptogramSolver** for automatic decryption of ciphertext
 - Brute force key spaces with parallel partitioning support
-- [New ciphers](docs/assets.md#list-ciphers) (10+): Scytale, Morse Code with extended charset, Polybius, Columnar Transposition, Double Columnar Transposition, ADFGX, ADFGVX, One-Time Pad, Wolfenbütteler, Malespin
+- [New ciphers](docs/assets.md#ciphers) (10+): Scytale, Morse Code with extended charset, Polybius, Columnar Transposition, Double Columnar Transposition, ADFGX, ADFGVX, Straddling Checkerboard, One-Time Pad, Wolfenbütteler, Malespin
 - More detailed [documentation](docs)
 
 ## Command-line interface
@@ -71,13 +71,15 @@ var ciphertext = cipher.Encrypt("Hello world!", key);
 ## Assets
 The full list of assets:
 
- - [List of ciphers](docs/assets.md#list-of-ciphers)
- - [List of languages](docs/assets.md#list-of-languages)
- - [List of encodings](docs/assets.md#list-of-encodings)
+ - [List of ciphers](docs/assets.md#ciphers)
+ - [List of languages](docs/assets.md#languages)
+ - [List of encodings](docs/assets.md#encodings)
 
 ## Contribution
- - Add any [missing cipher](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/issues?q=is%3Aissue+is%3Aopen+label%3Acipher)
-    - Prefer performance (no heap allocations, SIMD operations, ...)
+Contributions for the following areas are welcome:
+
+ - [Ciphers](https://github.com/Peter-Juhasz/Science.Cryptography.Ciphers/issues?q=is%3Aissue+is%3Aopen+label%3Acipher)
+    - Prefer performance in implementation (no heap allocations, SIMD operations, ...)
     - *Feel free to add any not listed*
  - Performance improvements
 	- Post benchmark and its results as evidence to show change in efficiency

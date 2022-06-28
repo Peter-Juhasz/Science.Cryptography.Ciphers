@@ -30,6 +30,7 @@
  - [Shift](../src/Science.Cryptography.Ciphers/Ciphers/ShiftCipher.cs)
 	- [Caesar](../src/Science.Cryptography.Ciphers/Ciphers/CaesarCipher.cs)
 	- [ROT-13](../src/Science.Cryptography.Ciphers/Ciphers/Rot13Cipher.cs)
+ - [Straddling Checkerboard](../src/Science.Cryptography.Ciphers/Ciphers/StraddlingCheckerboardCipher.cs)
  - [Tap Code](../src/Science.Cryptography.Ciphers/Ciphers/TapCode.cs)
  - [Trithemius](../src/Science.Cryptography.Ciphers/Ciphers/TrithemiusCipher.cs)
  - [Two-square](../src/Science.Cryptography.Ciphers/Ciphers/TwoSquareCipher.cs)
