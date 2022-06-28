@@ -17,7 +17,7 @@ public struct StraddlingCheckerboard
 	public const char FullStop = '.';
 	public const char NumericEscape = '/';
 
-	public const int EmptyIndex = default;
+	public const int EmptyIndex = -1;
 
 	private readonly char[,] _buffer;
 	private readonly int[] _indexes;
@@ -95,6 +95,8 @@ public struct StraddlingCheckerboard
 
 	public ReadOnlySpan<char> GetRow(int namedRowIndex) =>
 		_buffer.AsSpan(_height, Width).Slice(TranslateRowIndexFromNamedToNumerical(namedRowIndex) * Width, Width);
+
+	public ReadOnlySpan<int> GetNamedIndexes() => _indexes;
 
 	public char[,] ToCharArray() => (char[,])_buffer.Clone();
 }
