@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -21,7 +22,7 @@ public static class FrequencyAnalysis
 				frequency++;
 			}
 		}
-		return new(result);
+		return new(result.ToFrozenDictionary());
 	}
 
 	internal static void AnalyzeLetters(ReadOnlySpan<char> text, Dictionary<char, int> output)
@@ -52,7 +53,7 @@ public static class FrequencyAnalysis
 	{
 		var dictionary = new Dictionary<char, int>(capacity: 26, IgnoreCaseCharComparer.Instance);
 		AnalyzeAsciiLetters(text, dictionary);
-		return new(dictionary);
+		return new(dictionary.ToFrozenDictionary());
 	}
 
 	public static AbsoluteCharacterFrequencies Analyze(ReadOnlySpan<char> text, Predicate<char> filter, IEqualityComparer<char> comparer)
@@ -66,7 +67,7 @@ public static class FrequencyAnalysis
                 frequency++;
             }
         }
-		return new(result);
+		return new(result.ToFrozenDictionary());
 	}
 
 	public static AbsoluteCharacterFrequencies Analyze(ReadOnlySpan<char> text) =>

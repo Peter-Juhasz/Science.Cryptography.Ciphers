@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 
 namespace Science.Cryptography.Ciphers.Analysis;
@@ -50,6 +51,6 @@ public sealed class RelativeFirstLetterOfWordsFrequenciesSpeculativePlaintextSco
 			}
 		}
 
-		return new AbsoluteCharacterFrequencies(frequencies);
+		return new AbsoluteCharacterFrequencies(frequencies.ToFrozenDictionary());
 	}
 }
