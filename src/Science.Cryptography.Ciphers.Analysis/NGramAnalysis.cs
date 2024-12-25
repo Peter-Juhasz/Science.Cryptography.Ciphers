@@ -36,11 +36,11 @@ public static partial class NGramAnalysis
 	public static AbsoluteStringFrequencies Analyze(string text, int length, IEqualityComparer<string> comparer)
 	{
 		var result = new Dictionary<string, int>(capacity: text.Length - length + 1, comparer);
+		var alternateLookup = result.GetAlternateLookup<ReadOnlySpan<char>>();
 
 		foreach (var segment in ReadNGrams(text, length))
 		{
-			var str = segment.ToString();
-			ref int frequency = ref CollectionsMarshal.GetValueRefOrAddDefault(result, str, out _);
+			ref int frequency = ref CollectionsMarshal.GetValueRefOrAddDefault(alternateLookup, segment.AsSpan(), out _);
 			frequency++;
 		}
 
