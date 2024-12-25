@@ -1,4 +1,6 @@
 using System;
+using System.Buffers;
+using System.Buffers.Text;
 using System.Composition;
 using System.Text;
 
@@ -24,6 +26,8 @@ public class Base64Encoder : ICipher
 
 	public int MaxOutputCharactersPerInputCharacter => 4;
 
+	private static readonly SearchValues<char> NonAlphanumericCharacters = SearchValues.Create(['+', '/', '=']);
+
 	public void Encrypt(ReadOnlySpan<char> plaintext, Span<char> ciphertext, out int written)
 	{
 		var count = Encoding.GetByteCount(plaintext);
@@ -36,7 +40,7 @@ public class Base64Encoder : ICipher
 		{
 			var options = Options;
 			var writtenSpan = ciphertext[..written];
-			while (writtenSpan.IndexOfAny('+', '/', '=') is int index and > -1)
+			while (writtenSpan.IndexOfAny(NonAlphanumericCharacters) is int index and > -1)
 			{
 				switch (writtenSpan[index])
 				{
