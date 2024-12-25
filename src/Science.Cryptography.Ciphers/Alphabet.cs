@@ -26,11 +26,6 @@ public class Alphabet : IReadOnlyList<char>, IEquatable<Alphabet>
 		_chars = upper;
 		_str = new string(_chars);
 	}
-	public Alphabet(IEnumerable<char> characters)
-	{
-		_chars = characters.Distinct().Select(Char.ToUpperInvariant).ToArray();
-		_str = new string(_chars);
-	}
 
 	private readonly char[] _chars;
 	private readonly string _str;

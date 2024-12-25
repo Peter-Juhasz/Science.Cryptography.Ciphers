@@ -1,3 +1,4 @@
 using BenchmarkDotNet.Running;
 
-BenchmarkRunner.Run<V1V2CaesarBruteforceBenchmarks>();
+BenchmarkRunner.Run<ShiftCipherBenchmarks>();
+//BenchmarkRunner.Run(typeof(Program).Assembly);

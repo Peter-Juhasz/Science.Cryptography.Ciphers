@@ -39,6 +39,18 @@ Payload length: 43 characters
 
 Measured speed up: **84x**
 
+## Shift cipher (Caesar, ROT-13, ...)
+In version 2, a fast path was added for shifting ASCII characters:
+
+|      | Method                    | Mean      | Error    | StdDev   | Allocated |
+|------|-------------------------- |----------:|---------:|---------:|----------:|
+|      | ShiftCipher_General       | 140.20 ns | 0.941 ns | 0.881 ns |         - |
+|**v2**| ShiftCipher_Ascii_Avx2128 |  10.81 ns | 0.032 ns | 0.030 ns |         - |
+
+Payload length: 44 characters
+
+Measured speed up: **14x**
+
 ## Frequency analysis
 The old v1 implementation was based on a very simple, but expensive functional LINQ implementation. In the new version, memory allocation was greatly reduced:
 

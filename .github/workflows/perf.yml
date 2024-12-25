@@ -1,0 +1,53 @@
+name: CLI
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - docs/**
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 9.x
+        include-prerelease: true
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1
+
+    - name: Clean
+      run: dotnet clean
+    - name: NuGet clear cache
+      run: nuget locals all -clear
+
+    - name: Restore tools
+      run: dotnet tool restore
+    #- name: Check format
+    #  run: dotnet format --verify-no-changes
+
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Check dependencies for deprecated packages
+      run: dotnet list package --deprecated
+    - name: Check dependencies for vulnerable packages
+      run: dotnet list package --vulnerable --include-transitive
+
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      
+    - name: Benchmark
+      working-directory: perf/Science.Cryptography.Ciphers.Benchmarks
+      run: dotnet run --configuration Release

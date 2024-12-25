@@ -144,6 +144,7 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 		var uppercaseOverflow = Avx2.Subtract(transformedUppercase, VectorOfZPlus1);
 		var uppercaseNormalized = Avx2.Add(VectorOfA, uppercaseOverflow);
 		transformedUppercase = Avx2.BlendVariable(transformedUppercase, uppercaseNormalized, uppercaseOverflowMask);
+
 		transformedUppercase = Avx2.BlendVariable(input, transformedUppercase, isUpperMask);
 
 		// lowercase
@@ -158,6 +159,7 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 		var lowercaseOverflow = Avx2.Subtract(transformedLowercase, VectorOfLowercaseZPlus1);
 		var lowercaseNormalized = Avx2.Add(VectorOfLowercaseA, lowercaseOverflow);
 		transformedLowercase = Avx2.BlendVariable(transformedLowercase, lowercaseNormalized, lowercaseOverflowMask);
+
 		transformedLowercase = Avx2.BlendVariable(transformedLowercase, transformedLowercase, isLowerMask);
 
 		// merge
@@ -181,6 +183,7 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 		var uppercaseUnderflow = Avx2.Subtract(VectorOfA, transformedUppercase);
 		var uppercaseNormalized = Avx2.Subtract(VectorOfZPlus1, uppercaseUnderflow);
 		transformedUppercase = Avx2.BlendVariable(transformedUppercase, uppercaseNormalized, uppercaseUnderflowMask);
+
 		transformedUppercase = Avx2.BlendVariable(input, transformedUppercase, isUpperMask);
 
 		// lowercase
@@ -195,6 +198,7 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 		var lowercaseUnderflow = Avx2.Subtract(VectorOfLowercaseA, transformedLowercase);
 		var lowercaseNormalized = Avx2.Subtract(VectorOfLowercaseZPlus1, lowercaseUnderflow);
 		transformedLowercase = Avx2.BlendVariable(transformedLowercase, lowercaseNormalized, lowercaseUnderflowMask);
+
 		transformedLowercase = Avx2.BlendVariable(transformedLowercase, transformedLowercase, isLowerMask);
 
 		// merge
@@ -218,15 +222,15 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 					continue;
 				}
 
-				var value = (char)(ch + key);
+				var value = ch + key;
 
 				// normalize overflow
 				if (value > 'z')
 				{
-					value -= (char)AlphabetLength;
+					value -= AlphabetLength;
 				}
 
-				result[i] = value;
+				result[i] = (char)value;
 			}
 
 			// uppercase
@@ -238,15 +242,15 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 					continue;
 				}
 
-				var value = (char)(ch + key);
+				var value = ch + key;
 
 				// normalize overflow
 				if (value > 'Z')
 				{
-					value -= (char)AlphabetLength;
+					value -= AlphabetLength;
 				}
 
-				result[i] = value;
+				result[i] = (char)value;
 			}
 
 			// non-alphabet
@@ -272,15 +276,15 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 					continue;
 				}
 
-				var value = (char)(ch - key);
+				var value = ch - key;
 
 				// normalize underflow
 				if (value < 'A')
 				{
-					value += (char)AlphabetLength;
+					value += AlphabetLength;
 				}
 
-				result[i] = value;
+				result[i] = (char)value;
 			}
 
 			// uppercase
@@ -292,15 +296,15 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 					continue;
 				}
 
-				var value = (char)(ch - key);
+				var value = ch - key;
 
 				// normalize underflow
 				if (value < 'a')
 				{
-					value += (char)AlphabetLength;
+					value += AlphabetLength;
 				}
 
-				result[i] = value;
+				result[i] = (char)value;
 			}
 
 			// non-alphabet
