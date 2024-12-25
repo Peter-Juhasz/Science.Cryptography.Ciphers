@@ -33,6 +33,15 @@ public class Base64Encoder : ICipher
 		var count = Encoding.GetByteCount(plaintext);
 		Span<byte> buffer = stackalloc byte[count];
 		Encoding.GetBytes(plaintext, buffer);
+
+		// url special case
+		if (Options == Base64Options.Url)
+		{
+			Base64Url.EncodeToChars(buffer, ciphertext, out _, out written);
+			return;
+		}
+
+		// regular case
 		Convert.TryToBase64Chars(buffer, ciphertext, out written);
 
 		// format
@@ -60,26 +69,33 @@ public class Base64Encoder : ICipher
 		// format
 		if (Options != Base64Options.Default)
 		{
-			var options = Options;
-			Span<char> formatted = stackalloc char[ciphertext.Length];
-			ciphertext.CopyTo(formatted);
-			while (formatted.IndexOfAny(options.Plus, options.Slash, options.Padding) is int index and > -1)
+			if (Options == Base64Options.Url)
 			{
-				var ch = formatted[index];
-				if (ch == options.Plus)
-				{
-					formatted[index] = '+';
-				}
-				else if (ch == options.Slash)
-				{
-					formatted[index] = '/';
-				}
-				else if (ch == options.Padding)
-				{
-					formatted[index] = '=';
-				}
+				Base64Url.DecodeFromChars(ciphertext, buffer, out _, out bufferLength);
 			}
-			Convert.TryFromBase64Chars(formatted, buffer, out bufferLength);
+			else
+			{
+				var options = Options;
+				Span<char> formatted = stackalloc char[ciphertext.Length];
+				ciphertext.CopyTo(formatted);
+				while (formatted.IndexOfAny(options.Plus, options.Slash, options.Padding) is int index and > -1)
+				{
+					var ch = formatted[index];
+					if (ch == options.Plus)
+					{
+						formatted[index] = '+';
+					}
+					else if (ch == options.Slash)
+					{
+						formatted[index] = '/';
+					}
+					else if (ch == options.Padding)
+					{
+						formatted[index] = '=';
+					}
+				}
+				Convert.TryFromBase64Chars(formatted, buffer, out bufferLength);
+			}
 		}
 		else
 		{
