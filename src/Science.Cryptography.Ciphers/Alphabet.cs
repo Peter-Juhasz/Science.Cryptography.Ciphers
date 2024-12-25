@@ -7,6 +7,25 @@ namespace Science.Cryptography.Ciphers;
 
 public class Alphabet : IReadOnlyList<char>, IEquatable<Alphabet>
 {
+	public Alphabet(ReadOnlySpan<char> characters)
+	{
+		// convert to uppercase
+		var upper = new char[characters.Length];
+		characters.ToUpperInvariant(upper);
+
+		// check for duplicates
+		for (int i = 0; i < upper.Length - 1; i++)
+		{
+			var remaining = upper.AsSpan()[(i + 1)..];
+			if (remaining.Contains(upper[i]))
+			{
+				throw new ArgumentException("Duplicate character found in the alphabet.", nameof(characters));
+			}
+		}
+
+		_chars = upper;
+		_str = new string(_chars);
+	}
 	public Alphabet(IEnumerable<char> characters)
 	{
 		_chars = characters.Distinct().Select(Char.ToUpperInvariant).ToArray();
@@ -17,6 +36,13 @@ public class Alphabet : IReadOnlyList<char>, IEquatable<Alphabet>
 	private readonly string _str;
 
 	public static Alphabet FromKeyword(string keyword, Alphabet @base, bool throwOnDuplicates = false)
+	{
+		var buffer = new char[@base.Length];
+		ArrayHelper.FillWithKeywordAndAlphabet(buffer, keyword, @base.AsSpan(), throwOnDuplicates);
+		return new(buffer);
+	}
+
+	public static Alphabet FromKeyword(ReadOnlySpan<char> keyword, Alphabet @base, bool throwOnDuplicates = false)
 	{
 		var buffer = new char[@base.Length];
 		ArrayHelper.FillWithKeywordAndAlphabet(buffer, keyword, @base.AsSpan(), throwOnDuplicates);
@@ -95,6 +121,8 @@ public class Alphabet : IReadOnlyList<char>, IEquatable<Alphabet>
 	public override string ToString() => _str;
 
 	public char[] ToCharArray() => _chars.ToArray();
+
+	public ReadOnlyMemory<char> ToMemory() => _str.AsMemory();
 
 	public PolybiusSquare ToPolybiusSquare() => PolybiusSquare.CreateFromAlphabet(this);
 

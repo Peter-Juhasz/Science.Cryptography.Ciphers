@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace Science.Cryptography.Ciphers.Analysis;
 
-public record struct AbsoluteCharacterFrequencies(IReadOnlyDictionary<char, int> Frequencies) : IReadOnlyDictionary<char, int>
+public readonly record struct AbsoluteCharacterFrequencies(IReadOnlyDictionary<char, int> Frequencies) : IReadOnlyDictionary<char, int>
 {
 	/// <summary>
 	/// Gets the occurrences of a given <paramref name="character"/>.
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	public int this[char character]
+	public readonly int this[char character]
 	{
 		get
 		{
@@ -22,7 +22,7 @@ public record struct AbsoluteCharacterFrequencies(IReadOnlyDictionary<char, int>
 	}
 
 
-	public RelativeCharacterFrequencies ToRelativeFrequencies()
+	public readonly RelativeCharacterFrequencies ToRelativeFrequencies()
 	{
 		var sum = Frequencies.Sum(f => f.Value);
 		return new(
@@ -34,7 +34,7 @@ public record struct AbsoluteCharacterFrequencies(IReadOnlyDictionary<char, int>
 	}
 
 
-	public IReadOnlyDictionary<char, int> ToDictionary() => Frequencies;
+	public readonly IReadOnlyDictionary<char, int> ToDictionary() => Frequencies;
 
 	#region IReadOnlyDictionary<char, int>
 	IEnumerable<char> IReadOnlyDictionary<char, int>.Keys => Frequencies.Keys;

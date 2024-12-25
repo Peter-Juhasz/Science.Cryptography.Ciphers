@@ -1,6 +1,5 @@
 using System;
 using System.Numerics;
-using System.Reflection;
 
 namespace Science.Cryptography.Ciphers.Analysis;
 
@@ -14,7 +13,7 @@ internal ref struct ValueBitArray
 	private readonly Span<ulong> _buffer;
 	private const int Size = sizeof(ulong) * 8;
 
-	public bool this[int index]
+	public readonly bool this[int index]
 	{
 		get
 		{
@@ -32,12 +31,12 @@ internal ref struct ValueBitArray
 		}
 	}
 
-	public void Reset()
+	public readonly void Reset()
 	{
 		_buffer.Fill(0ul);
 	}
 
-	public int GetCardinality()
+	public readonly int GetCardinality()
 	{
 		int count = 0;
 		for (int i = 0; i < _buffer.Length; i++)
@@ -47,7 +46,7 @@ internal ref struct ValueBitArray
 		return count;
 	}
 
-	public void SetRangeToOne(int offset, int length)
+	public readonly void SetRangeToOne(int offset, int length)
 	{
 		(int firstBucket, int positionInFirstBucket) = Math.DivRem(offset, Size);
 		(int lastBucket, int positionInLastBucket) = Math.DivRem(offset + length, Size);

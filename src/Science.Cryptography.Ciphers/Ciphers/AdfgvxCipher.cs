@@ -1,6 +1,5 @@
 using System;
 using System.Composition;
-using System.Reflection.Emit;
 
 namespace Science.Cryptography.Ciphers;
 

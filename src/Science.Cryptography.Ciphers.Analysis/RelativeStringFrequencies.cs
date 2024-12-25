@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Science.Cryptography.Ciphers.Analysis;
 
-public record struct RelativeStringFrequencies(IReadOnlyDictionary<string, double> Frequencies) : IReadOnlyDictionary<string, double>
+public readonly record struct RelativeStringFrequencies(IReadOnlyDictionary<string, double> Frequencies) : IReadOnlyDictionary<string, double>
 {
 	/// <summary>
 	/// Gets the occurrences of a given <paramref name="character"/>.
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	public double this[string character]
+	public readonly double this[string character]
 	{
 		get
 		{
@@ -19,9 +19,9 @@ public record struct RelativeStringFrequencies(IReadOnlyDictionary<string, doubl
 		}
 	}
 
-	public bool TryGetValue(string key, out double value) => Frequencies.TryGetValue(key, out value);
+	public readonly bool TryGetValue(string key, out double value) => Frequencies.TryGetValue(key, out value);
 
-	public IReadOnlyDictionary<string, double> ToDictionary() => Frequencies;
+	public readonly IReadOnlyDictionary<string, double> ToDictionary() => Frequencies;
 
 
 	#region IReadOnlyDictionary<char, double>

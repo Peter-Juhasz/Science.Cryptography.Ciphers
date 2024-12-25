@@ -84,7 +84,7 @@ public static partial class NGramAnalysis
 	}
 
 
-	public readonly struct NGramStringSegmentEnumerable : IEnumerable<StringSegment>
+	public readonly ref struct NGramStringSegmentEnumerable : IEnumerable<StringSegment>
 	{
 		internal NGramStringSegmentEnumerable(string text, int length)
 		{
@@ -116,9 +116,9 @@ public static partial class NGramAnalysis
 			private readonly int _textLength;
 			private int _offset;
 
-			public StringSegment Current => new(_text, _offset, _length);
+			public readonly StringSegment Current => new(_text, _offset, _length);
 
-			object IEnumerator.Current => Current;
+			readonly object IEnumerator.Current => Current;
 
 			public bool MoveNext()
 			{
@@ -131,7 +131,7 @@ public static partial class NGramAnalysis
 				_offset = -1;
 			}
 
-			public void Dispose() { }
+			public readonly void Dispose() { }
 		}
 	}
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +15,7 @@ public sealed class TwoGramAsciiLettersRelativeFrequenciesSpeculativePlaintextSc
 		}
 
 		_relativeFrequencies = relativeFrequencies;
-		_twoGramReference = _relativeFrequencies.ToDictionary(k => NGramAnalysis.GetTwoGramKey(k.Key), k => k.Value);
+		_twoGramReference = _relativeFrequencies.ToFrozenDictionary(k => NGramAnalysis.GetTwoGramKey(k.Key), k => k.Value);
 		_mainPartition = GetForPartition();
 	}
 

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Primitives;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Science.Cryptography.Ciphers.Analysis;
@@ -27,7 +28,7 @@ internal static class StringExtensions
 		new(source, subject, startIndex, comparison);
 
 
-	public ref struct AllIndexesEnumerable
+	public readonly ref struct AllIndexesEnumerable
 	{
 		public AllIndexesEnumerable(ReadOnlySpan<char> source, ReadOnlySpan<char> subject, int startIndex, StringComparison comparison)
 		{
@@ -61,7 +62,7 @@ internal static class StringExtensions
 
 			private int _current = -1;
 
-			public int Current => _current;
+			public readonly int Current => _current;
 
 			public bool MoveNext()
 			{
