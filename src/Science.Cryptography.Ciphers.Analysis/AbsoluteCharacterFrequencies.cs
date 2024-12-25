@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,11 +24,11 @@ public record struct AbsoluteCharacterFrequencies(IReadOnlyDictionary<char, int>
 
 	public RelativeCharacterFrequencies ToRelativeFrequencies()
 	{
-		var sum = (double)Frequencies.Sum(f => f.Value);
+		var sum = Frequencies.Sum(f => f.Value);
 		return new(
-			Frequencies.ToDictionary(
+			Frequencies.ToFrozenDictionary(
 				kv => kv.Key,
-				kv => kv.Value / sum
+				kv => kv.Value / (double)sum
 			)
 		);
 	}

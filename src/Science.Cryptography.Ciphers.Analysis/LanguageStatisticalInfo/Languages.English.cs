@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 
 namespace Science.Cryptography.Ciphers.Analysis;
@@ -37,7 +38,7 @@ public static partial class Languages
 			{ 'X', 0.00150 },
 			{ 'Y', 0.01975 },
 			{ 'Z', 0.00074 },
-		}),
+		}.ToFrozenDictionary()),
 		RelativeFrequenciesOfFirstLettersOfWords: new RelativeCharacterFrequencies(new Dictionary<char, double>(IgnoreCaseCharComparer.Instance)
 		{
 			{ 'A', 0.11602 },
@@ -66,7 +67,7 @@ public static partial class Languages
 			{ 'X', 0.00017 },
 			{ 'Y', 0.01620 },
 			{ 'Z', 0.00034 },
-		}),
+		}.ToFrozenDictionary()),
 		RelativeNGramFrequencies: new Dictionary<int, RelativeStringFrequencies>()
 		{
 			{
@@ -749,7 +750,7 @@ public static partial class Languages
 					{"JX", 1.72752E-07d},
 					{"JQ", 1.6697E-07d},
 					{"QZ", 6.47529E-08d },
-				})
+				}.ToFrozenDictionary())
 			}
 		}
 	);
