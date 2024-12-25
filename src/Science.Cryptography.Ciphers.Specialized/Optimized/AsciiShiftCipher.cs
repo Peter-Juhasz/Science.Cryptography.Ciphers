@@ -137,30 +137,46 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 			Avx2.CompareGreaterThan(input, VectorOfAMinus1),
 			Avx2.CompareLessThan(input, VectorOfZPlus1)
 		);
-		var transformedUppercase = Avx2.Add(input, keyVector);
+		Vector128<short> transformedUppercase;
+		if (isUpperMask == Vector128<short>.Zero)
+		{
+			transformedUppercase = input;
+		}
+		else
+		{
+			transformedUppercase = Avx2.Add(input, keyVector);
 
-		// normalize overflow
-		var uppercaseOverflowMask = Avx2.And(Avx2.CompareGreaterThan(transformedUppercase, VectorOfZ), isUpperMask);
-		var uppercaseOverflow = Avx2.Subtract(transformedUppercase, VectorOfZPlus1);
-		var uppercaseNormalized = Avx2.Add(VectorOfA, uppercaseOverflow);
-		transformedUppercase = Avx2.BlendVariable(transformedUppercase, uppercaseNormalized, uppercaseOverflowMask);
-
-		transformedUppercase = Avx2.BlendVariable(input, transformedUppercase, isUpperMask);
+			// normalize overflow
+			var uppercaseOverflowMask = Avx2.And(Avx2.CompareGreaterThan(transformedUppercase, VectorOfZ), isUpperMask);
+			var uppercaseOverflow = Avx2.Subtract(transformedUppercase, VectorOfZPlus1);
+			var uppercaseNormalized = Avx2.Add(VectorOfA, uppercaseOverflow);
+			transformedUppercase = Avx2.BlendVariable(transformedUppercase, uppercaseNormalized, uppercaseOverflowMask);
+		
+			transformedUppercase = Avx2.BlendVariable(input, transformedUppercase, isUpperMask);
+		}
 
 		// lowercase
 		var isLowerMask = Avx2.And(
 			Avx2.CompareGreaterThan(input, VectorOfLowercaseAMinus1),
 			Avx2.CompareLessThan(input, VectorOfLowercaseZPlus1)
 		);
-		var transformedLowercase = Avx2.Add(input, keyVector);
+		Vector128<short> transformedLowercase;
+		if (isLowerMask == Vector128<short>.Zero)
+		{
+			transformedLowercase = input;
+		}
+		else
+		{
+			transformedLowercase = Avx2.Add(input, keyVector);
 
-		// normalize overflow
-		var lowercaseOverflowMask = Avx2.And(Avx2.CompareGreaterThan(transformedLowercase, VectorOfLowercaseZ), isLowerMask);
-		var lowercaseOverflow = Avx2.Subtract(transformedLowercase, VectorOfLowercaseZPlus1);
-		var lowercaseNormalized = Avx2.Add(VectorOfLowercaseA, lowercaseOverflow);
-		transformedLowercase = Avx2.BlendVariable(transformedLowercase, lowercaseNormalized, lowercaseOverflowMask);
+			// normalize overflow
+			var lowercaseOverflowMask = Avx2.And(Avx2.CompareGreaterThan(transformedLowercase, VectorOfLowercaseZ), isLowerMask);
+			var lowercaseOverflow = Avx2.Subtract(transformedLowercase, VectorOfLowercaseZPlus1);
+			var lowercaseNormalized = Avx2.Add(VectorOfLowercaseA, lowercaseOverflow);
+			transformedLowercase = Avx2.BlendVariable(transformedLowercase, lowercaseNormalized, lowercaseOverflowMask);
 
-		transformedLowercase = Avx2.BlendVariable(transformedLowercase, transformedLowercase, isLowerMask);
+			transformedLowercase = Avx2.BlendVariable(transformedLowercase, transformedLowercase, isLowerMask);
+		}
 
 		// merge
 		var transformed = Avx2.BlendVariable(transformedUppercase, transformedLowercase, isLowerMask);
@@ -176,30 +192,46 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 			Avx2.CompareGreaterThan(input, VectorOfAMinus1),
 			Avx2.CompareLessThan(input, VectorOfZPlus1)
 		);
-		var transformedUppercase = Avx2.Subtract(input, keyVector);
+		Vector128<short> transformedUppercase;
+		if (isUpperMask == Vector128<short>.Zero)
+		{
+			transformedUppercase = input;
+		}
+		else
+		{
+			transformedUppercase = Avx2.Subtract(input, keyVector);
 
-		// normalize underflow
-		var uppercaseUnderflowMask = Avx2.And(Avx2.CompareLessThan(transformedUppercase, VectorOfA), isUpperMask);
-		var uppercaseUnderflow = Avx2.Subtract(VectorOfA, transformedUppercase);
-		var uppercaseNormalized = Avx2.Subtract(VectorOfZPlus1, uppercaseUnderflow);
-		transformedUppercase = Avx2.BlendVariable(transformedUppercase, uppercaseNormalized, uppercaseUnderflowMask);
+			// normalize underflow
+			var uppercaseUnderflowMask = Avx2.And(Avx2.CompareLessThan(transformedUppercase, VectorOfA), isUpperMask);
+			var uppercaseUnderflow = Avx2.Subtract(VectorOfA, transformedUppercase);
+			var uppercaseNormalized = Avx2.Subtract(VectorOfZPlus1, uppercaseUnderflow);
+			transformedUppercase = Avx2.BlendVariable(transformedUppercase, uppercaseNormalized, uppercaseUnderflowMask);
 
-		transformedUppercase = Avx2.BlendVariable(input, transformedUppercase, isUpperMask);
+			transformedUppercase = Avx2.BlendVariable(input, transformedUppercase, isUpperMask);
+		}
 
 		// lowercase
 		var isLowerMask = Avx2.And(
 			Avx2.CompareGreaterThan(input, VectorOfLowercaseAMinus1),
 			Avx2.CompareLessThan(input, VectorOfLowercaseZPlus1)
 		);
-		var transformedLowercase = Avx2.Subtract(input, keyVector);
+		Vector128<short> transformedLowercase;
+		if (isLowerMask == Vector128<short>.Zero)
+		{
+			transformedLowercase = input;
+		}
+		else
+		{
+			transformedLowercase = Avx2.Subtract(input, keyVector);
 
-		// normalize underflow
-		var lowercaseUnderflowMask = Avx2.And(Avx2.CompareLessThan(transformedLowercase, VectorOfLowercaseA), isLowerMask);
-		var lowercaseUnderflow = Avx2.Subtract(VectorOfLowercaseA, transformedLowercase);
-		var lowercaseNormalized = Avx2.Subtract(VectorOfLowercaseZPlus1, lowercaseUnderflow);
-		transformedLowercase = Avx2.BlendVariable(transformedLowercase, lowercaseNormalized, lowercaseUnderflowMask);
+			// normalize underflow
+			var lowercaseUnderflowMask = Avx2.And(Avx2.CompareLessThan(transformedLowercase, VectorOfLowercaseA), isLowerMask);
+			var lowercaseUnderflow = Avx2.Subtract(VectorOfLowercaseA, transformedLowercase);
+			var lowercaseNormalized = Avx2.Subtract(VectorOfLowercaseZPlus1, lowercaseUnderflow);
+			transformedLowercase = Avx2.BlendVariable(transformedLowercase, lowercaseNormalized, lowercaseUnderflowMask);
 
-		transformedLowercase = Avx2.BlendVariable(transformedLowercase, transformedLowercase, isLowerMask);
+			transformedLowercase = Avx2.BlendVariable(transformedLowercase, transformedLowercase, isLowerMask);
+		}
 
 		// merge
 		var transformed = Avx2.BlendVariable(transformedUppercase, transformedLowercase, isLowerMask);
