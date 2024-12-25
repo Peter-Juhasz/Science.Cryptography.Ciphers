@@ -2,6 +2,7 @@ using Microsoft.Extensions.Primitives;
 
 using System;
 using System.Collections;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
@@ -44,7 +45,7 @@ public static partial class NGramAnalysis
 			frequency++;
 		}
 
-		return new(result);
+		return new(result.ToFrozenDictionary(comparer));
 	}
 
 	/// <summary>
@@ -79,7 +80,7 @@ public static partial class NGramAnalysis
 			frequency++;
 		}
 
-		return new(result);
+		return new(result.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase));
 	}
 
 
