@@ -5,7 +5,7 @@
 		<Copyright>Péter Juhász</Copyright>
 		<AssemblyTitle>Science.Cryptography.Ciphers.Console</AssemblyTitle>
 		<Authors>Péter Juhász</Authors>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<LangVersion>preview</LangVersion>
 		<Nullable>enable</Nullable>
 		<AssemblyName>crypto</AssemblyName>
@@ -22,8 +22,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.*-*" />
-		<PackageReference Include="System.CommandLine" Version="2.*-*" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="*" />
+		<PackageReference Include="System.CommandLine" Version="*-*" />
 	</ItemGroup>
 
 </Project>

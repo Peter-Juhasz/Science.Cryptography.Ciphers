@@ -5,7 +5,7 @@
 		<Copyright>Péter Juhász</Copyright>
 		<AssemblyTitle>Science.Cryptography.Ciphers.Specialized</AssemblyTitle>
 		<Authors>Péter Juhász</Authors>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<LangVersion>preview</LangVersion>
 		<Nullable>enable</Nullable>
 		<AssemblyName>Science.Cryptography.Ciphers.Specialized</AssemblyName>
