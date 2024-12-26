@@ -24,7 +24,8 @@ public class HexEncoder : ICipher
 		var count = Encoding.GetByteCount(plaintext);
 		Span<byte> buffer = stackalloc byte[count];
 		Encoding.GetBytes(plaintext, buffer);
-		Convert.TryToHexString(buffer, ciphertext, out written);
+		var hexCiphertext = ciphertext[..(count * 2)]; // `TryToHexString` requires exact length
+		Convert.TryToHexString(buffer, hexCiphertext, out written);
 	}
 
 	public void Decrypt(ReadOnlySpan<char> ciphertext, Span<char> plaintext, out int written)
