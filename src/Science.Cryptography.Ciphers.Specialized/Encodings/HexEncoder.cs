@@ -51,8 +51,10 @@ public class HexEncoder : ICipher
 				if (start < end && (end - start) % 2 == 0)
 				{
 					var span = ciphertext[start..end];
-					var bytes = Convert.FromHexString(span);
-					writtenPosition += Encoding.GetChars(bytes, plaintext);
+					var bytesLength = span.Length / 2;
+					Span<byte> bytesBuffer = bytesLength < 1024 ? stackalloc byte[bytesLength] : new byte[bytesLength];
+					Convert.FromHexString(span, bytesBuffer, out _, out _);
+					writtenPosition += Encoding.GetChars(bytesBuffer, plaintext);
 				}
 
 				plaintext[writtenPosition++] = ch;
@@ -63,8 +65,10 @@ public class HexEncoder : ICipher
 		if (start < end && (end - start) % 2 == 0)
 		{
 			var span = ciphertext[start..end];
-			var bytes = Convert.FromHexString(span);
-			writtenPosition += Encoding.GetChars(bytes, plaintext);
+			var bytesLength = span.Length / 2;
+			Span<byte> bytesBuffer = bytesLength < 1024 ? stackalloc byte[bytesLength] : new byte[bytesLength];
+			Convert.FromHexString(span, bytesBuffer, out _, out _);
+			writtenPosition += Encoding.GetChars(bytesBuffer, plaintext);
 		}
 
 		written = writtenPosition;
