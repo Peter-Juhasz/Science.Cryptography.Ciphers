@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Collections;
 using System.Collections.Frozen;
 using System.Collections.Generic;
@@ -26,16 +27,42 @@ public class Alphabet : IReadOnlyList<char>, IEquatable<Alphabet>
 		}
 		_indexLookupUpper = lookupUpper.ToFrozenDictionary();
 
-		_chars = characters.ToArray();
-		_str = new string(characters);
+		// lower
+		Span<char> lower = stackalloc char[characters.Length];
+		characters.ToLowerInvariant(lower);
+		_lower = new string(lower);
+		_searchValuesLowercase = SearchValues.Create(lower);
+
+		// upper
+		Span<char> upper = stackalloc char[characters.Length];
+		characters.ToUpperInvariant(upper);
+		_upper = new string(upper);
+		_searchValuesUppercase = SearchValues.Create(upper);
+
+		// all lower upper
+		Span<char> all = stackalloc char[characters.Length * 2];
+		characters.ToLowerInvariant(all[..characters.Length]);
+		characters.ToUpperInvariant(all[characters.Length..]);
+		_searchValuesIgnoreCase = SearchValues.Create(all);
+
+		// precalculate modulo values
 		DoubleLength = characters.Length * 2;
 		MinusLength = -characters.Length;
+
+		// store
+		_chars = characters.ToArray();
+		_str = new string(characters);
 	}
 
 	private readonly char[] _chars;
 	private readonly string _str;
+	private readonly string _lower;
+	private readonly string _upper;
 	private readonly FrozenDictionary<char, int> _indexLookup;
 	private readonly FrozenDictionary<char, int> _indexLookupUpper;
+	private readonly SearchValues<char> _searchValuesLowercase;
+	private readonly SearchValues<char> _searchValuesUppercase;
+	private readonly SearchValues<char> _searchValuesIgnoreCase;
 	private readonly int DoubleLength;
 	private readonly int MinusLength;
 
@@ -154,6 +181,10 @@ public class Alphabet : IReadOnlyList<char>, IEquatable<Alphabet>
 
 	public override string ToString() => _str;
 
+	public string ToStringLower() => _lower;
+
+	public string ToStringUpper() => _upper;
+
 	public char[] ToCharArray()
 	{
 		var copy = new char[_chars.Length];
@@ -162,6 +193,12 @@ public class Alphabet : IReadOnlyList<char>, IEquatable<Alphabet>
 	}
 
 	public ReadOnlyMemory<char> ToMemory() => _str.AsMemory();
+
+	public SearchValues<char> ToSearchValuesLower() => _searchValuesLowercase;
+
+	public SearchValues<char> ToSearchValuesUpper() => _searchValuesUppercase;
+
+	public SearchValues<char> ToSearchValuesIgnoreCase() => _searchValuesIgnoreCase;
 
 	public PolybiusSquare ToPolybiusSquare() => PolybiusSquare.CreateFromAlphabet(this);
 
