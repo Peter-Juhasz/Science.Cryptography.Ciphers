@@ -9,7 +9,7 @@ internal static class ArrayHelper
 	{
 		for (int i = 0; i < source.Length; i++)
 		{
-			buffer[i / size, i % size] = source[i].ToUpper();
+			buffer[i / size, i % size] = source[i].ToUpperInvariant();
 		}
 	}
 
@@ -17,7 +17,7 @@ internal static class ArrayHelper
 	{
 		for (int i = 0; i < source.Length; i++)
 		{
-			buffer[i % size, i / size] = source[i].ToUpper();
+			buffer[i % size, i / size] = source[i].ToUpperInvariant();
 		}
 	}
 
@@ -31,7 +31,7 @@ internal static class ArrayHelper
 
 		for (int i = 0; i < keyword.Length; i++)
 		{
-			var upper = keyword[i].ToUpper();
+			var upper = keyword[i].ToUpperInvariant();
 			if (buffer.IndexOf(upper) == -1)
 			{
 				buffer[written++] = upper;
@@ -45,7 +45,7 @@ internal static class ArrayHelper
 
 		for (int i = 0; i < alphabet.Length; i++)
 		{
-			var upper = alphabet[i].ToUpper();
+			var upper = alphabet[i].ToUpperInvariant();
 			if (buffer.IndexOf(upper) == -1)
 			{
 				buffer[written++] = upper;
@@ -55,7 +55,7 @@ internal static class ArrayHelper
 
 	public static bool TryFindOffsets(char[,] buffer, char ch, out (int row, int column) positions, int rows, int columns)
 	{
-		char upper = ch.ToUpper();
+		char upper = ch.ToUpperInvariant();
 
 		int index = buffer.AsSpan(rows, columns).IndexOf(upper); 
 		if (index > -1)
@@ -73,7 +73,7 @@ internal static class ArrayHelper
 
 	public static bool TryFindOffsetsSlow(char[,] square, char ch, out (int row, int column) positions, int rows, int columns)
 	{
-		char upper = ch.ToUpper();
+		char upper = ch.ToUpperInvariant();
 
 		for (int row = 0; row < rows; row++)
 		for (int column = 0; column < columns; column++)

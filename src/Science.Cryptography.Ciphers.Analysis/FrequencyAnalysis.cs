@@ -74,7 +74,7 @@ public static class FrequencyAnalysis
 		Analyze(text, _ => true, EqualityComparer<char>.Default);
 
 	public static AbsoluteCharacterFrequencies Analyze(ReadOnlySpan<char> text, Alphabet alphabet) =>
-		Analyze(text, c => alphabet.Contains(c, StringComparison.OrdinalIgnoreCase), IgnoreCaseCharComparer.Instance);
+		Analyze(text, c => alphabet.ContainsIgnoreCase(c), IgnoreCaseCharComparer.Instance);
 
 	public static double Compare(RelativeCharacterFrequencies reference, RelativeCharacterFrequencies subject) =>
 		CompareCore(reference, subject);

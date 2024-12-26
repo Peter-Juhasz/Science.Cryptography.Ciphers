@@ -22,7 +22,7 @@ public class MalespinSlang : ReciprocalCipher
 		written = input.Length;
 	}
 
-	private static char Translate(char ch) => (ch.ToUpper() switch
+	private static char Translate(char ch) => (ch.ToUpperInvariant() switch
 	{
 		'A' => 'E',
 		'E' => 'A',

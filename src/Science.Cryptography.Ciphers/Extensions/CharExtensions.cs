@@ -12,13 +12,13 @@ public static partial class CharExtensions
 	public static bool IsUpper(this char @char) => Char.IsUpper(@char);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static char ToUpper(this char @char) => Char.ToUpperInvariant(@char);
+	public static char ToUpperInvariant(this char @char) => Char.ToUpperInvariant(@char);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static char ToLower(this char @char) => Char.ToLowerInvariant(@char);
+	public static char ToLowerInvariant(this char @char) => Char.ToLowerInvariant(@char);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static char ToSameCaseAs(this char newChar, char reference) => Char.IsLower(reference) ? newChar.ToLower() : newChar;
+	public static char ToSameCaseAs(this char newChar, char reference) => Char.IsLower(reference) ? newChar.ToLowerInvariant() : newChar;
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool IsUpperAsciiLetter(this char newChar) => newChar >= 'A' && newChar <= 'Z';

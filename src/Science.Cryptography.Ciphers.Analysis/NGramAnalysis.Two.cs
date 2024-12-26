@@ -12,13 +12,13 @@ public static partial class NGramAnalysis
 		var lastIndex = text.Length - 2;
 		for (int i = 0; i <= lastIndex; i++)
 		{
-			var c1 = text[i].ToUpper();
+			var c1 = text[i].ToUpperInvariant();
 			if (!c1.IsUpperAsciiLetter())
 			{
 				continue;
 			}
 
-			var c2 = text[i + 1].ToUpper();
+			var c2 = text[i + 1].ToUpperInvariant();
 			if (!c2.IsUpperAsciiLetter())
 			{
 				i++;
@@ -39,7 +39,7 @@ public static partial class NGramAnalysis
 			throw new ArgumentOutOfRangeException(nameof(segment));
 		}
 
-		return GetTwoGramKey(segment[0].ToUpper(), segment[1].ToUpper());
+		return GetTwoGramKey(segment[0].ToUpperInvariant(), segment[1].ToUpperInvariant());
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]

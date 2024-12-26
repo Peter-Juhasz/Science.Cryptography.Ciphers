@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,26 +10,34 @@ public class Alphabet : IReadOnlyList<char>, IEquatable<Alphabet>
 {
 	public Alphabet(ReadOnlySpan<char> characters)
 	{
-		// convert to uppercase
-		var upper = new char[characters.Length];
-		characters.ToUpperInvariant(upper);
-
-		// check for duplicates
-		for (int i = 0; i < upper.Length - 1; i++)
+		// build index lookup
+		var lookup = new Dictionary<char, int>(characters.Length);
+		for (int i = 0; i < characters.Length; i++)
 		{
-			var remaining = upper.AsSpan()[(i + 1)..];
-			if (remaining.Contains(upper[i]))
-			{
-				throw new ArgumentException("Duplicate character found in the alphabet.", nameof(characters));
-			}
+			lookup.Add(characters[i], i);
 		}
+		_indexLookup = lookup.ToFrozenDictionary();
 
-		_chars = upper;
-		_str = new string(_chars);
+		// build index lookup (case-insensitive)
+		var lookupUpper = new Dictionary<char, int>(characters.Length);
+		for (int i = 0; i < characters.Length; i++)
+		{
+			lookupUpper.Add(characters[i].ToUpperInvariant(), i);
+		}
+		_indexLookupUpper = lookupUpper.ToFrozenDictionary();
+
+		_chars = characters.ToArray();
+		_str = new string(characters);
+		DoubleLength = characters.Length * 2;
+		MinusLength = -characters.Length;
 	}
 
 	private readonly char[] _chars;
 	private readonly string _str;
+	private readonly FrozenDictionary<char, int> _indexLookup;
+	private readonly FrozenDictionary<char, int> _indexLookupUpper;
+	private readonly int DoubleLength;
+	private readonly int MinusLength;
 
 	public static Alphabet FromKeyword(string keyword, Alphabet @base, bool throwOnDuplicates = false)
 	{
@@ -60,13 +69,15 @@ public class Alphabet : IReadOnlyList<char>, IEquatable<Alphabet>
 	public int Length => _chars.Length;
 	int IReadOnlyCollection<char>.Count => Length;
 
-	public bool Contains(char c) => _chars.Contains(c);
+	public bool Contains(char c) => _indexLookup.ContainsKey(c);
 
 	public bool Contains(char c, IEqualityComparer<char> comparer) => IndexOf(c, comparer) != -1;
 
 	public bool Contains(char c, StringComparison comparison) => _str.Contains(c, comparison);
 
-	public int IndexOf(char c) => _str.IndexOf(c);
+	public bool ContainsIgnoreCase(char c) => _indexLookupUpper.ContainsKey(c.ToUpperInvariant());
+
+	public int IndexOf(char c) => _indexLookup.TryGetValue(c, out var index) ? index : -1;
 
 	public int IndexOf(char c, StringComparison comparison) => _str.IndexOf(c, comparison);
 
@@ -86,14 +97,42 @@ public class Alphabet : IReadOnlyList<char>, IEquatable<Alphabet>
 		}
 	}
 
-	public int IndexOfIgnoreCase(char c) => _str.IndexOf(c, StringComparison.OrdinalIgnoreCase);
+	public int IndexOfIgnoreCase(char c) => _indexLookupUpper.TryGetValue(c.ToUpperInvariant(), out var index) ? index : -1;
 
-	public char AtMod(int index) => _chars[index switch
+	public char AtMod(int index)
 	{
-		< 0 => (Length - (-index % Length)) % Length,
-		_ => index % Length,
-	}];
+		// negative
+		if (index < 0)
+		{
+			// spare modulo operation
+			if (index > MinusLength)
+			{
+				index = index - MinusLength;
+			}
 
+			else
+			{
+				index = (Length - (-index % Length)) % Length;
+			}
+		}
+
+		// overflow
+		else if (index >= Length)
+		{
+			// spare modulo operation
+			if (index < DoubleLength)
+			{
+				index = index - Length;
+			}
+
+			else
+			{
+				index = index % Length;
+			}
+		}
+
+		return _chars[index];
+	}
 
 	public override bool Equals(object obj) => Equals(obj as Alphabet);
 
@@ -115,7 +154,12 @@ public class Alphabet : IReadOnlyList<char>, IEquatable<Alphabet>
 
 	public override string ToString() => _str;
 
-	public char[] ToCharArray() => _chars.ToArray();
+	public char[] ToCharArray()
+	{
+		var copy = new char[_chars.Length];
+		_chars.CopyTo(copy, 0);
+		return copy;
+	}
 
 	public ReadOnlyMemory<char> ToMemory() => _str.AsMemory();
 

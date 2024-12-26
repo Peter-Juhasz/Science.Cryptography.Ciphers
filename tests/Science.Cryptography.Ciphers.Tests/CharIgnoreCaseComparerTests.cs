@@ -6,6 +6,21 @@ namespace Science.Cryptography.Ciphers.Tests;
 public class AlphabetTests
 {
 	[TestMethod]
+	public void AtMod_Regular()
+	{
+		Assert.AreEqual('A', WellKnownAlphabets.English.AtMod(0));
+		Assert.AreEqual('B', WellKnownAlphabets.English.AtMod(1));
+	}
+
+	[TestMethod]
+	public void AtMod_Overflow()
+	{
+		Assert.AreEqual('A', WellKnownAlphabets.English.AtMod(26));
+		Assert.AreEqual('B', WellKnownAlphabets.English.AtMod(27));
+		Assert.AreEqual('A', WellKnownAlphabets.English.AtMod(52));
+	}
+
+	[TestMethod]
 	public void AtMod_Negative()
 	{
 		Assert.AreEqual('Z', WellKnownAlphabets.English.AtMod(-1));

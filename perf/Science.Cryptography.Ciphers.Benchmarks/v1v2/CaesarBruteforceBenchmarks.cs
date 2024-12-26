@@ -95,11 +95,11 @@ public class V1V2CaesarBruteforceBenchmarks
 
 		public static int IndexOfIgnoreCase(string source, char subject)
 		{
-			Char toCompare = subject.ToUpper();
+			Char toCompare = subject.ToUpperInvariant();
 
 			for (int i = 0; i < source.Length; i++)
 			{
-				if (source[i].ToUpper() == toCompare)
+				if (source[i].ToUpperInvariant() == toCompare)
 					return i;
 			}
 
