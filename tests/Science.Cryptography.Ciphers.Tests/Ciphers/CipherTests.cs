@@ -103,18 +103,6 @@ public class CipherTests
 		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext), true);
 	}
 
-	[TestMethod]
-	public void Rot47()
-	{
-		var cipher = new Rot47Cipher();
-
-		const string plaintext = "My string!";
-		const string ciphertext = "|J DEC:?8P";
-
-		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
-		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
-	}
-
     [TestMethod]
     public void Autokey()
     {

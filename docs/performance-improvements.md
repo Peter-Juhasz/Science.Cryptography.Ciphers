@@ -51,6 +51,18 @@ Payload length: 44 characters
 
 Measured speed up: **14x**
 
+## ROT-47 cipher
+In version 2, a fast path was added for shifting ASCII characters:
+
+|      | Method                    | Mean      | Error    | StdDev   | Allocated |
+|------|-------------------------- |----------:|---------:|---------:|----------:|
+|v1    | Rot47Cipher_General       | 23.393 ns | 0.0773 ns | 0.0723 ns |         - |
+|**v2**| Rot47Cipher_Ascii_Avx2128 |  7.873 ns | 0.0778 ns | 0.0728 ns |         - |
+
+Payload length: 44 characters
+
+Measured speed up: **3x**
+
 ## Frequency analysis
 The old v1 implementation was based on a very simple, but expensive functional LINQ implementation. In the new version, memory allocation was greatly reduced:
 
