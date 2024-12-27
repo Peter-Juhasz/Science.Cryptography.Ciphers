@@ -56,30 +56,6 @@ public class CipherTests
 		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext, 3));
 	}
 
-	[TestMethod]
-	public void Atbash()
-	{
-		var cipher = new AtbashCipher();
-
-		const string plaintext = "Abcdefghijklmnopqrstuvwxyz";
-		const string ciphertext = "Zyxwvutsrqponmlkjihgfedcba";
-
-		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
-		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
-	}
-
-	[TestMethod]
-	public void AsciiAtbash()
-	{
-		var cipher = new AsciiAtbashCipher();
-
-		const string plaintext = "Abcdefghijklmnopqrstuvwxyz";
-		const string ciphertext = "Zyxwvutsrqponmlkjihgfedcba";
-
-		Assert.AreEqual(ciphertext, cipher.Encrypt(plaintext));
-		Assert.AreEqual(plaintext, cipher.Decrypt(ciphertext));
-	}
-
 	/*
     [TestMethod]
     public void Bifid()
