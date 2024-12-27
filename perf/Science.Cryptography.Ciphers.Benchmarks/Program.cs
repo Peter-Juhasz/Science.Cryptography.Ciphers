@@ -1,4 +1,4 @@
 using BenchmarkDotNet.Running;
 
-BenchmarkRunner.Run<ShiftCipherBenchmarks>();
+BenchmarkRunner.Run<AtbashBenchmarks>();
 //BenchmarkRunner.Run(typeof(Program).Assembly);
