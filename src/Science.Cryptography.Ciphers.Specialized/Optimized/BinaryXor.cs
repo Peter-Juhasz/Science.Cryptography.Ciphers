@@ -32,7 +32,7 @@ public static class BinaryXor
 		}
 	}
 
-	public static unsafe void Avx2Xor256(ReadOnlySpan<byte> input, Span<byte> output, ReadOnlySpan<byte> key)
+	public static void Avx2Xor256(ReadOnlySpan<byte> input, Span<byte> output, ReadOnlySpan<byte> key)
 	{
 		// initialize
 		var length = input.Length;
@@ -112,10 +112,7 @@ public static class BinaryXor
 			var result = Avx2.Xor(vector, keyVector);
 
 			// read from vector
-			fixed (byte* outputPointer = &MemoryMarshal.GetReference(output[chunkStartIndex..]))
-			{
-				Avx.Store(outputPointer, result);
-			}
+			result.StoreUnsafe(ref MemoryMarshal.GetReference(output[chunkStartIndex..]));
 		}
 
 		// process final block

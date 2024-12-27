@@ -65,7 +65,7 @@ public class AsciiXorCipher : ReciprocalKeyedCipher<byte[]>
 		}
 	}
 
-	public static unsafe void Avx2Xor256(ReadOnlySpan<ushort> input, Span<ushort> output, ReadOnlySpan<ushort> key)
+	public static void Avx2Xor256(ReadOnlySpan<ushort> input, Span<ushort> output, ReadOnlySpan<ushort> key)
 	{
 		// initialize
 		var length = input.Length;
@@ -145,10 +145,7 @@ public class AsciiXorCipher : ReciprocalKeyedCipher<byte[]>
 			var result = Avx2.Xor(vector, keyVector);
 
 			// read from vector
-			fixed (ushort* outputPointer = &MemoryMarshal.GetReference(output[chunkStartIndex..]))
-			{
-				Avx.Store(outputPointer, result);
-			}
+			result.StoreUnsafe(ref MemoryMarshal.GetReference(output[chunkStartIndex..]));
 		}
 
 		// process final block
