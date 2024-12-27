@@ -1,4 +1,4 @@
 using BenchmarkDotNet.Running;
 
-BenchmarkRunner.Run<AtbashBenchmarks>();
+BenchmarkRunner.Run<Rot47Benchmarks>();
 //BenchmarkRunner.Run(typeof(Program).Assembly);
