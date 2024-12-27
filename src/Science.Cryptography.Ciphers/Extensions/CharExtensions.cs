@@ -21,14 +21,14 @@ public static partial class CharExtensions
 	public static char ToSameCaseAs(this char newChar, char reference) => Char.IsLower(reference) ? newChar.ToLowerInvariant() : newChar;
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool IsUpperAsciiLetter(this char newChar) => newChar >= 'A' && newChar <= 'Z';
+	public static bool IsUpperAsciiLetter(this char newChar) => Char.IsAsciiLetterUpper(newChar);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool IsLowerAsciiLetter(this char newChar) => newChar >= 'a' && newChar <= 'z';
+	public static bool IsLowerAsciiLetter(this char newChar) => Char.IsAsciiLetterLower(newChar);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool IsAsciiLetter(this char newChar) => newChar.IsUpperAsciiLetter() || newChar.IsLowerAsciiLetter();
+	public static bool IsAsciiLetter(this char newChar) => Char.IsAsciiLetter(newChar);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool IsDigit(this char newChar) => newChar >= '0' && newChar <= '9';
+	public static bool IsAsciiDigit(this char newChar) => Char.IsAsciiDigit(newChar);
 }
