@@ -4,7 +4,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
-using System.Text;
+
+using TVector = System.Runtime.Intrinsics.Vector256<short>;
 
 namespace Science.Cryptography.Ciphers.Specialized;
 
@@ -16,14 +17,14 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 {
 	private const short AlphabetLength = 'Z' - 'A' + 1;
 
-	private static readonly Vector128<short> VectorOfA = Vector128.Create((short)'A');
-	private static readonly Vector128<short> VectorOfAMinus1 = Vector128.Create((short)('A' - 1));
-	private static readonly Vector128<short> VectorOfZ = Vector128.Create((short)'Z');
-	private static readonly Vector128<short> VectorOfZPlus1 = Vector128.Create((short)('Z' + 1));
-	private static readonly Vector128<short> VectorOfLowercaseA = Vector128.Create((short)'a');
-	private static readonly Vector128<short> VectorOfLowercaseAMinus1 = Vector128.Create((short)('a' - 1));
-	private static readonly Vector128<short> VectorOfLowercaseZ = Vector128.Create((short)'z');
-	private static readonly Vector128<short> VectorOfLowercaseZPlus1 = Vector128.Create((short)('z' + 1));
+	private static readonly TVector VectorOfA = Vector256.Create((short)'A');
+	private static readonly TVector VectorOfAMinus1 = Vector256.Create((short)('A' - 1));
+	private static readonly TVector VectorOfZ = Vector256.Create((short)'Z');
+	private static readonly TVector VectorOfZPlus1 = Vector256.Create((short)('Z' + 1));
+	private static readonly TVector VectorOfLowercaseA = Vector256.Create((short)'a');
+	private static readonly TVector VectorOfLowercaseAMinus1 = Vector256.Create((short)('a' - 1));
+	private static readonly TVector VectorOfLowercaseZ = Vector256.Create((short)'z');
+	private static readonly TVector VectorOfLowercaseZPlus1 = Vector256.Create((short)('z' + 1));
 
 	public void Encrypt(ReadOnlySpan<char> text, Span<char> result, int key, out int written)
 	{
@@ -46,32 +47,30 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 			return;
 		}
 
-		if (Avx2.IsSupported)
-		{
-			// process the vectorized input
-			var vectorCount = text.Length / Vector128<short>.Count;
-			var totalVectorizedLength = vectorCount * Vector128<short>.Count;
-			var vectorizedText = MemoryMarshal.Cast<char, short>(text);
-			var vectorizedResult = MemoryMarshal.Cast<char, short>(result);
-			var keyVector = Vector128.Create((short)key);
-			for (int offset = 0; offset < totalVectorizedLength; offset += Vector128<short>.Count)
-			{
-				var input = Unsafe.As<short, Vector128<short>>(ref MemoryMarshal.GetReference(vectorizedText[offset..]));
-				var output = EncryptBlockAvx2(input, keyVector);
-				output.StoreUnsafe(ref MemoryMarshal.GetReference(vectorizedResult[offset..]));
-			}
+		var totalVectorizedLength = 0;
 
-			// process the remaining input
-			if (totalVectorizedLength < text.Length)
+		// process the vectorized input
+		if (Avx2.IsSupported && Vector256.IsHardwareAccelerated)
+		{
+			var vectorCount = text.Length / TVector.Count;
+			totalVectorizedLength = vectorCount * TVector.Count;
+			var inputAsShort = MemoryMarshal.Cast<char, short>(text);
+			var outputAsShort = MemoryMarshal.Cast<char, short>(result);
+			var keyVector = Vector256.Create((short)key);
+			for (int offset = 0; offset < totalVectorizedLength; offset += TVector.Count)
 			{
-				var remainingInput = text[totalVectorizedLength..];
-				var remainingOutput = result[totalVectorizedLength..];
-				EncryptSlow(remainingInput, remainingOutput, key);
+				var inputBlock = Unsafe.As<short, TVector>(ref MemoryMarshal.GetReference(inputAsShort[offset..]));
+				var outputBlock = EncryptBlockAvx2(inputBlock, keyVector);
+				outputBlock.StoreUnsafe(ref MemoryMarshal.GetReference(outputAsShort[offset..]));
 			}
 		}
-		else
+
+		// process the remaining input
+		if (totalVectorizedLength < text.Length)
 		{
-			EncryptSlow(text, result, key);
+			var remainingInput = text[totalVectorizedLength..];
+			var remainingOutput = result[totalVectorizedLength..];
+			EncryptSlow(remainingInput, remainingOutput, key);
 		}
 
 		written = text.Length;
@@ -98,47 +97,45 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 			return;
 		}
 
-		if (Avx2.IsSupported)
-		{
-			// process the vectorized input
-			var vectorCount = text.Length / Vector128<short>.Count;
-			var totalVectorizedLength = vectorCount * Vector128<short>.Count;
-			var vectorizedText = MemoryMarshal.Cast<char, short>(text);
-			var vectorizedResult = MemoryMarshal.Cast<char, short>(result);
-			var keyVector = Vector128.Create((short)key);
-			for (int offset = 0; offset < totalVectorizedLength; offset += Vector128<short>.Count)
-			{
-				var input = Unsafe.As<short, Vector128<short>>(ref MemoryMarshal.GetReference(vectorizedText[offset..]));
-				var output = DecryptBlockAvx2(input, keyVector);
-				output.StoreUnsafe(ref MemoryMarshal.GetReference(vectorizedResult[offset..]));
-			}
+		var totalVectorizedLength = 0;
 
-			// process the remaining input
-			if (totalVectorizedLength < text.Length)
+		// process the vectorized input
+		if (Avx2.IsSupported && Vector256.IsHardwareAccelerated)
+		{
+			var vectorCount = text.Length / TVector.Count;
+			totalVectorizedLength = vectorCount * TVector.Count;
+			var inputAsShort = MemoryMarshal.Cast<char, short>(text);
+			var outputAsShort = MemoryMarshal.Cast<char, short>(result);
+			var keyVector = Vector256.Create((short)key);
+			for (int offset = 0; offset < totalVectorizedLength; offset += TVector.Count)
 			{
-				var remainingInput = text[totalVectorizedLength..];
-				var remainingOutput = result[totalVectorizedLength..];
-				DecryptSlow(remainingInput, remainingOutput, key);
+				var inputBlock = Unsafe.As<short, TVector>(ref MemoryMarshal.GetReference(inputAsShort[offset..]));
+				var outputBlock = DecryptBlockAvx2(inputBlock, keyVector);
+				outputBlock.StoreUnsafe(ref MemoryMarshal.GetReference(outputAsShort[offset..]));
 			}
 		}
-		else
+
+		// process the remaining input
+		if (totalVectorizedLength < text.Length)
 		{
-			DecryptSlow(text, result, key);
+			var remainingInput = text[totalVectorizedLength..];
+			var remainingOutput = result[totalVectorizedLength..];
+			DecryptSlow(remainingInput, remainingOutput, key);
 		}
 
 		written = text.Length;
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private static Vector128<short> EncryptBlockAvx2(Vector128<short> input, Vector128<short> keyVector)
+	private static TVector EncryptBlockAvx2(TVector input, TVector keyVector)
 	{
 		// uppercase
-		var isUpperMask = Avx2.And(
-			Avx2.CompareGreaterThan(input, VectorOfAMinus1),
-			Avx2.CompareLessThan(input, VectorOfZPlus1)
+		var isUpperMask = Avx2.AndNot(
+			Avx2.CompareGreaterThan(input, VectorOfZ),
+			Avx2.CompareGreaterThan(input, VectorOfAMinus1)
 		);
-		Vector128<short> transformedUppercase;
-		if (isUpperMask == Vector128<short>.Zero)
+		TVector transformedUppercase;
+		if (isUpperMask == TVector.Zero)
 		{
 			transformedUppercase = input;
 		}
@@ -156,12 +153,12 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 		}
 
 		// lowercase
-		var isLowerMask = Avx2.And(
-			Avx2.CompareGreaterThan(input, VectorOfLowercaseAMinus1),
-			Avx2.CompareLessThan(input, VectorOfLowercaseZPlus1)
+		var isLowerMask = Avx2.AndNot(
+			Avx2.CompareGreaterThan(input, VectorOfLowercaseZ),
+			Avx2.CompareGreaterThan(input, VectorOfLowercaseAMinus1)
 		);
-		Vector128<short> transformedLowercase;
-		if (isLowerMask == Vector128<short>.Zero)
+		TVector transformedLowercase;
+		if (isLowerMask == TVector.Zero)
 		{
 			transformedLowercase = input;
 		}
@@ -185,15 +182,15 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private static Vector128<short> DecryptBlockAvx2(Vector128<short> input, Vector128<short> keyVector)
+	private static TVector DecryptBlockAvx2(TVector input, TVector keyVector)
 	{
 		// uppercase
-		var isUpperMask = Avx2.And(
-			Avx2.CompareGreaterThan(input, VectorOfAMinus1),
-			Avx2.CompareLessThan(input, VectorOfZPlus1)
+		var isUpperMask = Avx2.AndNot(
+			Avx2.CompareGreaterThan(input, VectorOfZ),
+			Avx2.CompareGreaterThan(input, VectorOfAMinus1)
 		);
-		Vector128<short> transformedUppercase;
-		if (isUpperMask == Vector128<short>.Zero)
+		TVector transformedUppercase;
+		if (isUpperMask == TVector.Zero)
 		{
 			transformedUppercase = input;
 		}
@@ -202,7 +199,7 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 			transformedUppercase = Avx2.Subtract(input, keyVector);
 
 			// normalize underflow
-			var uppercaseUnderflowMask = Avx2.And(Avx2.CompareLessThan(transformedUppercase, VectorOfA), isUpperMask);
+			var uppercaseUnderflowMask = Avx2.AndNot(Avx2.CompareGreaterThan(transformedUppercase, VectorOfAMinus1), isUpperMask);
 			var uppercaseUnderflow = Avx2.Subtract(VectorOfA, transformedUppercase);
 			var uppercaseNormalized = Avx2.Subtract(VectorOfZPlus1, uppercaseUnderflow);
 			transformedUppercase = Avx2.BlendVariable(transformedUppercase, uppercaseNormalized, uppercaseUnderflowMask);
@@ -211,12 +208,12 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 		}
 
 		// lowercase
-		var isLowerMask = Avx2.And(
-			Avx2.CompareGreaterThan(input, VectorOfLowercaseAMinus1),
-			Avx2.CompareLessThan(input, VectorOfLowercaseZPlus1)
+		var isLowerMask = Avx2.AndNot(
+			Avx2.CompareGreaterThan(input, VectorOfLowercaseZ),
+			Avx2.CompareGreaterThan(input, VectorOfLowercaseAMinus1)
 		);
-		Vector128<short> transformedLowercase;
-		if (isLowerMask == Vector128<short>.Zero)
+		TVector transformedLowercase;
+		if (isLowerMask == TVector.Zero)
 		{
 			transformedLowercase = input;
 		}
@@ -225,7 +222,7 @@ public class AsciiShiftCipher : IKeyedCipher<int>
 			transformedLowercase = Avx2.Subtract(input, keyVector);
 
 			// normalize underflow
-			var lowercaseUnderflowMask = Avx2.And(Avx2.CompareLessThan(transformedLowercase, VectorOfLowercaseA), isLowerMask);
+			var lowercaseUnderflowMask = Avx2.AndNot(Avx2.CompareGreaterThan(transformedLowercase, VectorOfLowercaseAMinus1), isLowerMask);
 			var lowercaseUnderflow = Avx2.Subtract(VectorOfLowercaseA, transformedLowercase);
 			var lowercaseNormalized = Avx2.Subtract(VectorOfLowercaseZPlus1, lowercaseUnderflow);
 			transformedLowercase = Avx2.BlendVariable(transformedLowercase, lowercaseNormalized, lowercaseUnderflowMask);
